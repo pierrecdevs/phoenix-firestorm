@@ -1028,14 +1028,19 @@ public:
                     }
                 }
             }
+
+            // This isn't important for regular users to see.
+            // Only displaying it when debug is enabled is probably a better place for it.
+            // Pierre
+
+            // <FS:ND> Report amount of failed texture buffer allocations if any.
+            if (LLImageBase::getAllocationErrors())
+            {
+                addText(xpos, ypos, llformat("# textures discarded due to insufficient memory %ld", LLImageBase::getAllocationErrors()));
+            }
+            // </FS:ND>
         }
 
-        // <FS:ND> Report amount of failed texture buffer allocations if any.
-        if (LLImageBase::getAllocationErrors())
-        {
-            addText(xpos, ypos, llformat("# textures discarded due to insufficient memory %ld", LLImageBase::getAllocationErrors()));
-        }
-        // </FS:ND>
     }
 
     void draw()
