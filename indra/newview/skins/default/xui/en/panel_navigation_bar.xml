@@ -33,7 +33,7 @@
  mouse_opaque="false"
   background_opaque="true"
  background_visible="true"
- bg_opaque_color="DkGray2"                        
+ bg_opaque_color="DkGray3"                        
  height="22"
  layout="topleft"
  name="navigation_bar_visibility_panel"

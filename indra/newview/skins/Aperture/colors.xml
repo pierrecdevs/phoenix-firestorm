@@ -97,6 +97,9 @@
 	<color
 	 name="DkGray2"
 	 value="0.169 0.169 0.169 1" />
+    <color
+	 name="DkGray3"
+	 value="0.0845 0.0845 0.0845 1" />
 	<color
 	 name="MouseGray"
 	 value="0.191 0.191 0.191 1" />
