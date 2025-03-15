@@ -313,7 +313,9 @@ void FSData::startDownload()
         LLCore::HttpOptions::ptr_t httpOpts(new LLCore::HttpOptions);
         httpOpts->setWantHeaders(true);
         httpOpts->setLastModified((long)last_modified);
-        FSCoreHttpUtil::callbackHttpGetRaw(mFSDataURL, boost::bind(downloadComplete, _1, mFSDataURL, true), boost::bind(downloadComplete, _1, mFSDataURL, false), LLCore::HttpHeaders::ptr_t(), httpOpts);
+        // <AP:WW> Disable FSData download for testing
+        // FSCoreHttpUtil::callbackHttpGetRaw(mFSDataURL, boost::bind(downloadComplete, _1, mFSDataURL, true), boost::bind(downloadComplete, _1, mFSDataURL, false), LLCore::HttpHeaders::ptr_t(), httpOpts);
+        // </AP:WW> // 
     }
 
     {
@@ -329,7 +331,9 @@ void FSData::startDownload()
         LLCore::HttpOptions::ptr_t httpOpts(new LLCore::HttpOptions);
         httpOpts->setWantHeaders(true);
         httpOpts->setLastModified((long)last_modified);
-        FSCoreHttpUtil::callbackHttpGetRaw(mFSdataDefaultsUrl, boost::bind(downloadComplete, _1, mFSdataDefaultsUrl, true), boost::bind(downloadComplete, _1, mFSdataDefaultsUrl, false), LLCore::HttpHeaders::ptr_t(), httpOpts);
+         // <AP:WW> Disable FSData defaults download for testing
+        // FSCoreHttpUtil::callbackHttpGetRaw(mFSdataDefaultsUrl, boost::bind(downloadComplete, _1, mFSdataDefaultsUrl, true), boost::bind(downloadComplete, _1, mFSdataDefaultsUrl, false), LLCore::HttpHeaders::ptr_t(), httpOpts);
+        // </AP:WW> //
     }
 
 #ifdef OPENSIM
@@ -392,7 +396,9 @@ void FSData::downloadAgents()
         LLCore::HttpOptions::ptr_t httpOpts(new LLCore::HttpOptions);
         httpOpts->setWantHeaders(true);
         httpOpts->setLastModified((long)last_modified);
-        FSCoreHttpUtil::callbackHttpGetRaw(mAgentsURL, boost::bind(downloadComplete, _1, mAgentsURL, true), boost::bind(downloadComplete, _1, mAgentsURL, false), LLCore::HttpHeaders::ptr_t(), httpOpts);
+        // <AP:WW> Disable agents.xml download for testing
+        // FSCoreHttpUtil::callbackHttpGetRaw(mAgentsURL, boost::bind(downloadComplete, _1, mAgentsURL, true), boost::bind(downloadComplete, _1, mAgentsURL, false), LLCore::HttpHeaders::ptr_t(), httpOpts);
+        // </AP:WW> 
     }
 
     if (!mAssetsURL.empty())
@@ -408,7 +414,9 @@ void FSData::downloadAgents()
         LLCore::HttpOptions::ptr_t httpOpts(new LLCore::HttpOptions);
         httpOpts->setWantHeaders(true);
         httpOpts->setLastModified((long)last_modified);
-        FSCoreHttpUtil::callbackHttpGetRaw(mAssetsURL, boost::bind(downloadComplete, _1, mAssetsURL, true), boost::bind(downloadComplete, _1, mAssetsURL, false), LLCore::HttpHeaders::ptr_t(), httpOpts);
+        // <AP:WW> Disable assets.xml download for testing
+        // FSCoreHttpUtil::callbackHttpGetRaw(mAssetsURL, boost::bind(downloadComplete, _1, mAssetsURL, true), boost::bind(downloadComplete, _1, mAssetsURL, false), LLCore::HttpHeaders::ptr_t(), httpOpts);
+        // </AP:WW> // 
     }
 }
 
@@ -479,7 +487,9 @@ void FSData::processData(const LLSD& fs_data)
         LLCore::HttpOptions::ptr_t httpOpts(new LLCore::HttpOptions);
         httpOpts->setWantHeaders(true);
         httpOpts->setLastModified((long)last_modified);
-        FSCoreHttpUtil::callbackHttpGetRaw(LEGACY_CLIENT_LIST_URL, boost::bind(downloadComplete, _1, LEGACY_CLIENT_LIST_URL, true), boost::bind(downloadComplete, _1, LEGACY_CLIENT_LIST_URL, false), LLCore::HttpHeaders::ptr_t(), httpOpts);
+        // <AP:WW> Disable client_list_v2.xml download for testing
+        // FSCoreHttpUtil::callbackHttpGetRaw(LEGACY_CLIENT_LIST_URL, boost::bind(downloadComplete, _1, LEGACY_CLIENT_LIST_URL, true), boost::bind(downloadComplete, _1, LEGACY_CLIENT_LIST_URL, false), LLCore::HttpHeaders::ptr_t(), httpOpts);
+        // </AP:WW>
     }
     else if (use_legacy_tags)
     {
