@@ -4777,7 +4777,9 @@ bool process_login_success_response(U32 &first_sim_size_x, U32 &first_sim_size_y
     if (gAgent.mMOTD.empty() || !LLGridManager::getInstance()->isInSLMain())
 // </FS:CR>
     {
-        gAgent.mMOTD.assign(response["message"]);
+        // <AP:WW> Disable Linden Lab MOTD
+        // gAgent.mMOTD.assign(response["message"]);
+        // </AP:WW>
     }
 
     // <FS:Techwolf Lupindo> fsdata opensim MOTD support
