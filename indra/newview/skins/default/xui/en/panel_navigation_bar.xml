@@ -31,6 +31,9 @@
 <!-- Navigation Bar visibility panel -->
 <layout_panel
  mouse_opaque="false"
+  background_opaque="true"
+ background_visible="true"
+ bg_opaque_color="DkGray2"                        
  height="22"
  layout="topleft"
  name="navigation_bar_visibility_panel"
