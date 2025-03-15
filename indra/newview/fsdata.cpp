@@ -336,6 +336,10 @@ void FSData::startDownload()
         // </AP:WW> //
     }
 
+    // <AP:WW> Set mFSDataDone immediately to bypass wait
+    mFSDataDone = true;
+    // </AP:WW>
+    
 #ifdef OPENSIM
     std::string filenames[] = { "scriptlibrary_ossl.xml", "scriptlibrary_aa.xml" };
     for (auto const& script_name : filenames)
@@ -418,6 +422,11 @@ void FSData::downloadAgents()
         // FSCoreHttpUtil::callbackHttpGetRaw(mAssetsURL, boost::bind(downloadComplete, _1, mAssetsURL, true), boost::bind(downloadComplete, _1, mAssetsURL, false), LLCore::HttpHeaders::ptr_t(), httpOpts);
         // </AP:WW> // 
     }
+    
+    // <AP:WW> Set mAgentsDone immediately to bypass wait
+    mAgentsDone = true;
+    // </AP:WW>
+    
 }
 
 void FSData::processData(const LLSD& fs_data)

@@ -973,11 +973,11 @@ bool idle_startup()
         if(grid_time > MAX_WAIT_TIME ||
 #ifdef OPENSIM
             ( sGridListRequestReady && LLGridManager::getInstance()->isReadyToLogin() &&
-#endif      // <FS:Techwolf Lupindo> fsdata support
-            FSData::instance().getFSDataDone())
+#endif      // <FS:WW> Removed FSData wait condition
+            /*FSData::instance().getFSDataDone()*/ true) // Force to true to bypass wait
 #ifdef OPENSIM
                               )
-#endif      // </FS:Techwolf Lupindo>
+#endif      // </FS:WW>
         {
             LLStartUp::setStartupState( STATE_AUDIO_INIT );
         }
@@ -1632,6 +1632,11 @@ bool idle_startup()
         static LLFrameTimer agents_timer;
         const F32 agents_time = agents_timer.getElapsedTimeF32();
         const F32 MAX_AGENTS_TIME = 15.f;
+
+        // <FS:WW> Removed FSData wait condition - always proceed
+        LLStartUp::setStartupState(STATE_LOGIN_AUTH_INIT); // Directly proceed
+        // </FS:WW>
+
 
         if(agents_time > MAX_AGENTS_TIME || FSData::instance().getAgentsDone())
         {
