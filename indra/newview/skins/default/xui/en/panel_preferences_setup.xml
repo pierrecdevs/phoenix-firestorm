@@ -41,8 +41,11 @@
 		 mouse_opaque="false"
 		 top_pad="15"
 		 width="500">
-			Maximum bandwidth ([https://wiki.firestormviewer.org/fs_speedtest need a suggestion?]):
+			Maximum bandwidth ([https://github.com/ApertureViewer/Aperture-Viewer/wiki/Connection-Speed-Setting need a suggestion?]):
 		</text>
+
+         <!--
+
 
 		<icon
 		 color="Slidermark"
@@ -67,7 +70,7 @@
 		 height="14"
 		 image_name="Rounded_Square"
 		 layout="topleft"
-		 left_pad="61"
+		 left_pad="60"
 		 name="NetworkHighGraphicsDivet"
 		 top_delta="0"
 		 width="2" />
@@ -89,6 +92,9 @@
 		 name="NetworkScaleEndGraphicsDivet"
 		 top_delta="0"
 		 width="2" />
+         
+         -->
+         
 		<slider
 		 left="15"
 		 can_edit_text="true"
@@ -96,14 +102,17 @@
 		 decimal_digits="0"
 		 follows="left|top"
 		 height="15"
-		 increment="50"
+		 increment="1000"
 		 initial_value="500"
 		 layout="topleft"
 		 max_val="300000"
-		 min_val="50"
+		 min_val="1000"
 		 top="35"
 		 name="max_bandwidth"
 		 width="450" />
+         
+         <!--
+         
 		<text
 		 type="string"
 		 length="1"
@@ -128,7 +137,7 @@
 		 name="NetworkPrefText1"
 		 top_delta="17"
 		 width="67">
-			Wi-Fi
+			3G
 		</text>
 		<text
 		 type="string"
@@ -140,8 +149,8 @@
 		 left_pad="0"
 		 name="NetworkPrefText2"
 		 top_delta="0"
-		 width="63">
-			DSL
+		 width="80">
+			4G / 2.4 WiFi
 		</text>
 		<text
 		 type="string"
@@ -169,6 +178,9 @@
 		 width="205">
 			May cause issues
 		</text>
+
+        -->
+
 
 		<check_box
 		 control_name="ConnectionPortEnabled"

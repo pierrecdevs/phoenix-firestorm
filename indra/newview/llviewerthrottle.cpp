@@ -46,7 +46,18 @@ const F32 MAX_FRACTIONAL = 1.5f;
 const F32 MIN_FRACTIONAL = 0.2f;
 
 const F32 MIN_BANDWIDTH = 50.f;
-const F32 MAX_BANDWIDTH = 6000.f;
+      
+// <FS:WW> Original bandwidth clamp to 6 Mbps (6000 Kbps)
+// const F32 MAX_BANDWIDTH = 6000.f;
+// </FS:WW>
+// <AP:WW> Increased MAX_BANDWIDTH to 1 Gbps (1,000,000 Kbps) to effectively remove the artificial clamp for users with modern high-speed internet connections.
+// This allows the viewer to potentially utilize higher bandwidth for UDP data transmission on very fast connections like fiber or Google Fiber.
+// This change is intended to improve responsiveness in data-intensive scenarios for users with ample bandwidth.
+// The dynamic throttling system remains active to manage bandwidth based on network conditions.
+// </AP:WW>
+const F32 MAX_BANDWIDTH = 1000000.f; // <AP:WW/>
+
+    
 const F32 STEP_FRACTIONAL = 0.1f;
 const LLUnit<F32, LLUnits::Percent> TIGHTEN_THROTTLE_THRESHOLD(3.0f); // packet loss % per s
 const LLUnit<F32, LLUnits::Percent> EASE_THROTTLE_THRESHOLD(0.5f); // packet loss % per s
