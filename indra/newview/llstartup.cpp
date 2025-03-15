@@ -2855,7 +2855,9 @@ bool idle_startup()
             gSavedSettings.setBOOL("ShowStartLocation", true);
 
             // <FS:Ansariel> [FS Communication UI]
-            LLFloaterReg::toggleInstanceOrBringToFront("fs_im_container");
+            // <FS:WW> Remove automatic loading of Conversations floater on startup
+            // LLFloaterReg::toggleInstanceOrBringToFront("fs_im_container");
+            // </FS:WW>
             // </FS:Ansariel> [FS Communication UI]
 
         }
