@@ -35,7 +35,7 @@
         wrap="true">
 <!-- <FS:WW> Rebranding - Updated About Floater Info Tab Text -->
 For the latest information about Aperture Viewer, visit
-https://github.com/williamweaver/Aperture-Viewer/wiki
+https://github.com/ApertureViewer/Aperture-Viewer/wiki
 
 Aperture Viewer is a fork of the Firestorm Viewer project.
 <!-- </FS:WW> -->
@@ -75,7 +75,7 @@ Aperture Viewer is a fork of the Firestorm Viewer project.
         top="16"
         width="489"
         wrap="true">
-Firestorm would not be possible without the decision from Linden Lab to make their Second Life viewer source code available.
+Aperture Viewer would not be possible without the decision from Linden Lab to make their Second Life viewer source code available.
 
 Second Life is brought to you by the Lindens,
 with open source contributions from:
@@ -94,7 +94,41 @@ with open source contributions from:
 Dummy Name replaced at run time
       </text_editor>
     </panel>
+
     <panel
+      border="true"
+      label="Aperture Credits"
+      help_topic="about_aperturecredits_tab"
+      name="aperture_credits_panel">
+      <text
+        follows="top|left|right"
+        height="70"
+        layout="topleft"
+        left="4"
+        name="aperture_intro"
+        top="16"
+        width="489"
+        wrap="true">
+Aperture Viewer is built by the Aperture Viewer Project, based upon the excellent work of the Firestorm Viewer Project.
+
+Aperture Viewer Development Team:
+      </text>
+      <text_editor
+       enabled="false"
+       follows="top|left"
+       height="458"
+       bg_readonly_color="Transparent"
+       text_color="LtGray"
+       max_length="65536"
+       name="aperture_names"
+       top_pad="5"
+       width="476"
+       word_wrap="true">
+William Weaver
+      </text_editor>
+    </panel>
+    
+        <panel
       height="910"
       border="true"
       label="Firestorm Credits"
@@ -229,38 +263,7 @@ Adam Frisby, Alexandrea Fride, DarkAgent Baphomet, David Rowe, Digital Scribe, D
         </scroll_container>
     </panel>
     <!-- <FS:WW> Added Aperture Credits Tab -->
-    <panel
-      border="true"
-      label="Aperture Credits"
-      help_topic="about_aperturecredits_tab"
-      name="aperture_credits_panel">
-      <text
-        follows="top|left|right"
-        height="70"
-        layout="topleft"
-        left="4"
-        name="aperture_intro"
-        top="16"
-        width="489"
-        wrap="true">
-Aperture Viewer is built by the Aperture Viewer Project, based upon the excellent work of the Firestorm Viewer Project.
-
-Aperture Viewer Development Team:
-      </text>
-      <text_editor
-       enabled="false"
-       follows="top|left"
-       height="458"
-       bg_readonly_color="Transparent"
-       text_color="LtGray"
-       max_length="65536"
-       name="aperture_names"
-       top_pad="5"
-       width="476"
-       word_wrap="true">
-William Weaver
-      </text_editor>
-    </panel>
+    
     <!-- </FS:WW> -->
     <panel
       border="true"

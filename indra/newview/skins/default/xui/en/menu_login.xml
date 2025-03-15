@@ -57,28 +57,20 @@
      tear_off="true"
      name="Help">
         <menu_item_call
-         label="Firestorm Wiki"
-         name="Firestorm Wiki"
-         shortcut="F1">
-            <menu_item_call.on_click
-             function="PromptShowURL"
-             name="script_library_url"
-             parameter="WebLaunchExternalTarget,https://wiki.firestormviewer.org/doku.php?id=start" />
-       </menu_item_call>
-       <menu_item_call
-        label="Troubleshooting"
-        name="Troubleshooting">
-           <menu_item_call.on_click
-            function="PromptShowURL"
-            name="wiki_troubleshooting_url"
-            parameter="WebLaunchExternalTarget,https://wiki.firestormviewer.org/firestorm_troubleshooting" />
-       </menu_item_call>
+         label="Aperture Wiki"
+         name="Aperture Wiki"
+	     shortcut="F1">
+             <menu_item_call.on_click
+             function="Advanced.ShowURL"
+             parameter="https://github.com/ApertureViewer/Aperture-Viewer/wiki" />
+        </menu_item_call>
+        
         <menu_item_call
-         label="Guidebook"
-         name="How To">
+         label="Troubleshooting"
+         name="Troubleshooting">
             <menu_item_call.on_click
-             function="Help.ToggleHowTo"
-             parameter="" />
+             function="Advanced.ShowURL"
+             parameter="https://github.com/ApertureViewer/Aperture-Viewer/wiki/Troubleshooting" />
         </menu_item_call>
 <!--
 		<menu_item_separator/>
@@ -192,6 +184,81 @@
              function="Floater.Toggle"
              parameter="ui_preview" />
         </menu_item_call>
+        <menu_item_check
+         label="Show XUI Names"
+         name="Show XUI Names">
+            <menu_item_check.on_check
+             function="Advanced.CheckXUINames"
+             parameter="showUIname" />
+            <menu_item_check.on_click
+             function="Advanced.ToggleXUINames" />
+        </menu_item_check>
+        <menu_item_check
+         label="Console Window on next Run"
+         name="Console Window">
+            <menu_item_check.on_check
+             function="CheckControl"
+             parameter="ShowConsoleWindow" />
+            <menu_item_check.on_click
+             function="ToggleControl"
+             parameter="ShowConsoleWindow" />
+        </menu_item_check>
+        <menu
+         create_jump_keys="true"
+         label="Set Logging Level"
+         name="Set Logging Level"
+         tear_off="true">
+          <menu_item_check
+            name="Debug"
+            label="Debug">
+            <menu_item_check.on_check
+              function="Develop.CheckLoggingLevel"
+              parameter="0" />
+            <menu_item_check.on_click
+             function="Develop.SetLoggingLevel"
+             parameter="0" />
+          </menu_item_check>
+          <menu_item_check
+            name="Info"
+            label="Info">
+            <menu_item_check.on_check
+              function="Develop.CheckLoggingLevel"
+              parameter="1" />
+            <menu_item_check.on_click
+             function="Develop.SetLoggingLevel"
+             parameter="1" />
+          </menu_item_check>
+          <menu_item_check
+            name="Warning"
+            label="Warning">
+            <menu_item_check.on_check
+              function="Develop.CheckLoggingLevel"
+              parameter="2" />
+            <menu_item_check.on_click
+             function="Develop.SetLoggingLevel"
+             parameter="2" />
+          </menu_item_check>
+          <menu_item_check
+            name="Error"
+            label="Error">
+            <menu_item_check.on_check
+              function="Develop.CheckLoggingLevel"
+              parameter="3" />
+            <menu_item_check.on_click
+             function="Develop.SetLoggingLevel"
+             parameter="3" />
+          </menu_item_check>
+          <menu_item_check
+            name="None"
+            label="None">
+            <menu_item_check.on_check
+              function="Develop.CheckLoggingLevel"
+              parameter="4" />
+            <menu_item_check.on_click
+             function="Develop.SetLoggingLevel"
+             parameter="4" />
+          </menu_item_check>
+       </menu>
       <menu_item_separator />
       <menu
        create_jump_keys="true"

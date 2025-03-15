@@ -2463,6 +2463,9 @@
              name="community_pages_url"
              parameter="WebLaunchExternalTarget,https://community.secondlife.com" />
        </menu_item_call>
+       
+       <!--
+       
        <menu_item_separator/>
     	<menu_item_call
              label="Firestorm Blog"
@@ -2512,6 +2515,9 @@
              function="Advanced.ToggleHUDInfo"
              parameter="motd" />
        </menu_item_call>
+       
+       -->
+       
       </menu>   
     
     <!-- Help Menu -->
@@ -2533,24 +2539,23 @@
         </menu_item_check>
         
         <menu_item_call
-         label="Firestorm Wiki"
-         name="Firestorm Wiki"
+         label="Aperture Wiki"
+         name="Aperture Wiki"
 	     shortcut="F1">
              <menu_item_call.on_click
-             function="PromptShowURL"
-             name="script_library_url"
-             parameter="WebLaunchExternalTarget,https://wiki.firestormviewer.org" />
+             function="Advanced.ShowURL"
+             parameter="https://github.com/ApertureViewer/Aperture-Viewer/wiki" />
         </menu_item_call>
         
         <menu_item_call
          label="Troubleshooting"
          name="Troubleshooting">
             <menu_item_call.on_click
-             function="PromptShowURL"
-             name="wiki_troubleshooting_url"
-             parameter="WebLaunchExternalTarget,https://wiki.firestormviewer.org/firestorm_troubleshooting" />
+             function="Advanced.ShowURL"
+             parameter="https://github.com/ApertureViewer/Aperture-Viewer/wiki/Troubleshooting" />
         </menu_item_call>
 	   
+       <!--
         <menu_item_call
          label="Join Firestorm Support Group"
          name="firestorm_support_group">
@@ -2570,6 +2575,7 @@
              name="wiki_classes_url"
              parameter="WebLaunchExternalTarget,https://wiki.firestormviewer.org/firestorm_classes" />
         </menu_item_call>
+
 
         <menu_item_call
          label="Firestorm Events Calendar"
@@ -2591,14 +2597,16 @@
              parameter="guidebook" />
         </menu_item_check>
 
-<!--       <menu_item_call
+        
+
+      <menu_item_call
          label="Second Life Help"
          name="Second Life Help">
              <menu_item_call.on_click
              function="PromptShowURL"
              name="script_library_url"
              parameter="WebLaunchExternalTarget,https://support.secondlife.com/" />
-        </menu_item_call>-->
+        </menu_item_call>
         <menu_item_separator name="grid_help_seperator"/>
         <menu_item_call
          label="[CURRENT_GRID] Help"
@@ -2614,7 +2622,7 @@
              function="ShowHelp"
              parameter="grid_about" />
         </menu_item_call>
-<!--        <menu_item_call
+       <menu_item_call
          label="Tutorial"
          name="Tutorial">
             <menu_item_call.on_click
@@ -2657,7 +2665,8 @@
              <menu_item_call.on_click
                  function="Advanced.ShowURL"
                  parameter="https://community.secondlife.com/news/"/>
-        </menu_item_call>-->
+        </menu_item_call>
+      
         <menu_item_separator/>
         <menu_item_call
             name="whitelist_folders"
@@ -2666,6 +2675,8 @@
                function="Floater.Show"
                parameter="fs_whitelist_floater" />
         </menu_item_call>
+        
+        -->
         <menu_item_check
              label="Check Grid status"
              name="Grid Status">
@@ -2685,7 +2696,8 @@
              label="Report Problem"
              name="Report Bug">
                 <menu_item_call.on_click
-                 function="Advanced.ReportBug"/>
+                 function="Advanced.ShowURL"
+                 parameter="https://github.com/ApertureViewer/Aperture-Viewer/issues"/>
             </menu_item_call>
 
         <menu_item_separator/>
@@ -2696,8 +2708,9 @@
                  function="Floater.Show"
                  parameter="bumps" />
             </menu_item_call>
-
+        <!--
         <menu_item_separator/>
+
 
         <menu_item_check
             label="Enable Sysinfo Button"
@@ -2709,6 +2722,8 @@
                 function="ToggleControl"
                 parameter="SysinfoButtonInIM" />
         </menu_item_check>
+
+        -->
 
         <menu_item_separator/>
 
