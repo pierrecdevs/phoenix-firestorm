@@ -13,8 +13,6 @@
         <command
          name="chat" />
         <command
-         name="speak" />
-        <command
          name="view" />
         <command
          name="appearance" />
