@@ -3112,6 +3112,9 @@ void LLFloaterPreference::updateClickActionViews()
 {
     bool click_to_walk = false;
     bool dbl_click_to_walk = false;
+    // <FS:WW> Add DoubleClickTeleport setting to control double-click action default
+    bool double_click_teleport_enabled = gSavedSettings.getBOOL("DoubleClickTeleport");
+    // </FS:WW>
     bool dbl_click_to_teleport = false;
 
     // Todo: This is a very ugly way to get access to keybindings.
@@ -3142,7 +3145,17 @@ void LLFloaterPreference::updateClickActionViews()
     }
 
     getChild<LLComboBox>("single_click_action_combo")->setValue((int)click_to_walk);
-    getChild<LLComboBox>("double_click_action_combo")->setValue(dbl_click_to_teleport ? 2 : (int)dbl_click_to_walk);
+
+    // <FS:WW> Modify double_click_action_combo setValue to use DoubleClickTeleport setting
+    if (double_click_teleport_enabled)
+    {
+        getChild<LLComboBox>("double_click_action_combo")->setValue(2); // Teleport to clicked point
+    }
+    else
+    {
+        getChild<LLComboBox>("double_click_action_combo")->setValue(0); // No action
+    }
+    // </FS:WW>
 }
 
 void LLFloaterPreference::updateSearchableItems()
