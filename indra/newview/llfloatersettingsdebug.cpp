@@ -211,7 +211,7 @@ bool LLFloaterSettingsDebug::postBuild()
     onUpdateFilter();
     mSettingsScrollList->sortByColumnIndex(1,true); // <FS:Beq/> Sort by name (column 1) 
 
-    LLNotificationsUtil::add("DebugSettingsWarning");
+    // <AP:WW> LLNotificationsUtil::add("DebugSettingsWarning"); // </AP:WW>
 
     return true;
 }
