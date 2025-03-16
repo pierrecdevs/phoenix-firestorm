@@ -2770,7 +2770,7 @@
 				 increment="8"
 				 layout="topleft"
 				 left_pad="0"
-				 min_val="32"
+				 min_val="1"
 				 max_val="4096"
 				 top_delta="-2"
 				 width="127"/>
