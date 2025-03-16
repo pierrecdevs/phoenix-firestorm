@@ -407,7 +407,7 @@
 		 name="cache_size_label_l"
 		 top_pad="15"
 		 width="500">
-		   Texture Cache Size ([https://wiki.firestormviewer.org/cache need a suggestion?]):
+		   Texture Cache Size ([https://github.com/ApertureViewer/Aperture-Viewer/wiki/Cache-Settings need a suggestion?]):
 		</text>
 		<slider
 		 can_edit_text="true"
@@ -418,8 +418,7 @@
 		 increment="64"
 		 initial_value="1024"
 		 layout="topleft"
-		 max_val="20000"
-		 min_val="256"
+		 max_val="65536"
 		 top_pad="10"
 		 name="cache_size"
 		 width="279" />
@@ -458,7 +457,7 @@
 		 increment="64"
 		 initial_value="1024"
 		 layout="topleft"
-		 max_val="20000"
+		 max_val="65536"
 		 min_val="256"
 		 top_pad="10"
 		 name="asset_cache_size"

@@ -5071,9 +5071,13 @@ bool LLAppViewer::initCache()
     const std::string cache_dir_name = gSavedSettings.getString("DiskCacheDirName");
 
     const U32 MB = 1024 * 1024;
-    constexpr U32 GB = 1024 * MB; // <FS:Beq/> Readability constant
-    const uintmax_t MIN_CACHE_SIZE = 256 * MB;
-    const uintmax_t MAX_CACHE_SIZE = 100ULL * GB; // <FS:Beq/> raise the cap to 100GB, UI will limit to a more sensible level of 20GB.
+    // <FS:WW> Increase MAX_CACHE_SIZE to 1TB and comment out original FS:Beq 100GB limit
+    const uintmax_t MIN_CACHE_SIZE = 256 * MB; // Keep MIN_CACHE_SIZE as is!
+    // constexpr U32 GB = 1024 * MB; // <FS:Beq/> Readability constant
+    // const uintmax_t MAX_CACHE_SIZE = 100ULL * GB; // <FS:Beq/> raise the cap to 100GB, UI will limit to a more sensible level of 20GB.
+    constexpr U32 GB = 1024 * MB; // <FS:WW/> Readability constant
+    const uintmax_t MAX_CACHE_SIZE = 1024ULL * GB; // <FS:WW/> Raise the cap to 1TB, removing the previous 100GB limit. UI still limits to a sensible level.
+    // </FS:WW>
     const uintmax_t setting_cache_total_size = uintmax_t(gSavedSettings.getU32("CacheSize")) * MB;
     const uintmax_t cache_total_size = llclamp(setting_cache_total_size, MIN_CACHE_SIZE, MAX_CACHE_SIZE);
     // <FS:Ansariel> Better cache size control
