@@ -104,13 +104,6 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-
-// <FS:Beq> use std::lerp for C++20
-#if __cplusplus >= 202002L
-using std::lerp;
-#endif
-// </FS:Beq>
-
 extern LLPointer<LLViewerTexture> gStartTexture;
 extern bool gShiftFrame;
 
@@ -482,7 +475,7 @@ void display(bool rebuild, F32 zoom_factor, int subfield, bool for_snapshot)
     if (gResizeShadowTexture)
     { //skip render on frames where window has been resized
         gPipeline.resizeShadowTexture();
-        gResizeShadowTexture = false;
+        // gResizeShadowTexture = false; // <FS:Beq/> This prevents the deferred resize from working properly.
     }
 
     gSnapshot = for_snapshot;
