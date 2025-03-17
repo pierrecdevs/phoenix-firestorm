@@ -323,7 +323,10 @@ class ViewerManifest(LLManifest,FSViewerManifest):
         global CHANNEL_VENDOR_BASE
         # a standard map of strings for replacing in the templates
         #<FS:TS> tag "OS" after CHANNEL_VENDOR_BASE and before any suffix
-        channel_base = "Phoenix-" + CHANNEL_VENDOR_BASE
+        # <AP:WW> Rebrand: Remove "Phoenix-" prefix from channel base. (viewer_manifest.py)
+        #channel_base = "Phoenix-" + CHANNEL_VENDOR_BASE
+        channel_base = "Aperture" + CHANNEL_VENDOR_BASE
+        # </AP:WW>
         if self.fs_is_opensim():
             channel_base = channel_base + "OS"
         #</FS:TS>
@@ -617,8 +620,11 @@ class Windows_x86_64_Manifest(ViewerManifest):
         debpkgdir = os.path.join(pkgdir, "lib", "debug")
 
         if self.is_packaging_viewer():
-            # Find firestorm-bin.exe in the 'configuration' dir, then rename it to the result of final_exe.
-            self.path(src='%s/firestorm-bin.exe' % self.args['configuration'], dst=self.final_exe())
+            # Find aperture.exe in the 'configuration' dir, then rename it to the result of final_exe.
+            # <AP:WW> Rebrand: Update binary path for rename to "aperture". (viewer_manifest.py)
+            #self.path(src='%s/firestorm-bin.exe' % self.args['configuration'], dst=self.final_exe())
+            self.path(src='%s/aperture.exe' % self.args['configuration'], dst=self.final_exe())
+            # </AP:WW>
             # Emit the whole app image as one of the GitHub step outputs. We
             # want the whole app -- but NOT the extraneous build products that
             # get tossed into the same directory, such as the installer and
@@ -944,20 +950,21 @@ class Windows_x86_64_Manifest(ViewerManifest):
         # </FS:Ansariel>
     def dl_url_from_channel(self):
         if self.channel_type() == 'release':
-            return 'https://www.firestormviewer.org/choose-your-platform'
+        # <AP:WW> Rebrand: Update download URL to Aperture wiki.
+            return 'https://github.com/ApertureViewer/Aperture-Viewer/wiki/Download-&-Installation'
         elif self.channel_type() == 'beta':
-            return 'https://www.firestormviewer.org/early-access-beta-downloads'
+            return 'https://github.com/ApertureViewer/Aperture-Viewer/wiki/Download-&-Installation'
         elif self.channel_type() == 'alpha':
-            return 'https://www.firestormviewer.org/early-access-alpha-downloads'
+            return 'https://github.com/ApertureViewer/Aperture-Viewer/wiki/Download-&-Installation'
         elif self.channel_type() == 'manual':
-            return 'https://www.firestormviewer.org/early-access-manual-downloads'
+            return 'https://github.com/ApertureViewer/Aperture-Viewer/wiki/Download-&-Installation'
         elif self.channel_type() == 'profiling':
-            return 'https://www.firestormviewer.org/profiling-downloads'
+            return 'https://github.com/ApertureViewer/Aperture-Viewer/wiki/Download-&-Installation'
         elif self.channel_type() == 'nightly':
-            return 'https://www.firestormviewer.org/firestorm-nightly-build-downloads'
+            return 'https://github.com/ApertureViewer/Aperture-Viewer/wiki/Download-&-Installation'
         else:
             return '<NO-URL>'
-        
+        # </AP:WW>
 
     def package_finish(self):
         # a standard map of strings for replacing in the templates
@@ -1028,7 +1035,10 @@ class Windows_x86_64_Manifest(ViewerManifest):
         #                dirs_exist_ok=True)
         # </FS:Ansariel>
 
-        tempfile = "firestorm_setup_tmp.nsi"
+        # <AP:WW> Rebrand: Rename temporary NSIS setup file.
+        #tempfile = "firestorm_setup_tmp.nsi"
+        tempfile = "aperture_setup_tmp.nsi"
+        # </AP:WW>
 
         self.fs_sign_win_binaries() # <FS:ND/> Sign files, step one. Sign compiled binaries
 

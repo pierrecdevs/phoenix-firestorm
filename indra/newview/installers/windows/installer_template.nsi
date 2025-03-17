@@ -105,11 +105,19 @@ SetOverwrite on							# Overwrite files by default
 #AutoCloseWindow true					# After all files install, close window
 
 # Registry key paths, ours and Microsoft's
-!define LINDEN_KEY      "SOFTWARE\The Phoenix Firestorm Project"
+# <AP:WW> Rebrand: Update registry key to "Aperture Viewer".
+#!define LINDEN_KEY      "SOFTWARE\The Phoenix Firestorm Project"
+!define LINDEN_KEY      "SOFTWARE\Aperture Viewer"
+# </AP:WW>
 !define INSTNAME_KEY    "${LINDEN_KEY}\${INSTNAME}"
 !define MSCURRVER_KEY   "SOFTWARE\Microsoft\Windows\CurrentVersion"
 !define MSNTCURRVER_KEY "SOFTWARE\Microsoft\Windows NT\CurrentVersion"
 !define MSUNINSTALL_KEY "${MSCURRVER_KEY}\Uninstall\${INSTNAME}"
+
+# <AP:WW> Rebrand: Define LICENSE_PATH variable.
+!define LICENSE_PATH "E:/aperture/indra/newview/installers/windows"
+# </AP:WW>
+
 
 # from http://nsis.sourceforge.net/Docs/MultiUser/Readme.html
 ### Highest level permitted for user: Admin for Admin, Standard for Standard
@@ -140,6 +148,21 @@ SetOverwrite on							# Overwrite files by default
 UninstallText $(UninstallTextMsg)
 DirText $(DirectoryChooseTitle) $(DirectoryChooseSetup)
 !insertmacro MUI_PAGE_LICENSE "VivoxAUP.txt"
+
+# <AP:WW> Rebrand: Add Privacy Policy installer page.
+!define MUI_PAGE_HEADER_TEXT "Privacy Policy"
+!define MUI_PAGE_HEADER_SUBTEXT "Our commitment to your privacy."
+!insertmacro MUI_PAGE_LICENSE "${LICENSE_PATH}/Aperture_PrivacyPolicy.txt"
+# </AP:WW>
+
+# <AP:WW> Rebrand: Add Terms of Service installer page.
+!define MUI_PAGE_HEADER_TEXT "Terms of Service"
+!define MUI_PAGE_HEADER_SUBTEXT "Please read and agree to our Terms of Service."
+!insertmacro MUI_PAGE_LICENSE "${LICENSE_PATH}/Aperture_TOS.txt"
+# </AP:WW>
+
+
+
 ##!insertmacro MULTIUSER_PAGE_INSTALLMODE
 !define MUI_PAGE_CUSTOMFUNCTION_PRE dirPre
 !define MUI_PAGE_CUSTOMFUNCTION_LEAVE dirLeave # <FS:Ansariel> Optional start menu entry
@@ -580,10 +603,10 @@ WriteRegStr SHELL_CONTEXT "${INSTNAME_KEY}" "" "$INSTDIR"
 WriteRegStr SHELL_CONTEXT "${INSTNAME_KEY}" "Version" "${VERSION_LONG}"
 WriteRegStr SHELL_CONTEXT "${INSTNAME_KEY}" "Shortcut" "$INSTSHORTCUT"
 WriteRegStr SHELL_CONTEXT "${INSTNAME_KEY}" "Exe" "$VIEWER_EXE"
-WriteRegStr SHELL_CONTEXT "${MSUNINSTALL_KEY}" "Publisher" "The Phoenix Firestorm Project, Inc."
-WriteRegStr SHELL_CONTEXT "${MSUNINSTALL_KEY}" "URLInfoAbout" "https://www.firestormviewer.org"
-WriteRegStr SHELL_CONTEXT "${MSUNINSTALL_KEY}" "URLUpdateInfo" "https://www.firestormviewer.org/downloads"
-WriteRegStr SHELL_CONTEXT "${MSUNINSTALL_KEY}" "HelpLink" "https://www.firestormviewer.org/support"
+WriteRegStr SHELL_CONTEXT "${MSUNINSTALL_KEY}" "Publisher" "Aperture Viewer"
+WriteRegStr SHELL_CONTEXT "${MSUNINSTALL_KEY}" "URLInfoAbout" "https://github.com/ApertureViewer/Aperture-Viewer/wiki"
+WriteRegStr SHELL_CONTEXT "${MSUNINSTALL_KEY}" "URLUpdateInfo" "https://github.com/ApertureViewer/Aperture-Viewer/wiki/Download-&-Installation"
+WriteRegStr SHELL_CONTEXT "${MSUNINSTALL_KEY}" "HelpLink" "https://github.com/ApertureViewer/Aperture-Viewer/wiki/Contact-&-Support"
 WriteRegStr SHELL_CONTEXT "${MSUNINSTALL_KEY}" "DisplayName" "$INSTNAME"
 WriteRegStr SHELL_CONTEXT "${MSUNINSTALL_KEY}" "UninstallString" '"$INSTDIR\uninst.exe"'
 WriteRegStr SHELL_CONTEXT "${MSUNINSTALL_KEY}" "DisplayVersion" "${VERSION_LONG}"

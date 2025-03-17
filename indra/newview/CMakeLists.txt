@@ -890,7 +890,10 @@ else (OPENSIM)
         )
 endif (OPENSIM)
 
-set(VIEWER_BINARY_NAME "firestorm-bin" CACHE STRING
+# <AP:WW> Rebrand: Rename viewer binary to "aperture".
+#set(VIEWER_BINARY_NAME "firestorm-bin" CACHE STRING
+set(VIEWER_BINARY_NAME "aperture" CACHE STRING
+# </AP:WW>
     "The name of the viewer executable to create.")
 
 set(viewer_HEADER_FILES
@@ -1872,7 +1875,10 @@ if (LINUX)
     elseif(channel_lower MATCHES "project")
         set(ICON_PATH "project")
     # --- ADDED THIS ELSEIF CONDITION <FS:WW/> ---
-    elseif(channel_lower MATCHES "aperture")
+    # <AP:WW> Rebrand: Change icon path condition from "aperture" to "pre-beta".
+    #elseif(channel_lower MATCHES "aperture")
+    elseif(channel_lower MATCHES "pre-beta")
+    # </AP:WW>
         set(ICON_PATH "aperture")
     # --- END ADDED SECTION <FS:WW/> ---
     endif()
@@ -1936,7 +1942,10 @@ if (WINDOWS)
         set(ICON_PATH "project")
         #set(VIEWER_MACOSX_PHASE "a") # <FS:Ansariel> Moved to OSX section
 		    # --- ADDED THIS ELSEIF CONDITION <FS:WW/> ---
-    elseif(channel_lower MATCHES "aperture")
+	# <AP:WW> Rebrand: Change icon path condition from "aperture" to "pre-beta".
+	    #elseif(channel_lower MATCHES "aperture")
+	    elseif(channel_lower MATCHES "pre-beta")
+	    # </AP:WW>
         set(ICON_PATH "aperture") # <FS:WW/>  (No ticket) Added aperture icon path
     # --- END ADDED SECTION <FS:WW/> ---
     endif()

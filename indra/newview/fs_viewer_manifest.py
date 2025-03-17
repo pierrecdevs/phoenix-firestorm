@@ -16,8 +16,8 @@ class FSViewerManifest:
             'optimized': opt_string,
             'app_name_oneword':self.app_name_oneword()
             }
-
-        return "Phoenix-%(app_name)s_%(optimized)s-%(version_dashes)s" % substitution_strings
+		# <AP:WW> Viewer Rebrand
+        return "%(app_name)s_%(optimized)s-%(version_dashes)s" % substitution_strings
 
     def fs_is_opensim(self):
         return self.args['viewer_flavor'] == 'oss' #Havok would be hvk
@@ -65,7 +65,8 @@ class FSViewerManifest:
         metadata_file = os.getenv("CODESIGNING_METADATA_PATH")
         # at some point we might want to sign other DLLs as well.
         executable_paths = [
-            # self.args['configuration'] + "\\firestorm-bin.exe", # no need to sign this we are not packaging it.
+        	# <AP:WW> Viewer Rebrand - though line  was already precommented out
+            # self.args['configuration'] + "\\aperture-bin.exe", # no need to sign this we are not packaging it.
             self.args['configuration'] + "\\slplugin.exe",
             self.args['configuration'] + "\\SLVoice.exe",
             self.args['configuration'] + "\\llwebrtc.dll",
@@ -129,21 +130,25 @@ class FSViewerManifest:
         self.fs_save_symbols("linux")
 
     def fs_linux_tar_excludes(self):
-        installer_name_components = ['Phoenix',self.app_name(),self.args.get('arch'),'.'.join(self.args['version'])]
+    	# <AP:WW> Viewer Rebrand
+        installer_name_components = ['Aperture',self.app_name(),self.args.get('arch'),'.'.join(self.args['version'])]
         installer_name = "_".join(installer_name_components)
         return "--exclude=%s/bin/.debug" % installer_name
 
     def fs_save_windows_symbols(self):
         self.fs_save_symbols("windows")
 
-        pdbName = "firestorm-bin.pdb"
+		# <AP:WW> Viewer Rebrand
+        pdbName = "aperture.pdb"
         try:
             subprocess.check_call( [ "pdbcopy.exe" ,
-                                     self.args['configuration'] + "\\firestorm-bin.pdb", 
-                                     self.args['configuration'] + "\\firestorm-bin-public.pdb",
+            						# <AP:WW> Viewer Rebrand
+                                     self.args['configuration'] + "\\aperture.pdb", 
+                                     self.args['configuration'] + "\\aperture-public.pdb",
                                      "-p"
                                  ], stderr=subprocess.PIPE,stdout=subprocess.PIPE )
-            pdbName = "firestorm-bin-public.pdb"
+			# <AP:WW> Viewer Rebrand
+            pdbName = "aperture-public.pdb"
         except:
             print("Cannot run pdbcopy, packaging private symbols")
 
@@ -154,7 +159,8 @@ class FSViewerManifest:
                                                                         self.address_size)                                      
         # Store windows symbols we want to keep for debugging in a tar file.
         symbolTar = tarfile.open( name=tarName, mode="w:xz")
-        symbolTar.add( "%s/Firestorm-bin.exe" % self.args['configuration'].lower(), "firestorm-bin.exe" )
+        # <AP:WW> Viewer Rebrand
+        symbolTar.add( "%s/aperture.exe" % self.args['configuration'].lower(), "aperture.exe" )
         symbolTar.add( "%s/build_data.json" % self.args['configuration'].lower(), "build_data.json" )
         symbolTar.add( "%s/%s" % (self.args['configuration'].lower(),pdbName), pdbName )
         symbolTar.close()
@@ -237,7 +243,8 @@ class FSViewerManifest:
         from shutil import rmtree
         import tarfile
 
-        components = ['Phoenix',self.app_name(),self.args.get('arch'),'.'.join(self.args['version'])]
+		# <AP:WW> Viewer Rebrand
+        components = ['Aperture',self.app_name(),self.args.get('arch'),'.'.join(self.args['version'])]
         symbolsName = "_".join(components)
         symbolsName = symbolsName + "_" + self.args["viewer_flavor"] + "-" + osname + "-" + str(self.address_size) + ".tar.bz2"
 

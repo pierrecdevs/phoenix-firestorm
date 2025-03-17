@@ -12,8 +12,11 @@
 #    "if(${CMAKE_VERSION} VERSION_LESS "3.20.0")" that can also be removed
 cmake_minimum_required(VERSION 3.16.0 FATAL_ERROR)
 
-set(ROOT_PROJECT_NAME "Firestorm" CACHE STRING
-    "The root project/makefile/solution name. Defaults to Firestorm.")
+# <AP:WW> Rebrand: Rename project from Firestorm to Aperture.
+#set(ROOT_PROJECT_NAME "Firestorm" CACHE STRING
+set(ROOT_PROJECT_NAME "Aperture" CACHE STRING
+# </AP:WW>
+    "The root project/makefile/solution name. Defaults to Aperture.")
 project(${ROOT_PROJECT_NAME})
 
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake"  "${CMAKE_CURRENT_BINARY_DIR}")
@@ -178,11 +181,19 @@ else (USE_BUGSPLAT)
 endif (USE_BUGSPLAT)
 
 add_subdirectory(${VIEWER_PREFIX}newview)
-add_dependencies(viewer firestorm-bin)
+# <AP:WW> Rebrand: Update dependency to use VIEWER_BINARY_NAME.
+#add_dependencies(viewer firestorm-bin)
+add_dependencies(viewer ${VIEWER_BINARY_NAME})
+# </AP:WW>
 
+# <AP:WW> Rebrand: Update target properties to use VIEWER_BINARY_NAME.
+#set_target_properties(
+#    firestorm-bin PROPERTIES
+#    VS_DEBUGGER_WORKING_DIRECTORY "..\\..\\indra\\newview")
 set_target_properties(
-    firestorm-bin PROPERTIES
+    ${VIEWER_BINARY_NAME} PROPERTIES
     VS_DEBUGGER_WORKING_DIRECTORY "..\\..\\indra\\newview")
+# </AP:WW>
 
 add_subdirectory(${VIEWER_PREFIX}doxygen EXCLUDE_FROM_ALL)
 

@@ -391,7 +391,10 @@ if [ -z $CHANNEL ] ; then
 else
     CHANNEL=`echo $CHANNEL | sed -e "s/[^a-zA-Z0-9\-]*//g"` # strip out difficult characters from channel
 fi
-CHANNEL="Firestorm-$CHANNEL"
+# <AP:WW> Rebrand: Rename CHANNEL prefix to "Aperture-".
+#CHANNEL="Firestorm-$CHANNEL"
+CHANNEL="Aperture-$CHANNEL"
+# </AP:WW>
 
 if [ \( $WANTS_CLEAN -eq $TRUE \) -a \( $WANTS_BUILD -eq $FALSE \) ] ; then
     echo "Cleaning $TARGET_PLATFORM...."
@@ -594,7 +597,10 @@ if [ $WANTS_CONFIG -eq $TRUE ] ; then
 
     if [ $TARGET_PLATFORM == "windows" -a $USE_VSTOOL -eq $TRUE ] ; then
         echo "Setting startup project via vstool"
-        ../indra/tools/vstool/VSTool.exe --solution Firestorm.sln --startup firestorm-bin --workingdir firestorm-bin "..\\..\\indra\\newview" --config $BTYPE
+        # <AP:WW> Rebrand: Update VSTool solution and startup project names.
+        #../indra/tools/vstool/VSTool.exe --solution Firestorm.sln --startup firestorm-bin --workingdir firestorm-bin "..\\..\\indra\\newview" --config $BTYPE
+        ../indra/tools/vstool/VSTool.exe --solution "Aperture.sln" --startup "$VIEWER_BINARY_NAME" --workingdir "$VIEWER_BINARY_NAME" "..\\..\\indra\\newview" --config $BTYPE
+        # </AP:WW>
     fi
         # Check the return code of the build command
     if [ $? -ne 0 ]; then
@@ -622,9 +628,18 @@ if [ $WANTS_BUILD -eq $TRUE ] ; then
             make -j $JOBS | tee -a $LOG
         fi
     elif [ $TARGET_PLATFORM == "windows" ] ; then
-        msbuild.exe Firestorm.sln -p:Configuration=${BTYPE} -flp:LogFile="logs\\FirestormBuild_win-${AUTOBUILD_ADDRSIZE}.log" \
+        echo "DEBUG: ROOT_PROJECT_NAME is: '$ROOT_PROJECT_NAME'"  # Add this line
+        echo "DEBUG: MSBuild command will be:"                      # Add this line
+        echo "DEBUG: msbuild.exe \"$ROOT_PROJECT_NAME.sln\" -p:Configuration=${BTYPE} -flp:LogFile=\"logs\\\\${ROOT_PROJECT_NAME}Build_win-${AUTOBUILD_ADDRSIZE}.log\" ..." # Add this line (echo the command itself)
+    
+    	# <AP:WW> Rebrand: Update msbuild solution name and log file name.
+        # msbuild.exe Firestorm.sln -p:Configuration=${BTYPE} -flp:LogFile="logs\\FirestormBuild_win-${AUTOBUILD_ADDRSIZE}.log" \
+       
+        msbuild.exe "Aperture.sln" -p:Configuration=${BTYPE} -flp:LogFile="logs\\${ROOT_PROJECT_NAME}Build_win-${AUTOBUILD_ADDRSIZE}.log" \
+        
+        # </AP:WW>       
             -flp1:"errorsonly;LogFile=logs\\FirestormBuild_win-${AUTOBUILD_ADDRSIZE}.err" -p:Platform=${AUTOBUILD_WIN_VSPLATFORM} -t:Build -p:useenv=true \
-            -verbosity:normal -toolsversion:Current -p:"VCBuildAdditionalOptions= /incremental"
+                -verbosity:normal -toolsversion:Current -p:"VCBuildAdditionalOptions= /incremental"
     fi
     # Check the return code of the build command
     if [ $? -ne 0 ]; then
