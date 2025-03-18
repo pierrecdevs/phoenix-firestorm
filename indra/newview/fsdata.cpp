@@ -309,7 +309,7 @@ void FSData::startDownload()
         {
             last_modified = stat_data.st_mtime;
         }
-        LL_INFOS("fsdata") << "Downloading data.xml from " << mFSDataURL << " with last modified of " << last_modified << LL_ENDL;
+        // <AP:WW>LL_INFOS("fsdata") << "Downloading data.xml from " << mFSDataURL << " with last modified of " << last_modified << LL_ENDL;
         LLCore::HttpOptions::ptr_t httpOpts(new LLCore::HttpOptions);
         httpOpts->setWantHeaders(true);
         httpOpts->setLastModified((long)last_modified);
@@ -327,7 +327,7 @@ void FSData::startDownload()
         }
         std::string filename = llformat("defaults.%s.xml", LLVersionInfo::getInstance()->getShortVersion().c_str());
         mFSdataDefaultsUrl = mBaseURL + "/" + filename;
-        LL_INFOS("fsdata") << "Downloading defaults.xml from " << mFSdataDefaultsUrl << " with last modified of " << last_modified << LL_ENDL;
+        // <AP:WW> LL_INFOS("fsdata") << "Downloading defaults.xml from " << mFSdataDefaultsUrl << " with last modified of " << last_modified << LL_ENDL;
         LLCore::HttpOptions::ptr_t httpOpts(new LLCore::HttpOptions);
         httpOpts->setWantHeaders(true);
         httpOpts->setLastModified((long)last_modified);
@@ -352,11 +352,13 @@ void FSData::startDownload()
             last_modified = stat_data.st_mtime;
         }
         std::string url = mBaseURL + "/" + script_name;
-        LL_INFOS("fsdata") << "Downloading " << script_name << " from " << url << " with last modified of " << last_modified << LL_ENDL;
+        // <AP:WW> LL_INFOS("fsdata") << "Downloading " << script_name << " from " << url << " with last modified of " << last_modified << LL_ENDL;
         LLCore::HttpOptions::ptr_t httpOpts(new LLCore::HttpOptions);
         httpOpts->setWantHeaders(true);
         httpOpts->setLastModified((long)last_modified);
-        FSCoreHttpUtil::callbackHttpGetRaw( url, boost::bind( downloadCompleteScript, _1, url, filename ), boost::bind( downloadError, _1, url ), LLCore::HttpHeaders::ptr_t(), httpOpts);
+        // <AP:WW> Disable download for testing
+        // FSCoreHttpUtil::callbackHttpGetRaw( url, boost::bind( downloadCompleteScript, _1, url, filename ), boost::bind( downloadError, _1, url ), LLCore::HttpHeaders::ptr_t(), httpOpts); 
+        // <AP:WW>
     }
 #endif
 }
@@ -396,7 +398,7 @@ void FSData::downloadAgents()
         {
             last_modified = stat_data.st_mtime;
         }
-        LL_INFOS("fsdata") << "Downloading agents.xml from " << mAgentsURL << " with last modified of " << last_modified << LL_ENDL;
+        // <AP:WW> LL_INFOS("fsdata") << "Downloading agents.xml from " << mAgentsURL << " with last modified of " << last_modified << LL_ENDL;
         LLCore::HttpOptions::ptr_t httpOpts(new LLCore::HttpOptions);
         httpOpts->setWantHeaders(true);
         httpOpts->setLastModified((long)last_modified);
@@ -414,7 +416,7 @@ void FSData::downloadAgents()
         {
             last_modified = stat_data.st_mtime;
         }
-        LL_INFOS("fsdata") << "Downloading assets.xml from " << mAssetsURL << " with last modified of " << last_modified << LL_ENDL;
+        // <AP:WW> LL_INFOS("fsdata") << "Downloading assets.xml from " << mAssetsURL << " with last modified of " << last_modified << LL_ENDL; // </AP:WW>
         LLCore::HttpOptions::ptr_t httpOpts(new LLCore::HttpOptions);
         httpOpts->setWantHeaders(true);
         httpOpts->setLastModified((long)last_modified);

@@ -400,7 +400,7 @@ void downloadGridlistError( LLSD const &aData, std::string const &aURL )
 
     if (status.getType() == HTTP_NOT_MODIFIED)
     {
-        LL_INFOS("fsdata") << "Didn't download grid list from " << aURL << " - no newer version available" << LL_ENDL;
+    // <AP:WW> LL_INFOS("fsdata") << "Didn't download grid list from " << aURL << " - no newer version available" << LL_ENDL;
     }
     else
     {
