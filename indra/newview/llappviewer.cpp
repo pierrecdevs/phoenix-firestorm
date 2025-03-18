@@ -3169,7 +3169,8 @@ bool LLAppViewer::initConfiguration()
     }
 
 
-    loadSettingsFromDirectory("UserSession");
+    // <AP:WW> Disable loading of "UserSession" settings in Aperture Viewer to prevent account_settings_firestorm.xml warning // </AP:WW>
+    // loadSettingsFromDirectory("UserSession"); // <-- COMMENTED OUT AND TAGGED
 
     // <FS:AO> Re-read user settings again. This is a Firestorm hack to get user settings to override modes
     //Todo, find a cleaner way of doing this via the various set_default arguments.
