@@ -425,7 +425,9 @@ const std::string SAFE_FILE_NAME_PREFIX(SafeFileName(APP_NAME));
 static std::string gArgs;
 const int MAX_MARKER_LENGTH = 1024;
 const std::string MARKER_FILE_NAME(SAFE_FILE_NAME_PREFIX + ".exec_marker"); //FS orig modified LL
-const std::string START_MARKER_FILE_NAME(SAFE_FILE_NAME_PREFIX + ".start_marker"); //FS new modified LL new
+// <AP:WW>
+const std::string START_MARKER_FILE_NAME(SAFE_FILE_NAME_PREFIX + ".aperture_start_marker"); //FS new modified LL new
+// </AP:WW>
 const std::string ERROR_MARKER_FILE_NAME(SAFE_FILE_NAME_PREFIX + ".error_marker"); //FS orig modified LL
 const std::string LOGOUT_MARKER_FILE_NAME(SAFE_FILE_NAME_PREFIX + ".logout_marker"); //FS orig modified LL
 
