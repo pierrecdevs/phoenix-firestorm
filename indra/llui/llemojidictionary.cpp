@@ -393,6 +393,9 @@ void LLEmojiDictionary::loadEmojis()
         std::list<std::string> categories = loadCategories(sd);
         if (categories.empty())
         {
+            // <AP:WW> Warning is likely harmless. It is triggered when loading emoji descriptors
+            // that intentionally have no categories (e.g., flag emojis).
+            // Leaving warning as is for potential debugging and to align with upstream.
             LL_WARNS() << "Skipping invalid emoji descriptor (no categories)" << LL_ENDL;
             continue;
         }
