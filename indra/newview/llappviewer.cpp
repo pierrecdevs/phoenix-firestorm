@@ -2819,7 +2819,12 @@ bool LLAppViewer::loadSettingsFromDirectory(const std::string& location_key,
             auto settings_group = LLControlGroup::getInstance(file.name);
             if(!settings_group)
             {
-                LL_WARNS("Settings") << "No matching settings group for name " << file.name() << LL_ENDL;
+                // <AP:WW> Suppress harmless "Skinning" settings group warning - conditional suppression
+                if (file.name() != "Skinning") // Check if file.name is NOT "Skinning"
+                {
+                    LL_WARNS("Settings") << "No matching settings group for name " << file.name() << LL_ENDL;
+                }
+                // </AP:WW>
                 continue;
             }
 
