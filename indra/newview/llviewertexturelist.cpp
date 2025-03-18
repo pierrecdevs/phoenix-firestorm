@@ -1191,6 +1191,9 @@ F32 LLViewerTextureList::updateImagesCreateTextures(F32 max_time)
             // necessarily indicate a problem, but if log occurrences excede that of dsiplay_stats: FPS,
             // something has probably gone wrong.
             LL_WARNS_ONCE("Texture") << "Texture will be downscaled immediately after loading." << LL_ENDL;
+            // <AP:WW> This ONCE warning at startup is usually informational.
+            // It indicates dynamic texture quality adjustment at viewer start.
+            // Frequent occurrences during normal use might indicate a texture streaming issue.
             imagep->scaleDown();
         }
 
