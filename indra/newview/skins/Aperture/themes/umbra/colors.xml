@@ -666,7 +666,7 @@
      reference="Black" />
     <color
      name="FilterTextColor"
-     reference="EmphasisColor_Text2" />
+     reference="EmphasisColor" />
      <color
      name="FloaterButtonImageColor"
      reference="LtGray" />
@@ -689,7 +689,7 @@
      reference="EmphasisColor" />
     <color
      name="FolderViewLoadingMessageTextColor"
-     reference="EmphasisColor_Text2" />
+     reference="EmphasisColor" />
     <color
      name="GridFocusPointColor"
      reference="White_50" />
@@ -1087,7 +1087,7 @@
      reference="Black" />
     <color
      name="SelectedOutfitTextColor"
-     reference="EmphasisColor_Text2" />
+     reference="EmphasisColor" />
 <!-- Color Changed -->
     <color
      name="SilhouetteChildColor"
