@@ -1065,9 +1065,12 @@ void LLGLManager::initWGL()
     }
 
     if( !glh_init_extensions("WGL_ARB_render_texture") )
-    {
-        LL_WARNS("RenderInit") << "No ARB WGL render texture extensions" << LL_ENDL;
-    }
+        {
+            LL_WARNS("RenderInit") << "No ARB WGL render texture extensions" << LL_ENDL;
+            // <AP:WW> Warning is harmless.  WGL_ARB_render_texture is likely a legacy feature.
+            // Modern viewers probably use Framebuffer Objects (FBOs) for render-to-texture.
+            // Leaving warning as is for potential debugging on very old systems.
+        }
 }
 #endif
 
