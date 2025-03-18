@@ -628,18 +628,9 @@ if [ $WANTS_BUILD -eq $TRUE ] ; then
             make -j $JOBS | tee -a $LOG
         fi
     elif [ $TARGET_PLATFORM == "windows" ] ; then
-        echo "DEBUG: ROOT_PROJECT_NAME is: '$ROOT_PROJECT_NAME'"  # Add this line
-        echo "DEBUG: MSBuild command will be:"                      # Add this line
-        echo "DEBUG: msbuild.exe \"$ROOT_PROJECT_NAME.sln\" -p:Configuration=${BTYPE} -flp:LogFile=\"logs\\\\${ROOT_PROJECT_NAME}Build_win-${AUTOBUILD_ADDRSIZE}.log\" ..." # Add this line (echo the command itself)
-    
-    	# <AP:WW> Rebrand: Update msbuild solution name and log file name.
-        # msbuild.exe Firestorm.sln -p:Configuration=${BTYPE} -flp:LogFile="logs\\FirestormBuild_win-${AUTOBUILD_ADDRSIZE}.log" \
-       
-        msbuild.exe "Aperture.sln" -p:Configuration=${BTYPE} -flp:LogFile="logs\\${ROOT_PROJECT_NAME}Build_win-${AUTOBUILD_ADDRSIZE}.log" \
-        
-        # </AP:WW>       
-            -flp1:"errorsonly;LogFile=logs\\FirestormBuild_win-${AUTOBUILD_ADDRSIZE}.err" -p:Platform=${AUTOBUILD_WIN_VSPLATFORM} -t:Build -p:useenv=true \
-                -verbosity:normal -toolsversion:Current -p:"VCBuildAdditionalOptions= /incremental"
+        msbuild.exe "Aperture.sln" -p:Configuration=${BTYPE} -flp:LogFile="logs\\apertureBuild_win-${AUTOBUILD_ADDRSIZE}.log" \
+             -flp1:"errorsonly;LogFile=logs\\FirestormBuild_win-${AUTOBUILD_ADDRSIZE}.err" -p:Platform=${AUTOBUILD_WIN_VSPLATFORM} -t:Build -p:useenv=true \
+             -verbosity:normal -toolsversion:Current -p:"VCBuildAdditionalOptions= /incremental"
     fi
     # Check the return code of the build command
     if [ $? -ne 0 ]; then
