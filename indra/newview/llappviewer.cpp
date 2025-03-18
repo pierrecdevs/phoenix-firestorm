@@ -2945,6 +2945,7 @@ bool tempSetControl(const std::string& name, const std::string& value)
 bool LLAppViewer::initConfiguration()
 {
     // Load settings files list
+    // <AP:WW> - Debrand the links in this section from FS to AP
     std::string settings_file_list = gDirUtilp->getExpandedFilename(LL_PATH_APP_SETTINGS, "settings_files.xml");
     LLXMLNodePtr root;
     bool success = LLXMLNode::parseFile(settings_file_list, root, NULL);
@@ -2955,18 +2956,20 @@ bool LLAppViewer::initConfiguration()
         if (gDirUtilp->fileExists(settings_file_list))
         {
             LL_ERRS() << "Cannot load default configuration file settings_files.xml. "
-                << "Please reinstall viewer from https://www.firestormviewer.org/choose-your-platform/ "
-                << "and contact https://www.firestormviewer.org/support if issue persists after reinstall."
+                << "Please reinstall viewer from https://github.com/ApertureViewer/Aperture-Viewer/wiki/Download-&-Installation "
+                << "and contact https://github.com/ApertureViewer/Aperture-Viewer/wiki/Troubleshooting if issue persists after reinstall."
                 << LL_ENDL;
         }
         else
         {
             LL_ERRS() << "Default configuration file settings_files.xml not found. "
-                << "Please reinstall viewer from https://www.firestormviewer.org/choose-your-platform/ "
-                << "and contact https://www.firestormviewer.org/support if issue persists after reinstall."
+                << "Please reinstall viewer from https://github.com/ApertureViewer/Aperture-Viewer/wiki/Download-&-Installation "
+                << "and contact https://github.com/ApertureViewer/Aperture-Viewer/wiki/Troubleshooting if issue persists after reinstall."
                 << LL_ENDL;
         }
     }
+
+    // <AP:WW>
 
     mSettingsLocationList = new SettingsFiles();
 
@@ -3000,16 +3003,19 @@ bool LLAppViewer::initConfiguration()
         return false;
     }
 
-    //<FS:Techwolf Lupindo>
+    // <FS:Techwolf Lupindo>
     // load defaults overide here. Can not use settings_files.xml as path is different then above loading of defaults.
-    std::string fsdata_defaults = gDirUtilp->getExpandedFilename(LL_PATH_USER_SETTINGS, llformat("fsdata_defaults.%s.xml", LLVersionInfo::getInstance()->getShortVersion().c_str()));
-    std::string fsdata_global = "Global";
-    std::shared_ptr<LLControlGroup> settings_group = LLControlGroup::getInstance(fsdata_global);
-    if(settings_group && settings_group->loadFromFile(fsdata_defaults, set_defaults))
-    {
-        LL_INFOS() << "Loaded settings file " << fsdata_defaults << LL_ENDL;
-    }
-    //</FS:Techwolf Lupindo>
+    // <AP:WW> Disable loading of fsdata_defaults.xml in Aperture Viewer // </AP:WW>
+    // <FS:WW>
+    // std::string fsdata_defaults = gDirUtilp->getExpandedFilename(LL_PATH_USER_SETTINGS, llformat("fsdata_defaults.%s.xml", LLVersionInfo::getInstance()->getShortVersion().c_str()));
+    // std::string fsdata_global = "Global";
+    // std::shared_ptr<LLControlGroup> settings_group = LLControlGroup::getInstance(fsdata_global);
+    // if(settings_group && settings_group->loadFromFile(fsdata_defaults, set_defaults))
+    // {
+    //     LL_INFOS() << "Loaded settings file " << fsdata_defaults << LL_ENDL;
+    // }
+    // </FS:WW>
+    // </FS:Techwolf Lupindo>
 
     initStrings(); // setup paths for LLTrans based on settings files only
     // - set procedural settings

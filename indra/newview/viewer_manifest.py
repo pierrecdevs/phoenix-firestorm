@@ -967,6 +967,13 @@ class Windows_x86_64_Manifest(ViewerManifest):
         # </AP:WW>
 
     def package_finish(self):
+              
+        if os.environ.get('SKIP_EXE_PACKAGE') == '1':
+                    print("SKIP_EXE_PACKAGE=1 detected. Skipping .exe installer creation.")
+                    self.package_file = "no_installer_created"  # Indicate no installer was made
+                    return  # Exit the function early
+
+    
         # a standard map of strings for replacing in the templates
         substitution_strings = {
             'version' : '.'.join(self.args['version']),
