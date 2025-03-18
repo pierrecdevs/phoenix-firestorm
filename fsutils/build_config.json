@@ -28,7 +28,7 @@
         "SL": "Second Life",
         "OS": "OpenSim"
     },
-    "download_root": "https://downloads.firestormviewer.org",
+    "download_root": "https://github.com/ApertureViewer/Aperture-Viewer/wiki/Download-&-Installation",
     "viewer_channel_mapping": {
         "Release": "release",
         "Beta": "beta",
