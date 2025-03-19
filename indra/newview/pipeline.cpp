@@ -791,17 +791,38 @@ void LLPipeline::requestResizeShadowTexture()
 
 void LLPipeline::resizeShadowTexture()
 {
-    // <FS:Beq> [FIRE-33200] changing shadowres requires reload - original fix by William Weaver (paperwork)
-    if(mRT->width == 0 || mRT->height == 0)
+
+    // <AP:WW> Add frame skip counter and logging for shadow texture resizing.
+    static int sSkippedFrameCount = 0;
+
+    if (!mRT || mRT->width == 0 || mRT->height == 0)
     {
+        sSkippedFrameCount++;
+        LL_WARNS("Render") << "Shadow texture resizing aborted: render target dimensions invalid. Skipped "
+                           << sSkippedFrameCount << " frame(s) so far." << LL_ENDL;
         return;
     }
-    // </FS:Beq>
+
+    // If there were skipped frames before mRT became valid, log that information.
+    if (sSkippedFrameCount > 0)
+    {
+        LL_INFOS("Render") << "Render target now valid after "
+                           << sSkippedFrameCount << " skipped frame(s)." << LL_ENDL;
+        sSkippedFrameCount = 0;
+    }
+
+    LL_WARNS() << "LLPipeline::resizeShadowTexture() called." << LL_ENDL;
+    LL_INFOS() << "Resizing shadow texture. mRT->width = "
+               << mRT->width << " mRT->height = " << mRT->height << LL_ENDL;
+
     releaseSunShadowTargets();
     releaseSpotShadowTargets();
     allocateShadowBuffer(mRT->width, mRT->height);
     gResizeShadowTexture = false;
 }
+
+    // </AP:WW>
+
 
 void LLPipeline::resizeScreenTexture()
 {
