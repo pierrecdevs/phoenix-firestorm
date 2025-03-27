@@ -858,6 +858,7 @@ set(viewer_SOURCE_FILES
     pieseparator.cpp
     pieslice.cpp
     pipeline.cpp
+    apfloaterphototools.cpp
     qtoolalign.cpp
     quickprefs.cpp
     rlvactions.cpp

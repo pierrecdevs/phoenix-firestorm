@@ -34,8 +34,6 @@
 #include "lltransientdockablefloater.h"
 #include "rlvdefines.h"
 
-const std::string PHOTOTOOLS_FLOATER = "phototools";
-
 class LLCheckBoxCtrl;
 class LLComboBox;
 class LLLayoutPanel;
@@ -105,10 +103,6 @@ public:
     void setSelectedDayCycle(const std::string& preset_name);
     void setSelectedEnvironment();
 
-    // Phototools additions
-    void refreshSettings();
-    bool getIsPhototools() const { return getName() == PHOTOTOOLS_FLOATER; };
-
     void dockToToolbarButton();
 
 private:
@@ -118,10 +112,6 @@ private:
     LLComboBox*         mWaterPresetsCombo;
     LLComboBox*         mDayCyclePresetsCombo;
 
-    // Phototools additions
-    LLCheckBoxCtrl*     mCtrlUseSSAO;
-    LLCheckBoxCtrl*     mCtrlUseDoF;
-    LLComboBox*         mCtrlShadowDetail;
 
     // Vignette UI controls
     LLSpinCtrl*         mSpinnerVignetteX;
@@ -183,22 +173,10 @@ private:
     void onChangeRenderSSAOEffectSpinner();
     void onClickResetRenderSSAOEffectX();
 	
-	// <FS:WW> - Add callback declarations for RenderSSAOEffect Y component
-    void onChangeRenderSSAOEffectSliderY();
-    void onChangeRenderSSAOEffectSpinnerY();
-    void onClickResetRenderSSAOEffectY();
-    // </FS:WW> - End additions
-
     // Restore Quickprefs Defaults
     void onClickRestoreDefaults();
     void loadSavedSettingsFromFile(const std::string& settings_path);
     void callbackRestoreDefaults(const LLSD& notification, const LLSD& response);
-
-	// <FS:WW> // **Insert onAnimationSpeedChanged declaration HERE:**
-	void onAnimationSpeedChanged(LLUICtrl* control, const LLSD& data);  // </FS:WW>
-	
-	// <FS:WW> // Animation Speed Reset Button Callback:
-	void onClickResetAnimationSpeed(LLUICtrl* control, const LLSD& data); // </FS:WW>
 
     void onAvatarZOffsetSliderMoved();
     void onAvatarZOffsetFinalCommit();
@@ -210,10 +188,6 @@ private:
     void updateMaxComplexity();
     void updateMaxComplexityLabel(const LLSD& newvalue);
 		
-	// <FS:WW> // Animation Speed UI Elements (Add these lines):
-	LLSlider* mAnimationSpeedSlider;
-	LLUICtrl*     mAnimationSpeedSpinner; // </FS:WW>
-
     boost::signals2::connection mRegionChangedSlot;
 
 public:

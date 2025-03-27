@@ -78,7 +78,9 @@ void setPropertyMethods(BoolSettingQuery_t queryfn, BoolSettingUpdate_t updatefn
 
 void logMessageSuccess(std::string logAuth, std::string url, std::string message)
 {
-    LL_INFOS() << logAuth << " Success '" << message << "' for " << url << LL_ENDL;
+    // <AP:WW> // Disable spam messaging: silenced excessive logging
+    // LL_INFOS() << logAuth << " Success '" << message << "' for " << url << LL_ENDL;
+    // </AP:WW>
 }
 
 void logMessageFail(std::string logAuth, std::string url, std::string message)
@@ -1296,7 +1298,9 @@ void HttpCoroutineAdapter::trivialPostCoro(std::string url, LLCore::HttpRequest:
 
     httpOpts->setWantHeaders(true);
 
-    LL_INFOS("HttpCoroutineAdapter", "genericPostCoro") << "Generic POST for " << url << LL_ENDL;
+    // <AP:WW> // Disable spam messaging: silenced excessive logging
+    // LL_INFOS("HttpCoroutineAdapter", "genericPostCoro") << "Generic POST for " << url << LL_ENDL;
+    // </AP:WW>
 
     LLSD result = httpAdapter->postAndSuspend(httpRequest, url, postData, httpOpts);
 

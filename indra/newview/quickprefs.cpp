@@ -111,16 +111,9 @@ FloaterQuickPrefs::FloaterQuickPrefs(const LLSD& key)
     mRlvBehaviorCallbackConnection(),
     mEnvChangedConnection(),
     mRegionChangedSlot()
-{
-        // <FS:WW> // Add registration for Animation Speed Reset Button Callback (Add this line):
-        mCommitCallbackRegistrar.add("Quickprefs.ResetAnimationSpeed", boost::bind(&FloaterQuickPrefs::onClickResetAnimationSpeed, this, _1, _2));
-        // </FS:WW>
-    mCommitCallbackRegistrar.add("Quickprefs.ShaderChanged", boost::bind(&handleSetShaderChanged, LLSD()));
-
-    if (!getIsPhototools() && !FSCommon::isLegacySkin())
+    
     {
-        LLTransientFloaterMgr::getInstance()->addControlView(this);
-    }
+
 }
 
 FloaterQuickPrefs::~FloaterQuickPrefs()
@@ -140,10 +133,6 @@ FloaterQuickPrefs::~FloaterQuickPrefs()
         mEnvChangedConnection.disconnect();
     }
 
-    if (!getIsPhototools() && !FSCommon::isLegacySkin())
-    {
-        LLTransientFloaterMgr::getInstance()->removeControlView(this);
-    }
 }
 
 void FloaterQuickPrefs::onOpen(const LLSD& key)
@@ -153,12 +142,6 @@ void FloaterQuickPrefs::onOpen(const LLSD& key)
 
     // Make sure IndirectMaxNonImpostors gets set properly
     LLAvatarComplexityControls::setIndirectMaxNonImpostors();
-
-    // bail out here if this is a reused Phototools floater
-    if (getIsPhototools())
-    {
-        return;
-    }
 
     // Make sure IndirectMaxComplexity gets set properly
     LLAvatarComplexityControls::setIndirectMaxArc();
@@ -204,53 +187,7 @@ void FloaterQuickPrefs::initCallbacks()
     getChild<LLUICtrl>("DCNextPreset")->setCommitCallback(boost::bind(&FloaterQuickPrefs::onClickDayCycleNext, this));
     getChild<LLUICtrl>("ResetToRegionDefault")->setCommitCallback(boost::bind(&FloaterQuickPrefs::onClickResetToRegionDefault, this));
 
-    // Phototools additions
-    if (getIsPhototools())
-    {
-        gSavedSettings.getControl("RenderObjectBump")->getSignal()->connect(boost::bind(&FloaterQuickPrefs::refreshSettings, this));
-        gSavedSettings.getControl("WindLightUseAtmosShaders")->getSignal()->connect(boost::bind(&FloaterQuickPrefs::refreshSettings, this));
-        gSavedSettings.getControl("RenderDeferred")->getSignal()->connect(boost::bind(&FloaterQuickPrefs::refreshSettings, this));
-        gSavedSettings.getControl("RenderShadowDetail")->getSignal()->connect(boost::bind(&FloaterQuickPrefs::refreshSettings, this));
-        gSavedSettings.getControl("FSRenderVignette")->getSignal()->connect(boost::bind(&FloaterQuickPrefs::refreshSettings, this));
-        gSavedSettings.getControl("RenderShadowSplitExponent")->getSignal()->connect(boost::bind(&FloaterQuickPrefs::refreshSettings, this));
-        gSavedSettings.getControl("RenderShadowGaussian")->getSignal()->connect(boost::bind(&FloaterQuickPrefs::refreshSettings, this));
-        gSavedSettings.getControl("RenderSSAOEffect")->getSignal()->connect(boost::bind(&FloaterQuickPrefs::refreshSettings, this));
-
-        // Vignette UI controls
-        getChild<LLSpinCtrl>("VignetteSpinnerX")->setCommitCallback(boost::bind(&FloaterQuickPrefs::onChangeVignetteSpinnerX, this));
-        getChild<LLSlider>("VignetteSliderX")->setCommitCallback(boost::bind(&FloaterQuickPrefs::onChangeVignetteX, this));
-        getChild<LLButton>("Reset_VignetteX")->setCommitCallback(boost::bind(&FloaterQuickPrefs::onClickResetVignetteX, this));
-        getChild<LLSpinCtrl>("VignetteSpinnerY")->setCommitCallback(boost::bind(&FloaterQuickPrefs::onChangeVignetteSpinnerY, this));
-        getChild<LLSlider>("VignetteSliderY")->setCommitCallback(boost::bind(&FloaterQuickPrefs::onChangeVignetteY, this));
-        getChild<LLButton>("Reset_VignetteY")->setCommitCallback(boost::bind(&FloaterQuickPrefs::onClickResetVignetteY, this));
-        getChild<LLSpinCtrl>("VignetteSpinnerZ")->setCommitCallback(boost::bind(&FloaterQuickPrefs::onChangeVignetteSpinnerZ, this));
-        getChild<LLSlider>("VignetteSliderZ")->setCommitCallback(boost::bind(&FloaterQuickPrefs::onChangeVignetteZ, this));
-        getChild<LLButton>("Reset_VignetteZ")->setCommitCallback(boost::bind(&FloaterQuickPrefs::onClickResetVignetteZ, this));
-
-        getChild<LLSlider>("SB_Shd_Clarity")->setCommitCallback(boost::bind(&FloaterQuickPrefs::onChangeRenderShadowSplitExponentSlider, this));
-        getChild<LLSpinCtrl>("S_Shd_Clarity")->setCommitCallback(boost::bind(&FloaterQuickPrefs::onChangeRenderShadowSplitExponentSpinner, this));
-        getChild<LLButton>("Shd_Clarity_Reset")->setCommitCallback(boost::bind(&FloaterQuickPrefs::onClickResetRenderShadowSplitExponentY, this));
-
-        getChild<LLSlider>("SB_Shd_Soften")->setCommitCallback(boost::bind(&FloaterQuickPrefs::onChangeRenderShadowGaussianSlider, this));
-        getChild<LLSlider>("SB_AO_Soften")->setCommitCallback(boost::bind(&FloaterQuickPrefs::onChangeRenderShadowGaussianSlider, this));
-        getChild<LLSpinCtrl>("S_Shd_Soften")->setCommitCallback(boost::bind(&FloaterQuickPrefs::onChangeRenderShadowGaussianSpinner, this));
-        getChild<LLSpinCtrl>("S_AO_Soften")->setCommitCallback(boost::bind(&FloaterQuickPrefs::onChangeRenderShadowGaussianSpinner, this));
-        getChild<LLButton>("Shd_Soften_Reset")->setCommitCallback(boost::bind(&FloaterQuickPrefs::onClickResetRenderShadowGaussianX, this));
-        getChild<LLButton>("Reset_AO_Soften")->setCommitCallback(boost::bind(&FloaterQuickPrefs::onClickResetRenderShadowGaussianY, this));
-
-        getChild<LLSlider>("SB_Effect")->setCommitCallback(boost::bind(&FloaterQuickPrefs::onChangeRenderSSAOEffectSlider, this));
-        getChild<LLSpinCtrl>("S_Effect")->setCommitCallback(boost::bind(&FloaterQuickPrefs::onChangeRenderSSAOEffectSpinner, this));
-        getChild<LLButton>("Reset_Effect")->setCommitCallback(boost::bind(&FloaterQuickPrefs::onClickResetRenderSSAOEffectX, this));
-		
-        // <FS:WW> - Set callbacks for RenderSSAOEffect Y component UI elements
-        getChild<LLSlider>("SB_Effect_Y")->setCommitCallback(boost::bind(&FloaterQuickPrefs::onChangeRenderSSAOEffectSliderY, this)); // Assuming slider name in XML is "SB_Effect_Y"
-        getChild<LLSpinCtrl>("S_Effect_Y")->setCommitCallback(boost::bind(&FloaterQuickPrefs::onChangeRenderSSAOEffectSpinnerY, this)); // Assuming spinner name in XML is "S_Effect_Y"
-        getChild<LLButton>("Reset_Effect_Y")->setCommitCallback(boost::bind(&FloaterQuickPrefs::onClickResetRenderSSAOEffectY, this)); // Assuming reset button name in XML is "Reset_Effect_Y"
-        // </FS:WW> - End additions		
-		
-    }
-    else
-    {
+   {
         getChild<LLButton>("Restore_Btn")->setCommitCallback(boost::bind(&FloaterQuickPrefs::onClickRestoreDefaults, this));
         gSavedSettings.getControl("QuickPrefsEditMode")->getSignal()->connect(boost::bind(&FloaterQuickPrefs::onEditModeChanged, this));    // <FS:Zi> Dynamic Quickprefs
 
@@ -598,64 +535,6 @@ void FloaterQuickPrefs::setSelectedEnvironment()
 
 bool FloaterQuickPrefs::postBuild()
 {
-    // Phototools additions
-    if (getIsPhototools())
-    {
-        mCtrlUseSSAO = getChild<LLCheckBoxCtrl>("UseSSAO");
-        mCtrlUseDoF = getChild<LLCheckBoxCtrl>("UseDepthofField");
-        mCtrlShadowDetail = getChild<LLComboBox>("ShadowDetail");
-
-        // Vignette UI controls
-        mSpinnerVignetteX = getChild<LLSpinCtrl>("VignetteSpinnerX");
-        mSpinnerVignetteY = getChild<LLSpinCtrl>("VignetteSpinnerY");
-        mSpinnerVignetteZ = getChild<LLSpinCtrl>("VignetteSpinnerZ");
-        mSliderVignetteX = getChild<LLSlider>("VignetteSliderX");
-        mSliderVignetteY = getChild<LLSlider>("VignetteSliderY");
-        mSliderVignetteZ = getChild<LLSlider>("VignetteSliderZ");
-
-        mSliderRenderShadowSplitExponentY = getChild<LLSlider>("SB_Shd_Clarity");
-        mSpinnerRenderShadowSplitExponentY = getChild<LLSpinCtrl>("S_Shd_Clarity");
-
-        mSliderRenderShadowGaussianX = getChild<LLSlider>("SB_Shd_Soften");
-        mSliderRenderShadowGaussianY = getChild<LLSlider>("SB_AO_Soften");
-        mSpinnerRenderShadowGaussianX = getChild<LLSpinCtrl>("S_Shd_Soften");
-        mSpinnerRenderShadowGaussianY = getChild<LLSpinCtrl>("S_AO_Soften");
-
-        mSliderRenderSSAOEffectX = getChild<LLSlider>("SB_Effect");
-        mSpinnerRenderSSAOEffectX = getChild<LLSpinCtrl>("S_Effect");
-		
-		// <FS:WW> - Get pointers to RenderSSAOEffect Y component UI elements
-        mSliderRenderSSAOEffectY = getChild<LLSlider>("SB_Effect_Y"); // Assuming you'll name the slider "SB_Effect_Y" in XML
-        mSpinnerRenderSSAOEffectY = getChild<LLSpinCtrl>("S_Effect_Y"); // Assuming you'll name the spinner "S_Effect_Y" in XML
-        // </FS:WW> - End additions
-
-		// <FS:WW> // Animation Speed UI controls 
-		mAnimationSpeedSlider = getChild<LLSlider>("animationspeed_slider_name");
-		if (mAnimationSpeedSlider)
-		{
-		    mAnimationSpeedSlider->setCommitCallback(boost::bind(&FloaterQuickPrefs::onAnimationSpeedChanged, this, _1, _2));
-
-		    // **Add this line to initialize slider value at startup:**
-		    F32 initialSpeedFactor = LLMotionController::getCurrentTimeFactor(); 
-		    mAnimationSpeedSlider->setValue(initialSpeedFactor);             
-		}
-
-		mAnimationSpeedSpinner = getChild<LLUICtrl>("animationspeed_spinner_name");
-		if (mAnimationSpeedSpinner)
-		{
-		    mAnimationSpeedSpinner->setCommitCallback(boost::bind(&FloaterQuickPrefs::onAnimationSpeedChanged, this, _1, _2));
-
-		    // **Add these lines to initialize spinner value at startup:**
-		    F32 initialSpeedFactor = LLMotionController::getCurrentTimeFactor(); 
-		    mAnimationSpeedSpinner->setValue(initialSpeedFactor);             
-		}
-
-		// **Move refreshSettings() to the VERY END of the if block:**
-		refreshSettings(); 
-		// </FS:WW>
-
-    }
-    else
     {
         mBtnResetDefaults = getChild<LLButton>("Restore_Btn");
 
@@ -679,12 +558,6 @@ bool FloaterQuickPrefs::postBuild()
     }
 
     // <FS:Zi> Dynamic quick prefs
-
-    // bail out here if this is a reused Phototools floater
-    if (getIsPhototools())
-    {
-        return LLTransientDockableFloater::postBuild();
-    }
 
     // find the layout_stack to insert the controls into
     mOptionsStack = getChild<LLLayoutStack>("options_stack");
@@ -1078,75 +951,6 @@ void FloaterQuickPrefs::setSelectedDayCycle(const std::string& preset_name)
     mWaterPresetsCombo->setValue(LLSD(PRESET_NAME_DAY_CYCLE));
 }
 
-// Phototools additions
-void FloaterQuickPrefs::refreshSettings()
-{
-    LLTextBox* sky_label = getChild<LLTextBox>("T_Sky_Detail");
-    LLSlider* sky_slider = getChild<LLSlider>("SB_Sky_Detail");
-    LLSpinCtrl* sky_spinner = getChild<LLSpinCtrl>("S_Sky_Detail");
-    LLButton* sky_default_button = getChild<LLButton>("Reset_Sky_Detail");
-
-    sky_label->setEnabled(true);
-    sky_slider->setEnabled(true);
-    sky_spinner->setEnabled(true);
-    sky_default_button->setEnabled(true);
-
-    bool enabled = LLFeatureManager::getInstance()->isFeatureAvailable("RenderDeferredSSAO");
-
-    mCtrlUseSSAO->setEnabled(enabled);
-    mCtrlUseDoF->setEnabled(enabled);
-
-    enabled = enabled && LLFeatureManager::getInstance()->isFeatureAvailable("RenderShadowDetail");
-
-    mCtrlShadowDetail->setEnabled(enabled);
-
-    // disabled deferred SSAO
-    if (!LLFeatureManager::getInstance()->isFeatureAvailable("RenderDeferredSSAO"))
-    {
-        mCtrlUseSSAO->setEnabled(false);
-        mCtrlUseSSAO->setValue(false);
-    }
-
-    // disabled deferred shadows
-    if (!LLFeatureManager::getInstance()->isFeatureAvailable("RenderShadowDetail"))
-    {
-        mCtrlShadowDetail->setEnabled(false);
-        mCtrlShadowDetail->setValue(0);
-    }
-
-    // <FS:CR> FIRE-9630 - Vignette UI controls
-    if (getIsPhototools())
-    {
-        LLVector3 vignette = gSavedSettings.getVector3("FSRenderVignette");
-        mSpinnerVignetteX->setValue(vignette.mV[VX]);
-        mSpinnerVignetteY->setValue(vignette.mV[VY]);
-        mSpinnerVignetteZ->setValue(vignette.mV[VZ]);
-        mSliderVignetteX->setValue(vignette.mV[VX]);
-        mSliderVignetteY->setValue(vignette.mV[VY]);
-        mSliderVignetteZ->setValue(vignette.mV[VZ]);
-
-        LLVector3 renderShadowSplitExponent = gSavedSettings.getVector3("RenderShadowSplitExponent");
-        mSpinnerRenderShadowSplitExponentY->setValue(renderShadowSplitExponent.mV[VY]);
-        mSliderRenderShadowSplitExponentY->setValue(renderShadowSplitExponent.mV[VY]);
-
-        LLVector3 renderRenderShadowGaussian = gSavedSettings.getVector3("RenderShadowGaussian");
-        mSpinnerRenderShadowGaussianX->setValue(renderRenderShadowGaussian.mV[VX]);
-        mSpinnerRenderShadowGaussianY->setValue(renderRenderShadowGaussian.mV[VY]);
-        mSliderRenderShadowGaussianX->setValue(renderRenderShadowGaussian.mV[VX]);
-        mSliderRenderShadowGaussianY->setValue(renderRenderShadowGaussian.mV[VY]);
-
-        LLVector3 renderSSAOEffect = gSavedSettings.getVector3("RenderSSAOEffect");
-        mSpinnerRenderSSAOEffectX->setValue(renderSSAOEffect.mV[VX]);
-        mSliderRenderSSAOEffectX->setValue(renderSSAOEffect.mV[VX]);
-		
-		// <FS:WW> - Update RenderSSAOEffect Y component UI elements
-		mSpinnerRenderSSAOEffectY->setValue(renderSSAOEffect.mV[VY]);
-		mSliderRenderSSAOEffectY->setValue(renderSSAOEffect.mV[VY]);
-		// </FS:WW> - End additions
-    }
-    // </FS:CR>
-}
-
 void FloaterQuickPrefs::updateRlvRestrictions(ERlvBehaviour behavior, ERlvParamType type)
 {
     if (behavior == RLV_BHVR_SETENV || behavior == RLV_BHVR_SETSPHERE)
@@ -1169,19 +973,7 @@ void FloaterQuickPrefs::enableWindlightButtons(bool enable)
     childSetEnabled("DCNextPreset", enable);
     childSetEnabled("btn_personal_lighting", enable);
 
-    if (getIsPhototools())
-    {
-        childSetEnabled("Sunrise", enable);
-        childSetEnabled("Noon", enable);
-        childSetEnabled("Sunset", enable);
-        childSetEnabled("Midnight", enable);
-        childSetEnabled("Revert to Region Default", enable);
-        childSetEnabled("new_sky_preset", enable);
-        childSetEnabled("edit_sky_preset", enable);
-        childSetEnabled("new_water_preset", enable);
-        childSetEnabled("edit_water_preset", enable);
-        childSetEnabled("PauseClouds", enable);
-    }
+
 }
 
 // <FS:Zi> Dynamic quick prefs
@@ -1907,81 +1699,9 @@ void FloaterQuickPrefs::onMoveDownClicked()
 
 void FloaterQuickPrefs::onClose(bool app_quitting)
 {
-    // bail out here if this is a reused Phototools floater
-    if (getIsPhototools())
-    {
-        return;
-    }
-
     // close edit mode and save settings
     gSavedSettings.setBOOL("QuickPrefsEditMode", false);
 }
-
-// <FS:WW>
-void FloaterQuickPrefs::onAnimationSpeedChanged(LLUICtrl* control, const LLSD& data)
-{
-    F32 newSpeedFactor = 1.0f; // Default value in case of error
-
-    if (control == mAnimationSpeedSlider)
-    {
-        newSpeedFactor = mAnimationSpeedSlider->getValueF32();
-		// **Add this line to update the spinner when slider changes:**
-        mAnimationSpeedSpinner->setValue(newSpeedFactor); // **<-- Update spinner value from slider**
-    }
-    else if (control == mAnimationSpeedSpinner)
-    {
-        newSpeedFactor = (F32)mAnimationSpeedSpinner->getValue().asReal();
-		// **Optionally, add this line to update the slider when spinner changes (if desired - see note below):**
-        mAnimationSpeedSlider->setValue(newSpeedFactor); // Update slider value from spinner (optional - see note)
-    }
-
-    // Clamp the speed factor to reasonable limits (optional, adjust as needed)
-    newSpeedFactor = llclamp(newSpeedFactor, 0.0f, 100.0f); // Example: 0% to 1000% speed
-
-    // 1. Update the preference in settings.xml
-    gSavedSettings.setF32("FSAnimationTimeFactor", newSpeedFactor);
-
-    for (LLCharacter* character : LLCharacter::sInstances)
-    {
-        character->setAnimTimeFactor(newSpeedFactor);
-    }
-
-    // 3. Apply to running animations
-    // set_all_animation_time_factors(newSpeedFactor);
-
-    // Optionally update the UI elements to reflect the clamped value if clamping was done.
-    //if (control == mAnimationSpeedSlider)
-    //{
-    //    mAnimationSpeedSlider->setValue(newSpeedFactor);
-    //}
-    //else if (control == mAnimationSpeedSpinner)
-    //{
-    //    mAnimationSpeedSpinner->setValue(newSpeedFactor);
-    //}
-}
-// </FS:WW>
-
-// <FS:WW>
-void FloaterQuickPrefs::onClickResetAnimationSpeed(LLUICtrl* control, const LLSD& data)
-{
-    F32 defaultSpeedFactor = 1.0f; // Normal speed is 1.0
-
-    // 1. Update the preference in settings.xml to the default value (1.0)
-    gSavedSettings.setF32("FSAnimationTimeFactor", defaultSpeedFactor);
-    //gSavedSettings.saveToFile(); // Or gSavedSettings.save(); if that's what works for you
-
-    // 2. Update LLMotionController::sCurrentTimeFactor (or use character loop - choose ONE method consistently)
-    // LLMotionController::sCurrentTimeFactor = defaultSpeedFactor; // Option 1: Set global time factor
-    for (LLCharacter* character : LLCharacter::sInstances) // Option 2: Update each character directly (Let's use this for consistency)
-    {
-        character->setAnimTimeFactor(defaultSpeedFactor);
-    }
-
-    // 3. Update the UI controls to reflect the reset value (1.0)
-    mAnimationSpeedSlider->setValue(defaultSpeedFactor);
-    mAnimationSpeedSpinner->setValue(defaultSpeedFactor);
-}
-// </FS:WW>
 
 // </FS:Zi>
 
@@ -2159,38 +1879,6 @@ void FloaterQuickPrefs::onClickResetRenderSSAOEffectX()
 }
 
       
-// <FS:WW> - Callback function for RenderSSAOEffect Y component Slider
-void FloaterQuickPrefs::onChangeRenderSSAOEffectSliderY()
-{
-    LLVector3 renderSSAOEffect = gSavedSettings.getVector3("RenderSSAOEffect");
-    renderSSAOEffect.mV[VY] = mSliderRenderSSAOEffectY->getValueF32();
-    mSpinnerRenderSSAOEffectY->setValue(renderSSAOEffect.mV[VY]);
-    gSavedSettings.setVector3("RenderSSAOEffect", renderSSAOEffect);
-}
-// </FS:WW>
-
-// <FS:WW> - Callback function for RenderSSAOEffect Y component Spinner
-void FloaterQuickPrefs::onChangeRenderSSAOEffectSpinnerY()
-{
-    LLVector3 renderSSAOEffect = gSavedSettings.getVector3("RenderSSAOEffect");
-    renderSSAOEffect.mV[VY] = mSpinnerRenderSSAOEffectY->getValueF32();
-    mSliderRenderSSAOEffectY->setValue(renderSSAOEffect.mV[VY]);
-    gSavedSettings.setVector3("RenderSSAOEffect", renderSSAOEffect);
-}
-// </FS:WW>
-
-// <FS:WW> - Callback function for Reset Button of RenderSSAOEffect Y component
-void FloaterQuickPrefs::onClickResetRenderSSAOEffectY()
-{
-    LLVector3 renderSSAOEffectDefault = LLVector3(gSavedSettings.getControl("RenderSSAOEffect")->getDefault());
-    LLVector3 renderSSAOEffect = gSavedSettings.getVector3("RenderSSAOEffect");
-    renderSSAOEffect.mV[VY] = renderSSAOEffectDefault.mV[VY];
-    mSpinnerRenderSSAOEffectY->setValue(renderSSAOEffect.mV[VY]);
-    mSliderRenderSSAOEffectY->setValue(renderSSAOEffect.mV[VY]);
-    gSavedSettings.setVector3("RenderSSAOEffect", renderSSAOEffect);
-}
-// </FS:WW>
-   
 void FloaterQuickPrefs::callbackRestoreDefaults(const LLSD& notification, const LLSD& response)
 {
     S32 option = LLNotificationsUtil::getSelectedOption(notification, response);

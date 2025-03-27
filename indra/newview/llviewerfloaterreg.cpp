@@ -234,7 +234,9 @@
 #include "quickprefs.h"
 #include "vjfloaterlocalmesh.h" // local mesh
 #include "fsfloaterwhitelisthelper.h" // fs whitelist helper
-
+// <AP:WW> // Feature: Add new floater for Aperture Phototools. Include header for APFloaterPhototools
+#include "apfloaterphototools.h"
+// </AP:WW>
 
 // handle secondlife:///app/openfloater/{NAME} URLs
 const std::string FLOATER_PROFILE("profile");
@@ -656,10 +658,11 @@ void LLViewerFloaterReg::registerFloaters()
     LLFloaterReg::add("money_tracker", "floater_fs_money_tracker.xml", (LLFloaterBuildFunc)&LLFloaterReg::build<FSMoneyTracker>);
     LLFloaterReg::add("particle_editor","floater_particle_editor.xml", (LLFloaterBuildFunc)&LLFloaterReg::build<ParticleEditor>);
     LLFloaterReg::add("performance", "floater_fs_performance.xml", (LLFloaterBuildFunc)&LLFloaterReg::build<FSFloaterPerformance>);
-	// <FS:WW> // Revert: Use PHOTOTOOLS_FLOATER for Phototools floater registration.
-	// Reverting to original constant for consistency and to honor Ansariel's original intent.
-	// LLFloaterReg::add("phototools", "floater_phototools.xml", (LLFloaterBuildFunc)&LLFloaterReg::build<FloaterQuickPrefs>);
-	LLFloaterReg::add(PHOTOTOOLS_FLOATER, "floater_phototools.xml", (LLFloaterBuildFunc)&LLFloaterReg::build<FloaterQuickPrefs>); // <FS:WW> 
+
+	// <AP:WW> // Feature: Register APFloaterPhototools instead of FloaterQuickPrefs for "phototools" floater.
+	// Use "floater_ap_phototools.xml" for the new Aperture Phototools floater XML.
+	// Building APFloaterPhototools class instead of the old FloaterQuickPrefs.
+	LLFloaterReg::add("phototools", "floater_ap_phototools.xml", (LLFloaterBuildFunc)&LLFloaterReg::build<APFloaterPhototools>); // <AP:WW>
     LLFloaterReg::add("phototools_camera", "floater_phototools_camera.xml", (LLFloaterBuildFunc)&LLFloaterReg::build<LLFloaterCamera>);
     LLFloaterReg::add("quickprefs", "floater_quickprefs.xml", (LLFloaterBuildFunc)&LLFloaterReg::build<FloaterQuickPrefs>);
     LLFloaterReg::add("region_tracker", "floater_region_tracker.xml", (LLFloaterBuildFunc)&LLFloaterReg::build<ALFloaterRegionTracker>);

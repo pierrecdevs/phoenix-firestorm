@@ -1268,11 +1268,13 @@ bool LLPrimitive::packTEMessage(LLMessageSystem *mesgsys) const
             offset_t[face_index] = (S16) ll_round((llclamp(te.mOffsetT,-1.0f,1.0f) * (F32)0x7FFF)) ;
             image_rot[face_index] = (S16) ll_round(((fmod(te.mRotation, F_TWO_PI)/F_TWO_PI) * TEXTURE_ROTATION_PACK_FACTOR));
 			bump[face_index] = te.getBumpShinyFullbright();
-			// <FS:WW> Feature: Fullbright Toggle - Conditionally use fullbright based on preference
-			if(!gSavedSettings.getBOOL("FSRenderEnableFullbright"))
+			// <AP:WW> Feature: Fullbright Toggle - Conditionally use fullbright based on preference
+			// Refactor: Use AP Fullbright setting.
+			if(!gSavedSettings.getBOOL("APRenderEnableFullbright"))
 			{
 				bump[face_index] = te.getBumpShiny(); // Use non-fullbright attribute
 			}
+            // </AP:WW>
 			else
 			{
 				bump[face_index] = te.getBumpShinyFullbright(); // Use fullbright attribute
@@ -1363,11 +1365,13 @@ bool LLPrimitive::packTEMessage(LLDataPacker &dp) const
             offset_t[face_index] = (S16) ll_round((llclamp(te.mOffsetT,-1.0f,1.0f) * (F32)0x7FFF)) ;
             image_rot[face_index] = (S16) ll_round(((fmod(te.mRotation, F_TWO_PI)/F_TWO_PI) * TEXTURE_ROTATION_PACK_FACTOR));
 			bump[face_index] = te.getBumpShinyFullbright();
-			// <FS:WW> Feature: Fullbright Toggle - Conditionally use fullbright based on preference
-			if(!gSavedSettings.getBOOL("FSRenderEnableFullbright"))
+			// <AP:WW> Feature: Fullbright Toggle - Conditionally use fullbright based on preference
+			// Refactor: Use AP Fullbright setting.
+			if(!gSavedSettings.getBOOL("APRenderEnableFullbright"))
 			{
 				bump[face_index] = te.getBumpShiny(); // Use non-fullbright attribute
 			}
+            // </AP:WW>
 			else
 			{
 				bump[face_index] = te.getBumpShinyFullbright(); // Use fullbright attribute

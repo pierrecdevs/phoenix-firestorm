@@ -119,6 +119,9 @@
 #include "nd/ndlogthrottle.h"
 // <FS:Zi> Run Prio 0 default bento pose in the background to fix splayed hands, open mouths, etc.
 #include "llanimationstates.h"
+// <AP:WW> // Feature: Add APFloaterPhototools functionality. Include header.
+#include "apfloaterphototools.h"
+// </AP:WW>
 
 // Third party library includes
 #include <boost/algorithm/string.hpp>
@@ -1264,10 +1267,10 @@ void setting_setup_signal_listener(LLControlGroup& group, const std::string& set
     });
 }
 
-// <FS:WW> Feature: Fullbright Toggle - Handle preference change
+// <AP:WW> Feature: Fullbright Toggle - Handle preference change
 static bool handleFullbrightChanged(const LLSD& newvalue)
 {
-    BOOL enabled = gSavedSettings.getBOOL("FSRenderEnableFullbright");
+    BOOL enabled = gSavedSettings.getBOOL("APRenderEnableFullbright"); // Refactor: Use AP Fullbright setting.
 
     if (!enabled)
     {
@@ -1279,12 +1282,33 @@ static bool handleFullbrightChanged(const LLSD& newvalue)
     }
     return true;
 }
-// </FS:WW>
+// </AP:WW>
+
+// <AP:WW> // Feature: Add animation time factor control.
+void onAnimationSpeedChanged2(const LLSD& newvalue)
+{
+    F32 newSpeedFactor = static_cast<F32>(newvalue.asReal());
+
+    newSpeedFactor = llclamp(newSpeedFactor, 0.0f, 100.0f);
+
+    for (LLCharacter* character : LLCharacter::sInstances)
+    {
+        character->setAnimTimeFactor(newSpeedFactor);
+    }
+}
+// </AP:WW>
+
 void settings_setup_listeners()
 {
-       
-    setting_setup_signal_listener(gSavedSettings, "FSRenderEnableFullbright", handleFullbrightChanged); // <FS:WW> Feature: Fullbright Toggle - Add listener for preference changes 
-	setting_setup_signal_listener(gSavedSettings, "FirstPersonAvatarVisible", handleRenderAvatarMouselookChanged);
+
+    // <AP:WW> // Enhance: Add listener for RenderNormalMapScale setting changes.
+    setting_setup_signal_listener(gSavedSettings, "RenderNormalMapScale", handleSetShaderChanged);
+    // </AP:WW>
+    // <AP:WW> // Feature: Add listener for APAnimationTimeFactor setting changes.
+    setting_setup_signal_listener(gSavedSettings, "APAnimationTimeFactor", onAnimationSpeedChanged2);
+    // </AP:WW>
+    setting_setup_signal_listener(gSavedSettings, "APRenderEnableFullbright", handleFullbrightChanged); // <AP:WW> Feature: Fullbright Toggle - Add listener for preference changes - refactor for AP
+    setting_setup_signal_listener(gSavedSettings, "FirstPersonAvatarVisible", handleRenderAvatarMouselookChanged);
     setting_setup_signal_listener(gSavedSettings, "RenderFarClip", handleRenderFarClipChanged);
     setting_setup_signal_listener(gSavedSettings, "RenderTerrainScale", handleTerrainScaleChanged);
     setting_setup_signal_listener(gSavedSettings, "RenderTerrainPBRScale", handlePBRTerrainScaleChanged);

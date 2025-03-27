@@ -546,13 +546,15 @@ void LLPresetsManager::loadPreset(const std::string& subdirectory, std::string n
             {
                 instance->refreshEnabledGraphics();
             }
-            // <FS:Ansariel> Graphic preset controls independent from XUI
-            FloaterQuickPrefs* phototools = LLFloaterReg::findTypedInstance<FloaterQuickPrefs>(PHOTOTOOLS_FLOATER);
-            if (phototools)
-            {
-                phototools->refreshSettings();
-            }
-            // </FS:Ansariel>
+            // <AP:WW> // Refactor: Remove Phototools refresh from preset change.
+            // Removed FloaterQuickPrefs refresh as graphic presets control is reversed from XUI.
+            // Code block removed:
+            // FloaterQuickPrefs* phototools = LLFloaterReg::findTypedInstance<FloaterQuickPrefs>(PHOTOTOOLS_FLOATER);
+            // if (phototools)
+            // {
+            //     phototools->refreshSettings();
+            // }
+            // </AP:WW>
             triggerChangeSignal();
         }
         if(PRESETS_CAMERA == subdirectory)
@@ -741,7 +743,10 @@ void LLPresetsManager::handleGraphicPresetControlChanged(LLControlVariablePtr co
         LL_DEBUGS() << "Trigger graphic preset control changed signal" << LL_ENDL;
 
         gSavedSettings.setString("PresetGraphicActive", "");
-        triggerChangeSignal();
+        // <AP:WW> // Fixes: Kill unwanted triggerChangeSignal in preset loading.
+        // Commented out triggerChangeSignal() to prevent unwanted signal trigger.
+        // triggerChangeSignal();
+        // </AP:WW>
     }
 }
 // </FS:Ansariel>

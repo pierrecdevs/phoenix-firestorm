@@ -283,7 +283,9 @@ void LLVOAvatarSelf::setHoverIfRegionEnabled()
         {
             F32 hover_z = gSavedPerAccountSettings.getF32("AvatarHoverOffsetZ");
             setHoverOffset(LLVector3(0.0, 0.0, llclamp(hover_z,MIN_HOVER_Z,MAX_HOVER_Z)));
-            LL_INFOS("Avatar") << avString() << " set hover height from debug setting " << hover_z << LL_ENDL;
+            // <AP:WW> // Fixes: Silence unwanted LL_INFOS spam.
+            // LL_INFOS("Avatar") << avString() << " set hover height from debug setting " << hover_z << LL_ENDL;
+            // </AP:WW>
         }
         // <FS:Ansariel> [Legacy bake]
         else if (!isUsingServerBakes())
@@ -3428,12 +3430,16 @@ void LLVOAvatarSelf::setHoverOffset(const LLVector3& hover_offset, bool send_upd
 {
     if (getHoverOffset() != hover_offset)
     {
-        LL_INFOS("Avatar") << avString() << " setting hover due to change " << hover_offset[2] << LL_ENDL;
+        // <AP:WW> // Fixes: Silence unwanted LL_INFOS spam.
+        // LL_INFOS("Avatar") << avString() << " setting hover due to change " << hover_offset[2] << LL_ENDL;
+        // </AP:WW>
         LLVOAvatar::setHoverOffset(hover_offset, send_update);
     }
     if (send_update && (hover_offset != mLastHoverOffsetSent))
     {
-        LL_INFOS("Avatar") << avString() << " sending hover due to change " << hover_offset[2] << LL_ENDL;
+        // <AP:WW> // Fixes: Silence unwanted LL_INFOS spam.
+        // LL_INFOS("Avatar") << avString() << " sending hover due to change " << hover_offset[2] << LL_ENDL;
+        // </AP:WW>
         sendHoverHeight();
     }
 }

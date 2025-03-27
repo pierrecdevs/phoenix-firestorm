@@ -10845,9 +10845,12 @@ void LLVOAvatar::processAvatarAppearance( LLMessageSystem* mesgsys )
         if (appearance_version > 0 && mLastUpdateReceivedCOFVersion >= thisAppearanceVersion)
 // </FS:Beq>
         {
-            LL_WARNS("Avatar") << "Stale appearance received #" << thisAppearanceVersion <<
-                " attempt to roll back from #" << mLastUpdateReceivedCOFVersion <<
-                "... dropping." << LL_ENDL;
+            // <AP:WW> // Fixes: Silence unwanted LL_WARNS spam in avatar updates.
+            // Commented out LL_WARNS to reduce log spam during avatar appearance updates.
+            // LL_WARNS("Avatar") << "Stale appearance received #" << thisAppearanceVersion <<
+            //    " attempt to roll back from #" << mLastUpdateReceivedCOFVersion <<
+            //    "... dropping." << LL_ENDL;
+            // </AP:WW>
             return;
         }
         if (isEditingAppearance())
