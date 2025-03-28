@@ -436,7 +436,7 @@
                      width="130">
                         <button.commit_callback
                          function="World.EnvSettings"
-                         parameter="nolight"/>
+                         parameter="no_light"/>
                     </button>
 
                     <button

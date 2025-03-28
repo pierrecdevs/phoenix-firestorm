@@ -822,7 +822,7 @@ const F64Seconds LLEnvironment::TRANSITION_SLOW(10.0f);
 const F64Seconds LLEnvironment::TRANSITION_ALTITUDE(5.0f);
 
       
-// <FS:WW> Refactor: Rename non-PBR sky presets to "LEGACY" and update default presets to PBR versions.
+// <AP:WW> Refactor: Rename non-PBR sky presets to "LEGACY" and update default presets to PBR versions.
 // Non-PBR Legacy Presets (renamed from original KNOWN_SKY_* constants):
 const LLUUID LLEnvironment::KNOWN_SKY_LEGACY_SUNRISE("01e41537-ff51-2f1f-8ef7-17e4df760bfb");
 const LLUUID LLEnvironment::KNOWN_SKY_LEGACY_MIDDAY("6c83e853-e7f8-cad7-8ee6-5f31c453721c");
@@ -830,11 +830,13 @@ const LLUUID LLEnvironment::KNOWN_SKY_LEGACY_SUNSET("084e26cd-a900-28e8-08d0-64a
 const LLUUID LLEnvironment::KNOWN_SKY_LEGACY_MIDNIGHT("8a01b97a-cb20-c1ea-ac63-f7ea84ad0090");
 
 // PBR Enabled Default Presets (using original KNOWN_SKY_* constant names):
+// Added No Light Preset UUID for use in viewer and specificall in PT
 const LLUUID LLEnvironment::KNOWN_SKY_SUNRISE("aae7665f-7654-e4c0-68c4-fb4acea04799");
 const LLUUID LLEnvironment::KNOWN_SKY_MIDDAY("c46226b4-0e43-5a56-9708-d27ca1df3292");
 const LLUUID LLEnvironment::KNOWN_SKY_SUNSET("aae7665f-7654-e4c0-68c4-fb4acea04799");
 const LLUUID LLEnvironment::KNOWN_SKY_MIDNIGHT("ca709215-3066-aa54-362e-be8a950ce09d");
-// </FS:WW>
+const LLUUID LLEnvironment::KNOWN_SKY_NO_LIGHT("0ee3f64d-1b9d-3dd2-abc5-f79c185631fe");
+// </AP:WW>
 
     
 

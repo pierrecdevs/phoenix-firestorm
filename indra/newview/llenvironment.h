@@ -61,7 +61,8 @@ public:
     static const F64Seconds     TRANSITION_SLOW;
     static const F64Seconds     TRANSITION_ALTITUDE;
       
-// <FS:WW> Refactor: Rename and reorder KNOWN_SKY constants in LLEnvironment class for PBR default presets.
+// <AP:WW> Refactor: Rename and reorder KNOWN_SKY constants in LLEnvironment class for PBR default presets.
+// <AP:WW> Feature: Add No Light PBR to viewer and PT access button
     static const LLUUID         KNOWN_SKY_LEGACY_SUNRISE;
     static const LLUUID         KNOWN_SKY_LEGACY_MIDDAY;
     static const LLUUID         KNOWN_SKY_LEGACY_SUNSET;
@@ -71,6 +72,7 @@ public:
     static const LLUUID         KNOWN_SKY_MIDDAY;
     static const LLUUID         KNOWN_SKY_SUNSET;
     static const LLUUID         KNOWN_SKY_MIDNIGHT;
+    static const LLUUID         KNOWN_SKY_NO_LIGHT;
 // </FS:WW>
 
     static const S32            NO_TRACK;
