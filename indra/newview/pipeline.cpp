@@ -795,30 +795,6 @@ void LLPipeline::requestResizeShadowTexture()
 
 void LLPipeline::resizeShadowTexture()
 {
-
-    // <AP:WW> Add frame skip counter and logging for shadow texture resizing.
-    static int sSkippedFrameCount = 0;
-
-    if (!mRT || mRT->width == 0 || mRT->height == 0)
-    {
-        sSkippedFrameCount++;
-        LL_WARNS("Render") << "Shadow texture resizing aborted: render target dimensions invalid. Skipped "
-                           << sSkippedFrameCount << " frame(s) so far." << LL_ENDL;
-        return;
-    }
-
-    // If there were skipped frames before mRT became valid, log that information.
-    if (sSkippedFrameCount > 0)
-    {
-        LL_INFOS("Render") << "Render target now valid after "
-                           << sSkippedFrameCount << " skipped frame(s)." << LL_ENDL;
-        sSkippedFrameCount = 0;
-    }
-
-    LL_WARNS() << "LLPipeline::resizeShadowTexture() called." << LL_ENDL;
-    LL_INFOS() << "Resizing shadow texture. mRT->width = "
-               << mRT->width << " mRT->height = " << mRT->height << LL_ENDL;
-
     releaseSunShadowTargets();
     releaseSpotShadowTargets();
     allocateShadowBuffer(mRT->width, mRT->height);
@@ -1455,14 +1431,22 @@ void LLPipeline::createGLBuffers()
     }
 
     allocateScreenBuffer(resX, resY);
-    mRT->width = 0;
-    mRT->height = 0;
-
+    // <AP:WW>
+    // Do not zero out mRT dimensions here. allocateScreenBuffer() above
+    // already sets the correct dimensions. Zeroing them caused resizeShadowTexture()
+    // to fail if called immediately after createGLBuffers (e.g., post graphics change).
+    // mRT->width = 0;
+    // mRT->height = 0;
+    // <AP:WW>
 
     if (!mNoiseMap)
     {
+<<<<<<< HEAD
 		// <FS:WW/> Increase noise resolution to 1024 within mNoiseMap initialization for higher quality noise
 		const U32 noiseRes = 128;
+=======
+        const U32 noiseRes = 128;
+>>>>>>> bfd39c0052 (Fixes: Remove incorrect zeroing of mRT dimensions in createGLBuffers)
         LLVector3 noise[noiseRes*noiseRes];
 
         F32 scaler = gSavedSettings.getF32("RenderDeferredNoise")/100.f;
@@ -1482,7 +1466,10 @@ void LLPipeline::createGLBuffers()
 
     if (!mTrueNoiseMap)
     {
+<<<<<<< HEAD
 		// <FS:WW/> Increase noise resolution to 1024 within mTrueNoiseMap initialization for higher quality noise
+=======
+>>>>>>> bfd39c0052 (Fixes: Remove incorrect zeroing of mRT dimensions in createGLBuffers)
         const U32 noiseRes = 128;
         F32 noise[noiseRes*noiseRes*3];
         for (U32 i = 0; i < noiseRes*noiseRes*3; i++)
