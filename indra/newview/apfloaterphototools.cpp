@@ -41,6 +41,85 @@
 #include "llviewercontrol.h"
 #include "llviewernetwork.h" 
 
+#include "llquaternion.h"
+#include "llvirtualtrackball.h"
+#include "llsky.h"
+#include "llsettingssky.h"
+
+
+#include "llcolorswatch.h"
+#include "lltexturectrl.h"
+#include "llenvironment.h"
+#include "pipeline.h"
+
+namespace
+{
+    // Atmospheric Colors
+    const std::string FIELD_SKY_AMBIENT_LIGHT("ambient_light");
+    const std::string FIELD_SKY_BLUE_HORIZON("blue_horizon");
+    const std::string FIELD_SKY_BLUE_DENSITY("blue_density");
+
+    // Atmosphere Settings
+    const std::string   FIELD_SKY_HAZE_HORIZON("haze_horizon");
+    const std::string   FIELD_SKY_HAZE_DENSITY("haze_density");
+    const std::string   FIELD_SKY_DENSITY_MULTIP("density_multip");
+    const std::string   FIELD_SKY_DISTANCE_MULTIP("distance_multip");
+    const std::string   FIELD_SKY_MAX_ALT("max_alt");
+    const std::string FIELD_SKY_SCENE_GAMMA("scene_gamma");
+    // void updateGammaLabel();                    // FEA (I think this is UI for Brightness)
+    const std::string FIELD_REFLECTION_PROBE_AMBIANCE("probe_ambiance");
+
+    // Rainbow and Halo Settings
+    const std::string   FIELD_SKY_DENSITY_MOISTURE_LEVEL("moisture_level");
+    const std::string   FIELD_SKY_DENSITY_DROPLET_RADIUS("droplet_radius");
+    const std::string   FIELD_SKY_DENSITY_ICE_LEVEL("ice_level");
+
+    // Cloud Settings
+    const std::string FIELD_SKY_CLOUD_COLOR("cloud_color");
+    const std::string FIELD_SKY_CLOUD_COVERAGE("cloud_coverage");
+    const std::string FIELD_SKY_CLOUD_SCALE("cloud_scale");
+    const std::string   FIELD_SKY_CLOUD_VARIANCE("cloud_variance");
+    const std::string   FIELD_SKY_CLOUD_DENSITY_X("cloud_density_x");
+    const std::string   FIELD_SKY_CLOUD_DENSITY_Y("cloud_density_y");
+    const std::string   FIELD_SKY_CLOUD_DENSITY_D("cloud_density_d");
+    const std::string   FIELD_SKY_CLOUD_DETAIL_X("cloud_detail_x");
+    const std::string   FIELD_SKY_CLOUD_DETAIL_Y("cloud_detail_y");
+    const std::string   FIELD_SKY_CLOUD_DETAIL_D("cloud_detail_d");
+    const std::string   FIELD_SKY_CLOUD_SCROLL_XY("cloud_scroll_xy");
+    const std::string FIELD_SKY_CLOUD_MAP("cloud_map");
+
+    // Sun and Moon Colors
+    const std::string FIELD_SKY_SUN_COLOR("sun_moon_color");
+
+    // Sun and Stars Settings
+    const std::string   FIELD_SKY_SUN_IMAGE("sun_image");
+    const std::string FIELD_SKY_GLOW_FOCUS("glow_focus");
+    const std::string FIELD_SKY_GLOW_SIZE("glow_size");
+    const std::string FIELD_SKY_STAR_BRIGHTNESS("star_brightness");
+    const std::string FIELD_SKY_SUN_SCALE("sun_scale");
+    const std::string FIELD_SKY_SUN_AZIMUTH("sun_azimuth");
+    const std::string FIELD_SKY_SUN_ELEVATION("sun_elevation");
+    
+    // Moon Settings
+    const std::string   FIELD_SKY_MOON_IMAGE("moon_image");
+    const std::string   FIELD_SKY_MOON_SCALE("moon_scale");
+    const std::string   FIELD_SKY_MOON_BRIGHTNESS("moon_brightness");
+    const std::string FIELD_SKY_MOON_AZIMUTH("moon_azimuth");
+    const std::string FIELD_SKY_MOON_ELEVATION("moon_elevation");
+
+    const F32 SLIDER_SCALE_SUN_AMBIENT(3.0f);
+    const F32 SLIDER_SCALE_BLUE_HORIZON_DENSITY(2.0f);
+    const F32 SLIDER_SCALE_GLOW_R(20.0f);
+    const F32 SLIDER_SCALE_GLOW_B(-5.0f);
+    const F32 SLIDER_SCALE_DENSITY_MULTIPLIER(0.001f);
+
+    // const S32 FLOATER_ENVIRONMENT_UPDATE(-2);
+    // const std::string FIELD_WATER_NORMAL_MAP("water_normal_map");
+    // const std::string FIELD_SKY_SUN_ROTATION("sun_rotation");
+    // const std::string FIELD_SKY_MOON_ROTATION("moon_rotation");
+    // const std::string BTN_RESET("btn_reset");
+}
+
 class APSettingsCollector : public LLInventoryCollectFunctor
 {
 public:
@@ -70,7 +149,7 @@ protected:
 };
 
 APFloaterPhototools::APFloaterPhototools(const LLSD& key)
-:   LLFloater(key), 
+:   LLFloater(key),
     mEnvChangedConnection()
 {
 
@@ -78,7 +157,6 @@ APFloaterPhototools::APFloaterPhototools(const LLSD& key)
 
 APFloaterPhototools::~APFloaterPhototools()
 {
-
     if (mEnvChangedConnection.connected())
     {
         mEnvChangedConnection.disconnect();
@@ -89,14 +167,24 @@ void APFloaterPhototools::onOpen(const LLSD& key)
 {
     loadPresets();
     setSelectedEnvironment();
-    
-    // Make sure IndirectMaxNonImpostors gets set properly
     LLAvatarComplexityControls::setIndirectMaxNonImpostors();
-
-    // Make sure IndirectMaxComplexity gets set properly
     LLAvatarComplexityControls::setIndirectMaxArc();
     LLAvatarComplexityControls::setText(gSavedSettings.getU32("RenderAvatarMaxComplexity"), mMaxComplexityLabel);
 
+    // if (!mLiveSky)
+    // {
+    //    LLEnvironment::instance().saveBeaconsState();
+    // }
+    // captureCurrentEnvironment();
+
+    // mEnvChangedConnection = LLEnvironment::instance().setEnvironmentChanged([this](LLEnvironment::EnvSelection_t env, S32 version){ onEnvironmentUpdated(env, version); });
+
+    // mEnvChangedConnection = LLEnvironment::instance().setEnvironmentChanged([this](LLEnvironment::EnvSelection_t env, S32 version){ setSelectedEnvironment(); });
+    
+    // HACK -- resume reflection map manager because "setEnvironmentChanged" may pause it (SL-20456)
+    gPipeline.mReflectionMapManager.resume();
+
+    // refreshSky();
 }
 
 void APFloaterPhototools::initCallbacks()
@@ -107,13 +195,13 @@ void APFloaterPhototools::initCallbacks()
     getChild<LLUICtrl>("WLPrevPreset")->setCommitCallback(boost::bind(&APFloaterPhototools::onClickSkyPrev, this));
     getChild<LLUICtrl>("WLNextPreset")->setCommitCallback(boost::bind(&APFloaterPhototools::onClickSkyNext, this));
 
-    getChild<LLUICtrl>("WaterPresetsCombo")->setCommitCallback(boost::bind(&APFloaterPhototools::onChangeWaterPreset, this));    
+    getChild<LLUICtrl>("WaterPresetsCombo")->setCommitCallback(boost::bind(&APFloaterPhototools::onChangeWaterPreset, this));
     getChild<LLUICtrl>("WWPrevPreset")->setCommitCallback(boost::bind(&APFloaterPhototools::onClickWaterPrev, this));
     getChild<LLUICtrl>("WWNextPreset")->setCommitCallback(boost::bind(&APFloaterPhototools::onClickWaterNext, this));
     
-    getChild<LLUICtrl>("DCPresetsCombo")->setCommitCallback(boost::bind(&APFloaterPhototools::onChangeDayCyclePreset, this));   
-    getChild<LLUICtrl>("DCPrevPreset")->setCommitCallback(boost::bind(&APFloaterPhototools::onClickDayCyclePrev, this));
-    getChild<LLUICtrl>("DCNextPreset")->setCommitCallback(boost::bind(&APFloaterPhototools::onClickDayCycleNext, this));
+    // getChild<LLUICtrl>("DCPresetsCombo")->setCommitCallback(boost::bind(&APFloaterPhototools::onChangeDayCyclePreset, this));
+    // getChild<LLUICtrl>("DCPrevPreset")->setCommitCallback(boost::bind(&APFloaterPhototools::onClickDayCyclePrev, this));
+    // getChild<LLUICtrl>("DCNextPreset")->setCommitCallback(boost::bind(&APFloaterPhototools::onClickDayCycleNext, this));
 
     gSavedSettings.getControl("RenderShadowSplitExponent")->getSignal()->connect(boost::bind(&APFloaterPhototools::refreshSettings, this));
     
@@ -128,7 +216,7 @@ void APFloaterPhototools::initCallbacks()
     getChild<LLButton>("Reset_Shd_Soften")->setCommitCallback(boost::bind(&APFloaterPhototools::onClickResetRenderShadowGaussianX, this));
 
     getChild<LLSlider>("SB_AO_Soften")->setCommitCallback(boost::bind(&APFloaterPhototools::onChangeRenderShadowGaussianSlider, this));
-    getChild<LLSpinCtrl>("S_AO_Soften")->setCommitCallback(boost::bind(&APFloaterPhototools::onChangeRenderShadowGaussianSpinner, this));    
+    getChild<LLSpinCtrl>("S_AO_Soften")->setCommitCallback(boost::bind(&APFloaterPhototools::onChangeRenderShadowGaussianSpinner, this));
     getChild<LLButton>("Reset_AO_Soften")->setCommitCallback(boost::bind(&APFloaterPhototools::onClickResetRenderShadowGaussianY, this));
 
     gSavedSettings.getControl("RenderSSAOEffect")->getSignal()->connect(boost::bind(&APFloaterPhototools::refreshSettings, this));
@@ -137,16 +225,20 @@ void APFloaterPhototools::initCallbacks()
     getChild<LLSpinCtrl>("S_Effect")->setCommitCallback(boost::bind(&APFloaterPhototools::onChangeRenderSSAOEffectSpinner, this));
     getChild<LLButton>("Reset_Effect")->setCommitCallback(boost::bind(&APFloaterPhototools::onClickResetRenderSSAOEffectX, this));
 
-    getChild<LLSlider>("SB_Saturation")->setCommitCallback(boost::bind(&APFloaterPhototools::onChangeRenderSSAOEffectSliderY, this)); 
-    getChild<LLSpinCtrl>("S_Saturation")->setCommitCallback(boost::bind(&APFloaterPhototools::onChangeRenderSSAOEffectSpinnerY, this)); 
-    getChild<LLButton>("Reset_Saturation")->setCommitCallback(boost::bind(&APFloaterPhototools::onClickResetRenderSSAOEffectY, this)); 
-
-    mEnvChangedConnection = LLEnvironment::instance().setEnvironmentChanged([this](LLEnvironment::EnvSelection_t env, S32 version){ setSelectedEnvironment(); });
+    getChild<LLSlider>("SB_Saturation")->setCommitCallback(boost::bind(&APFloaterPhototools::onChangeRenderSSAOEffectSliderY, this));
+    getChild<LLSpinCtrl>("S_Saturation")->setCommitCallback(boost::bind(&APFloaterPhototools::onChangeRenderSSAOEffectSpinnerY, this));
+    getChild<LLButton>("Reset_Saturation")->setCommitCallback(boost::bind(&APFloaterPhototools::onClickResetRenderSSAOEffectY, this));
 
     mMaxComplexitySlider->setCommitCallback(boost::bind(&APFloaterPhototools::updateMaxComplexity, this));
     gSavedSettings.getControl("RenderAvatarMaxComplexity")->getCommitSignal()->connect(boost::bind(&APFloaterPhototools::updateMaxComplexityLabel, this, _2));
     gSavedSettings.getControl("IndirectMaxNonImpostors")->getCommitSignal()->connect(boost::bind(&APFloaterPhototools::updateMaxNonImpostors, this, _2));
-    
+
+    mEnvChangedConnection = LLEnvironment::instance().setEnvironmentChanged(
+        [this](LLEnvironment::EnvSelection_t env, S32 version)
+        {
+            setSelectedEnvironment(); 
+            refreshSky();
+        });
 }
 
 bool APFloaterPhototools::postBuild()
@@ -155,7 +247,7 @@ bool APFloaterPhototools::postBuild()
 
     mWaterPresetsCombo = getChild<LLComboBox>("WaterPresetsCombo");
     mWLPresetsCombo = getChild<LLComboBox>("WLPresetsCombo");
-    mDayCyclePresetsCombo = getChild<LLComboBox>("DCPresetsCombo");
+    /// mDayCyclePresetsCombo = getChild<LLComboBox>("DCPresetsCombo");
  
     mSliderRenderShadowSplitExponentY = getChild<LLSlider>("SB_Shd_Clarity");
     mSpinnerRenderShadowSplitExponentY = getChild<LLSpinCtrl>("S_Shd_Clarity");
@@ -169,13 +261,89 @@ bool APFloaterPhototools::postBuild()
     mSliderRenderSSAOEffectX = getChild<LLSlider>("SB_Effect");
     mSpinnerRenderSSAOEffectX = getChild<LLSpinCtrl>("S_Effect");
     
-    mSliderRenderSSAOEffectY = getChild<LLSlider>("SB_Saturation");   
-    mSpinnerRenderSSAOEffectY = getChild<LLSpinCtrl>("S_Saturation");     
+    mSliderRenderSSAOEffectY = getChild<LLSlider>("SB_Saturation");
+    mSpinnerRenderSSAOEffectY = getChild<LLSpinCtrl>("S_Saturation");
     
     mMaxComplexitySlider = getChild<LLSliderCtrl>("IndirectMaxComplexity2");
     mMaxComplexityLabel = getChild<LLTextBox>("IndirectMaxComplexityText2");
 
+    // Atmospheric Colors
+    getChild<LLUICtrl>(FIELD_SKY_AMBIENT_LIGHT)->setCommitCallback([this](LLUICtrl *, const LLSD &) { onAmbientLightChanged(); });
+    getChild<LLUICtrl>(FIELD_SKY_BLUE_HORIZON)->setCommitCallback([this](LLUICtrl *, const LLSD &) { onBlueHorizonChanged(); });
+    getChild<LLUICtrl>(FIELD_SKY_BLUE_DENSITY)->setCommitCallback([this](LLUICtrl *, const LLSD &) { onBlueDensityChanged(); });
+
+    // Atmosphere Settings
+    getChild<LLUICtrl>(FIELD_SKY_HAZE_HORIZON)->setCommitCallback([this](LLUICtrl *, const LLSD &) { onHazeHorizonChanged(); });
+    getChild<LLUICtrl>(FIELD_SKY_HAZE_DENSITY)->setCommitCallback([this](LLUICtrl *, const LLSD &) { onHazeDensityChanged(); });
+    getChild<LLUICtrl>(FIELD_SKY_DENSITY_MULTIP)->setCommitCallback([this](LLUICtrl *, const LLSD &) { onDensityMultipChanged(); });
+    getChild<LLUICtrl>(FIELD_SKY_DISTANCE_MULTIP)->setCommitCallback([this](LLUICtrl *, const LLSD &) { onDistanceMultipChanged(); });
+    getChild<LLUICtrl>(FIELD_SKY_MAX_ALT)->setCommitCallback([this](LLUICtrl *, const LLSD &) { onMaxAltChanged(); });
+    getChild<LLUICtrl>(FIELD_SKY_SCENE_GAMMA)->setCommitCallback([this](LLUICtrl *, const LLSD &) { onSceneGammaChanged(); });
+    getChild<LLUICtrl>(FIELD_REFLECTION_PROBE_AMBIANCE)->setCommitCallback([this](LLUICtrl*, const LLSD&) { onReflectionProbeAmbianceChanged(); });
+
+    // Rainbow and Halo Settings
+    getChild<LLUICtrl>(FIELD_SKY_DENSITY_MOISTURE_LEVEL)->setCommitCallback([this](LLUICtrl *, const LLSD &) { onMoistureLevelChanged(); });
+    getChild<LLUICtrl>(FIELD_SKY_DENSITY_DROPLET_RADIUS)->setCommitCallback([this](LLUICtrl *, const LLSD &) { onDropletRadiusChanged(); });
+    getChild<LLUICtrl>(FIELD_SKY_DENSITY_ICE_LEVEL)->setCommitCallback([this](LLUICtrl *, const LLSD &) { onIceLevelChanged(); });
+
+    // Cloud Settings
+    getChild<LLUICtrl>(FIELD_SKY_CLOUD_COLOR)->setCommitCallback([this](LLUICtrl *, const LLSD &) { onCloudColorChanged(); });
+    
+    getChild<LLUICtrl>(FIELD_SKY_CLOUD_COVERAGE)->setCommitCallback([this](LLUICtrl *, const LLSD &) { onCloudCoverageChanged(); });
+    getChild<LLUICtrl>(FIELD_SKY_CLOUD_SCALE)->setCommitCallback([this](LLUICtrl *, const LLSD &) { onCloudScaleChanged(); });
+    getChild<LLUICtrl>(FIELD_SKY_CLOUD_VARIANCE)->setCommitCallback([this](LLUICtrl *, const LLSD &) { onCloudVarianceChanged(); });
+    
+    getChild<LLUICtrl>(FIELD_SKY_CLOUD_DENSITY_X)->setCommitCallback([this](LLUICtrl *, const LLSD &) { onCloudDensityChanged(); });
+    getChild<LLUICtrl>(FIELD_SKY_CLOUD_DENSITY_Y)->setCommitCallback([this](LLUICtrl *, const LLSD &) { onCloudDensityChanged(); });
+    getChild<LLUICtrl>(FIELD_SKY_CLOUD_DENSITY_D)->setCommitCallback([this](LLUICtrl *, const LLSD &) { onCloudDensityChanged(); });
+    
+    getChild<LLUICtrl>(FIELD_SKY_CLOUD_DETAIL_X)->setCommitCallback([this](LLUICtrl *, const LLSD &) { onCloudDetailChanged(); });
+    getChild<LLUICtrl>(FIELD_SKY_CLOUD_DETAIL_Y)->setCommitCallback([this](LLUICtrl *, const LLSD &) { onCloudDetailChanged(); });
+    getChild<LLUICtrl>(FIELD_SKY_CLOUD_DETAIL_D)->setCommitCallback([this](LLUICtrl *, const LLSD &) { onCloudDetailChanged(); });
+    
+    getChild<LLUICtrl>(FIELD_SKY_CLOUD_SCROLL_XY)->setCommitCallback([this](LLUICtrl *, const LLSD &) { onCloudScrollChanged(); });
+    
+    getChild<LLTextureCtrl>(FIELD_SKY_CLOUD_MAP)->setCommitCallback([this](LLUICtrl *, const LLSD &) { onCloudMapChanged(); });
+    getChild<LLTextureCtrl>(FIELD_SKY_CLOUD_MAP)->setDefaultImageAssetID(LLSettingsSky::GetDefaultCloudNoiseTextureId());
+    getChild<LLTextureCtrl>(FIELD_SKY_CLOUD_MAP)->setAllowNoTexture(true);
+
+    // Sun and Moon Colors
+    getChild<LLUICtrl>(FIELD_SKY_SUN_COLOR)->setCommitCallback([this](LLUICtrl *, const LLSD &) { onSunColorChanged(); });
+
+    // Sun and Stars Settings
+    getChild<LLUICtrl>(FIELD_SKY_SUN_IMAGE)->setCommitCallback([this](LLUICtrl *, const LLSD &) { onSunImageChanged(); });
+    getChild<LLTextureCtrl>(FIELD_SKY_SUN_IMAGE)->setBlankImageAssetID(LLSettingsSky::GetBlankSunTextureId());
+    getChild<LLTextureCtrl>(FIELD_SKY_SUN_IMAGE)->setDefaultImageAssetID(LLSettingsSky::GetBlankSunTextureId());
+    getChild<LLTextureCtrl>(FIELD_SKY_SUN_IMAGE)->setAllowNoTexture(true);
+    
+    getChild<LLUICtrl>(FIELD_SKY_GLOW_FOCUS)->setCommitCallback([this](LLUICtrl *, const LLSD &) { onGlowChanged(); });
+    getChild<LLUICtrl>(FIELD_SKY_GLOW_SIZE)->setCommitCallback([this](LLUICtrl *, const LLSD &) { onGlowChanged(); });
+    getChild<LLUICtrl>(FIELD_SKY_STAR_BRIGHTNESS)->setCommitCallback([this](LLUICtrl *, const LLSD &) { onStarBrightnessChanged(); });
+    getChild<LLUICtrl>(FIELD_SKY_SUN_SCALE)->setCommitCallback([this](LLUICtrl *, const LLSD &) { onSunScaleChanged(); });
+    getChild<LLUICtrl>(FIELD_SKY_SUN_AZIMUTH)->setCommitCallback([this](LLUICtrl *, const LLSD &) { onSunAzimElevChanged(); });
+    getChild<LLUICtrl>(FIELD_SKY_SUN_ELEVATION)->setCommitCallback([this](LLUICtrl *, const LLSD &) { onSunAzimElevChanged(); });
+    
+    // Moon Settings
+    getChild<LLUICtrl>(FIELD_SKY_MOON_IMAGE)->setCommitCallback([this](LLUICtrl *, const LLSD &) { onMoonImageChanged(); });
+    getChild<LLTextureCtrl>(FIELD_SKY_MOON_IMAGE)->setDefaultImageAssetID(LLSettingsSky::GetDefaultMoonTextureId());
+    getChild<LLTextureCtrl>(FIELD_SKY_MOON_IMAGE)->setBlankImageAssetID(LLSettingsSky::GetDefaultMoonTextureId());
+    getChild<LLTextureCtrl>(FIELD_SKY_MOON_IMAGE)->setAllowNoTexture(true);
+    
+    getChild<LLUICtrl>(FIELD_SKY_MOON_SCALE)->setCommitCallback([this](LLUICtrl *, const LLSD &) { onMoonScaleChanged(); });
+    getChild<LLUICtrl>(FIELD_SKY_MOON_BRIGHTNESS)->setCommitCallback([this](LLUICtrl *, const LLSD &) { onMoonBrightnessChanged(); });
+    getChild<LLUICtrl>(FIELD_SKY_MOON_AZIMUTH)->setCommitCallback([this](LLUICtrl *, const LLSD &) { onMoonAzimElevChanged(); });
+    getChild<LLUICtrl>(FIELD_SKY_MOON_ELEVATION)->setCommitCallback([this](LLUICtrl *, const LLSD &) { onMoonAzimElevChanged(); });
+
+    // getChild<LLUICtrl>(FIELD_SKY_SUN_ROTATION)->setCommitCallback([this](LLUICtrl *, const LLSD &) { onSunRotationChanged(); });
+    // getChild<LLUICtrl>(FIELD_SKY_MOON_ROTATION)->setCommitCallback([this](LLUICtrl *, const LLSD &) { onMoonRotationChanged(); });
+    // getChild<LLUICtrl>(BTN_RESET)->setCommitCallback([this](LLUICtrl *, const LLSD &) { onButtonReset(); });
+    // getChild<LLTextureCtrl>(FIELD_WATER_NORMAL_MAP)->setDefaultImageAssetID(LLSettingsWater::GetDefaultWaterNormalAssetId());
+    // getChild<LLTextureCtrl>(FIELD_WATER_NORMAL_MAP)->setBlankImageAssetID(BLANK_OBJECT_NORMAL);
+    // getChild<LLTextureCtrl>(FIELD_WATER_NORMAL_MAP)->setCommitCallback([this](LLUICtrl *, const LLSD &) { onWaterMapChanged(); });
+
     refreshSettings(); 
+    
+    refreshSky();
 
     initCallbacks();
 
@@ -211,7 +379,7 @@ void APFloaterPhototools::loadPresets()
 
     std::multimap<std::string, LLUUID> sky_map;
     std::multimap<std::string, LLUUID> water_map;
-    std::multimap<std::string, LLUUID> daycycle_map;
+    //  std::multimap<std::string, LLUUID> daycycle_map;
 
     // <AP:WW> Get checkbox state for folder filtering
     bool showMySettingsFolderOnly = false;
@@ -258,10 +426,11 @@ void APFloaterPhototools::loadPresets()
                     water_map.insert(std::make_pair(item->getName(), item->getAssetUUID()));
                     break;
                 case LLSettingsType::ST_DAYCYCLE:
-                    daycycle_map.insert(std::make_pair(item->getName(), item->getAssetUUID()));
-                    break;
+                    // Intentionally ignoring Day Cycle settings in Phototools
+                    break; // Add this case back, but leave it empty
                 default:
-                    LL_WARNS() << "Found invalid setting: " << item->getName() << LL_ENDL;
+                    // This will now only catch genuinely unknown/unexpected setting types
+                    LL_WARNS() << "Found unhandled setting type for item: " << item->getName() << LL_ENDL;
                     break;
             }
         }
@@ -269,49 +438,49 @@ void APFloaterPhototools::loadPresets()
 
     loadWaterPresets(water_map);
     loadSkyPresets(sky_map);
-    loadDayCyclePresets(daycycle_map);
+    // loadDayCyclePresets(daycycle_map);
 }
 
-void APFloaterPhototools::loadDayCyclePresets(const std::multimap<std::string, LLUUID>& daycycle_map)
-{
-    mDayCyclePresetsCombo->operateOnAll(LLComboBox::OP_DELETE);
-    mDayCyclePresetsCombo->add(LLTrans::getString("QP_WL_Region_Default"), LLSD(PRESET_NAME_REGION_DEFAULT), EAddPosition::ADD_BOTTOM, false);
-    mDayCyclePresetsCombo->add(LLTrans::getString("QP_WL_None"), LLSD(PRESET_NAME_NONE), EAddPosition::ADD_BOTTOM, false);
-    mDayCyclePresetsCombo->addSeparator();
+// void APFloaterPhototools::loadDayCyclePresets(const std::multimap<std::string, LLUUID>& daycycle_map)
+// {
+    // mDayCyclePresetsCombo->operateOnAll(LLComboBox::OP_DELETE);
+    // mDayCyclePresetsCombo->add(LLTrans::getString("QP_WL_Region_Default"), LLSD(PRESET_NAME_REGION_DEFAULT), EAddPosition::ADD_BOTTOM, false);
+    // mDayCyclePresetsCombo->add(LLTrans::getString("QP_WL_None"), LLSD(PRESET_NAME_NONE), EAddPosition::ADD_BOTTOM, false);
+    // mDayCyclePresetsCombo->addSeparator();
 
     // Add setting presets.
-    for (std::multimap<std::string, LLUUID>::const_iterator it = daycycle_map.begin(); it != daycycle_map.end(); ++it)
-    {
-        const std::string& preset_name = (*it).first;
-        const LLUUID& asset_id = (*it).second;
+    // for (std::multimap<std::string, LLUUID>::const_iterator it = daycycle_map.begin(); it != daycycle_map.end(); ++it)
+    // {
+        // const std::string& preset_name = (*it).first;
+        // const LLUUID& asset_id = (*it).second;
 
-        if (!preset_name.empty())
-        {
-            mDayCyclePresetsCombo->add(preset_name, LLSD(asset_id));
-        }
-    }
+        // if (!preset_name.empty())
+        // {
+            // mDayCyclePresetsCombo->add(preset_name, LLSD(asset_id));
+        // }
+    // }
 // <FS:Beq> Opensim legacy windlight support
 // Opensim may support both environment and extenvironment caps on the same region
 // we also need these disabled in SL on the OpenSim build.
-#ifdef OPENSIM
-    if(LLGridManager::getInstance()->isInOpenSim())
-    {
-        LL_DEBUGS("WindlightCaps") << "Adding legacy day cycle presets to QP" << LL_ENDL;
+// #ifdef OPENSIM
+    // if(LLGridManager::getInstance()->isInOpenSim())
+    // {
+        // LL_DEBUGS("WindlightCaps") << "Adding legacy day cycle presets to QP" << LL_ENDL;
         // WL still supported
-        if (!daycycle_map.empty() && !LLEnvironment::getInstance()->mLegacyDayCycles.empty())
-        {
-            mDayCyclePresetsCombo->addSeparator();
-        }
-        for(const auto& preset_name : LLEnvironment::getInstance()->mLegacyDayCycles)
-        {
+        // if (!daycycle_map.empty() && !LLEnvironment::getInstance()->mLegacyDayCycles.empty())
+        // {
+            // mDayCyclePresetsCombo->addSeparator();
+        // }
+        // for(const auto& preset_name : LLEnvironment::getInstance()->mLegacyDayCycles)
+        // {
             // we add by name and only build the envp on demand
-            LL_DEBUGS("WindlightCaps") << "Adding legacy day cycle " << preset_name << LL_ENDL;
-            mDayCyclePresetsCombo->add(preset_name, LLSD(preset_name));
-        }
-        LL_DEBUGS("WindlightCaps") << "Done: Adding legacy day cycle presets to QP" << LL_ENDL;
-    }
-#endif
-}
+            // LL_DEBUGS("WindlightCaps") << "Adding legacy day cycle " << preset_name << LL_ENDL;
+            // mDayCyclePresetsCombo->add(preset_name, LLSD(preset_name));
+        // }
+        // LL_DEBUGS("WindlightCaps") << "Done: Adding legacy day cycle presets to QP" << LL_ENDL;
+    // }
+// #endif
+// }
 
 void APFloaterPhototools::loadSkyPresets(const std::multimap<std::string, LLUUID>& sky_map)
 {
@@ -412,11 +581,11 @@ void APFloaterPhototools::setDefaultPresetsEnabled(bool enabled)
     item = mWaterPresetsCombo->getItemByValue(LLSD(PRESET_NAME_DAY_CYCLE));
     if (item) item->setEnabled(enabled);
 
-    item = mDayCyclePresetsCombo->getItemByValue(LLSD(PRESET_NAME_REGION_DEFAULT));
-    if (item) item->setEnabled(enabled);
+    // item = mDayCyclePresetsCombo->getItemByValue(LLSD(PRESET_NAME_REGION_DEFAULT));
+    // if (item) item->setEnabled(enabled);
 
-    item = mDayCyclePresetsCombo->getItemByValue(LLSD(PRESET_NAME_NONE));
-    if (item) item->setEnabled(enabled);
+    // item = mDayCyclePresetsCombo->getItemByValue(LLSD(PRESET_NAME_NONE));
+    // if (item) item->setEnabled(enabled);
 }
 
 void APFloaterPhototools::setSelectedEnvironment()
@@ -426,7 +595,7 @@ void APFloaterPhototools::setSelectedEnvironment()
     setDefaultPresetsEnabled(true);
     mWLPresetsCombo->selectByValue(LLSD(PRESET_NAME_REGION_DEFAULT));
     mWaterPresetsCombo->selectByValue(LLSD(PRESET_NAME_REGION_DEFAULT));
-    mDayCyclePresetsCombo->selectByValue(LLSD(PRESET_NAME_REGION_DEFAULT));
+    // mDayCyclePresetsCombo->selectByValue(LLSD(PRESET_NAME_REGION_DEFAULT));
 
     if (LLEnvironment::instance().getSelectedEnvironment() == LLEnvironment::ENV_LOCAL)
     {
@@ -441,7 +610,7 @@ void APFloaterPhototools::setSelectedEnvironment()
             //LL_INFOS() << "EEP: day name = " << day->getName() << " - asset id = " << day->getAssetId() << LL_ENDL;
             if( day->getAssetId().notNull())
             { // EEP processing
-                mDayCyclePresetsCombo->selectByValue(LLSD(day->getAssetId()));
+                // mDayCyclePresetsCombo->selectByValue(LLSD(day->getAssetId()));
                 // Sky and Water are part of a day cycle in EEP
                 mWLPresetsCombo->selectByValue(LLSD(PRESET_NAME_DAY_CYCLE));
                 mWaterPresetsCombo->selectByValue(LLSD(PRESET_NAME_DAY_CYCLE));
@@ -455,7 +624,7 @@ void APFloaterPhototools::setSelectedEnvironment()
                 {
                     preset_name = "Default";
                 }
-                mDayCyclePresetsCombo->selectByValue(preset_name);
+                // mDayCyclePresetsCombo->selectByValue(preset_name);
                 // Sky is part of day so treat that as day cycle
                 mWLPresetsCombo->selectByValue(LLSD(PRESET_NAME_DAY_CYCLE));
                 // Water is not part of legacy day so we need to hunt around
@@ -484,7 +653,7 @@ void APFloaterPhototools::setSelectedEnvironment()
         }
         else
         {
-            mDayCyclePresetsCombo->selectByValue(LLSD(PRESET_NAME_NONE));
+            // mDayCyclePresetsCombo->selectByValue(LLSD(PRESET_NAME_NONE));
         }
 
         LLSettingsSky::ptr_t sky = LLEnvironment::instance().getEnvironmentFixedSky(LLEnvironment::ENV_LOCAL);
@@ -535,8 +704,8 @@ void APFloaterPhototools::setSelectedEnvironment()
         // LLEnvironment::ENV_REGION:
         // LLEnvironment::ENV_PARCEL:
         mWLPresetsCombo->selectByValue(LLSD(PRESET_NAME_REGION_DEFAULT));
-        mWaterPresetsCombo->selectByValue(LLSD(PRESET_NAME_REGION_DEFAULT));
-        mDayCyclePresetsCombo->selectByValue(LLSD(PRESET_NAME_REGION_DEFAULT));
+        // mWaterPresetsCombo->selectByValue(LLSD(PRESET_NAME_REGION_DEFAULT));
+        // mDayCyclePresetsCombo->selectByValue(LLSD(PRESET_NAME_REGION_DEFAULT));
     }
 
     setDefaultPresetsEnabled(false);
@@ -647,33 +816,33 @@ void APFloaterPhototools::selectWaterPreset(const LLSD& preset)
     }
 }
 
-void APFloaterPhototools::selectDayCyclePreset(const LLSD& preset)
-{
-#ifdef OPENSIM
-    if(!preset.isUUID() && LLGridManager::getInstance()->isInOpenSim())
-    {
-        LLSettingsDay::ptr_t legacyday = nullptr;
-        LLSD messages;
-        legacyday = LLEnvironment::createDayCycleFromLegacyPreset(gDirUtilp->getExpandedFilename(LL_PATH_APP_SETTINGS, "windlight", "days", preset.asString() + ".xml"), messages);
-        if (legacyday)
-        {
-            LLEnvironment::instance().setEnvironment(LLEnvironment::ENV_LOCAL, legacyday);
-            LLEnvironment::instance().setSelectedEnvironment(LLEnvironment::ENV_LOCAL);
-            LLEnvironment::instance().updateEnvironment(static_cast<LLSettingsBase::Seconds>(gSavedSettings.getF32("FSEnvironmentManualTransitionTime")));
-        }
-        else
-        {
-            LL_WARNS() << "Legacy windlight conversion failed for " << preset << " existing env unchanged." << LL_ENDL;
-            return;
-        }
-    }
-    else // beware trailing else that bridges the endif
-#endif
-    {
-        LLEnvironment::instance().setSelectedEnvironment(LLEnvironment::ENV_LOCAL);
-        LLEnvironment::instance().setManualEnvironment(LLEnvironment::ENV_LOCAL, preset.asUUID());
-    }
-}
+// void APFloaterPhototools::selectDayCyclePreset(const LLSD& preset)
+// {
+// #ifdef OPENSIM
+    // if(!preset.isUUID() && LLGridManager::getInstance()->isInOpenSim())
+    // {
+        // LLSettingsDay::ptr_t legacyday = nullptr;
+        // LLSD messages;
+        // legacyday = LLEnvironment::createDayCycleFromLegacyPreset(gDirUtilp->getExpandedFilename(LL_PATH_APP_SETTINGS, "windlight", "days", preset.asString() + ".xml"), messages);
+        // if (legacyday)
+        // {
+            // LLEnvironment::instance().setEnvironment(LLEnvironment::ENV_LOCAL, legacyday);
+            // LLEnvironment::instance().setSelectedEnvironment(LLEnvironment::ENV_LOCAL);
+            // LLEnvironment::instance().updateEnvironment(static_cast<LLSettingsBase::Seconds>(gSavedSettings.getF32("FSEnvironmentManualTransitionTime")));
+        // }
+        // else
+        // {
+            // LL_WARNS() << "Legacy windlight conversion failed for " << preset << " existing env unchanged." << LL_ENDL;
+            // return;
+        // }
+    // }
+    // else // beware trailing else that bridges the endif
+// #endif
+    // {
+        // LLEnvironment::instance().setSelectedEnvironment(LLEnvironment::ENV_LOCAL);
+        // LLEnvironment::instance().setManualEnvironment(LLEnvironment::ENV_LOCAL, preset.asUUID());
+    // }
+// }
 
 void APFloaterPhototools::onChangeWaterPreset()
 {
@@ -709,22 +878,22 @@ void APFloaterPhototools::onChangeSkyPreset()
     }
 }
 
-void APFloaterPhototools::onChangeDayCyclePreset()
-{
-    if (!isValidPreset(mDayCyclePresetsCombo->getSelectedValue()))
-    {
-        stepComboBox(mDayCyclePresetsCombo, true);
-    }
+// void APFloaterPhototools::onChangeDayCyclePreset()
+// {
+    // if (!isValidPreset(mDayCyclePresetsCombo->getSelectedValue()))
+    // {
+        // stepComboBox(mDayCyclePresetsCombo, true);
+    // }
 
-    if (isValidPreset(mDayCyclePresetsCombo->getSelectedValue()))
-    {
-        selectDayCyclePreset(mDayCyclePresetsCombo->getSelectedValue());
-    }
-    else
-    {
-        LLNotificationsUtil::add("NoValidEnvSettingFound");
-    }
-}
+    // if (isValidPreset(mDayCyclePresetsCombo->getSelectedValue()))
+    // {
+        // selectDayCyclePreset(mDayCyclePresetsCombo->getSelectedValue());
+    // }
+    // else
+    // {
+        // LLNotificationsUtil::add("NoValidEnvSettingFound");
+    // }
+// }
 
 void APFloaterPhototools::onClickWaterPrev()
 {
@@ -750,17 +919,17 @@ void APFloaterPhototools::onClickSkyNext()
     selectSkyPreset(mWLPresetsCombo->getSelectedValue());
 }
 
-void APFloaterPhototools::onClickDayCyclePrev()
-{
-    stepComboBox(mDayCyclePresetsCombo, false);
-    selectDayCyclePreset(mDayCyclePresetsCombo->getSelectedValue());
-}
+// void APFloaterPhototools::onClickDayCyclePrev()
+// {
+    // stepComboBox(mDayCyclePresetsCombo, false);
+    // selectDayCyclePreset(mDayCyclePresetsCombo->getSelectedValue());
+// }
 
-void APFloaterPhototools::onClickDayCycleNext()
-{
-    stepComboBox(mDayCyclePresetsCombo, true);
-    selectDayCyclePreset(mDayCyclePresetsCombo->getSelectedValue());
-}
+// void APFloaterPhototools::onClickDayCycleNext()
+// {
+    // stepComboBox(mDayCyclePresetsCombo, true);
+    // selectDayCyclePreset(mDayCyclePresetsCombo->getSelectedValue());
+// }
 
 void APFloaterPhototools::setSelectedSky(const std::string& preset_name)
 {
@@ -772,12 +941,12 @@ void APFloaterPhototools::setSelectedWater(const std::string& preset_name)
     mWaterPresetsCombo->setValue(LLSD(preset_name));
 }
 
-void APFloaterPhototools::setSelectedDayCycle(const std::string& preset_name)
-{
-    mDayCyclePresetsCombo->setValue(LLSD(preset_name));
-    mWLPresetsCombo->setValue(LLSD(PRESET_NAME_DAY_CYCLE));
-    mWaterPresetsCombo->setValue(LLSD(PRESET_NAME_DAY_CYCLE));
-}
+// void APFloaterPhototools::setSelectedDayCycle(const std::string& preset_name)
+// {
+    // mDayCyclePresetsCombo->setValue(LLSD(preset_name));
+    // mWLPresetsCombo->setValue(LLSD(PRESET_NAME_DAY_CYCLE));
+    // mWaterPresetsCombo->setValue(LLSD(PRESET_NAME_DAY_CYCLE));
+// }
 
 // Shadows Tab //
 
@@ -950,4 +1119,527 @@ void APFloaterPhototools::updateMaxComplexityLabel(const LLSD& newvalue)
     U32 value = newvalue.asInteger();
 
     LLAvatarComplexityControls::setText(value, mMaxComplexityLabel);
+}
+
+// Atmospheric Colors 
+
+void APFloaterPhototools::onAmbientLightChanged()
+{
+    LLSettingsSky::ptr_t sky = LLEnvironment::instance().getCurrentSky();
+    if (!sky)
+        return;
+    sky->setAmbientColor(LLColor3(getChild<LLColorSwatchCtrl>(FIELD_SKY_AMBIENT_LIGHT)->get() * SLIDER_SCALE_SUN_AMBIENT));
+    sky->update();
+}
+
+void APFloaterPhototools::onBlueHorizonChanged()
+{
+    LLSettingsSky::ptr_t sky = LLEnvironment::instance().getCurrentSky();
+    if (!sky)
+        return;
+    sky->setBlueHorizon(LLColor3(getChild<LLColorSwatchCtrl>(FIELD_SKY_BLUE_HORIZON)->get() * SLIDER_SCALE_BLUE_HORIZON_DENSITY));
+    sky->update();
+}
+
+void APFloaterPhototools::onBlueDensityChanged()
+{
+    LLSettingsSky::ptr_t sky = LLEnvironment::instance().getCurrentSky();
+    if (!sky)
+        return;
+    sky->setBlueDensity(LLColor3(getChild<LLColorSwatchCtrl>(FIELD_SKY_BLUE_DENSITY)->get() * SLIDER_SCALE_BLUE_HORIZON_DENSITY));
+    sky->update();
+}
+
+// Atmosphere Settings
+
+void APFloaterPhototools::onHazeHorizonChanged()
+{
+    LLSettingsSky::ptr_t sky = LLEnvironment::instance().getCurrentSky();
+    if (!sky)
+        return;
+    sky->setHazeHorizon((F32)getChild<LLUICtrl>(FIELD_SKY_HAZE_HORIZON)->getValue().asReal());
+    sky->update();
+}
+
+void APFloaterPhototools::onHazeDensityChanged()
+{
+    LLSettingsSky::ptr_t sky = LLEnvironment::instance().getCurrentSky();
+    if (!sky)
+        return;
+    sky->setHazeDensity((F32)getChild<LLUICtrl>(FIELD_SKY_HAZE_DENSITY)->getValue().asReal());
+    sky->update();
+}
+
+void APFloaterPhototools::onDensityMultipChanged()
+{
+    LLSettingsSky::ptr_t sky = LLEnvironment::instance().getCurrentSky();
+    if (!sky)
+        return;
+    F32 density_mult = (F32)getChild<LLUICtrl>(FIELD_SKY_DENSITY_MULTIP)->getValue().asReal();
+    density_mult *= SLIDER_SCALE_DENSITY_MULTIPLIER;
+    sky->setDensityMultiplier(density_mult);
+    sky->update();
+
+}
+
+void APFloaterPhototools::onDistanceMultipChanged()
+{
+    LLSettingsSky::ptr_t sky = LLEnvironment::instance().getCurrentSky();
+    if (!sky)
+        return;
+    sky->setDistanceMultiplier((F32)getChild<LLUICtrl>(FIELD_SKY_DISTANCE_MULTIP)->getValue().asReal());
+    sky->update();
+
+}
+
+void APFloaterPhototools::onMaxAltChanged()
+{
+    LLSettingsSky::ptr_t sky = LLEnvironment::instance().getCurrentSky();
+    if (!sky)
+        return;
+    sky->setMaxY((F32)getChild<LLUICtrl>(FIELD_SKY_MAX_ALT)->getValue().asReal());
+    sky->update();
+
+}
+
+void APFloaterPhototools::onSceneGammaChanged()
+{
+    LLSettingsSky::ptr_t sky = LLEnvironment::instance().getCurrentSky();
+    if (!sky)
+        return;
+    sky->setGamma((F32)getChild<LLUICtrl>(FIELD_SKY_SCENE_GAMMA)->getValue().asReal());
+    sky->update();
+}
+
+void APFloaterPhototools::onReflectionProbeAmbianceChanged()
+{
+    LLSettingsSky::ptr_t sky = LLEnvironment::instance().getCurrentSky();
+    if (!sky)
+        return;
+    F32 ambiance = (F32)getChild<LLUICtrl>(FIELD_REFLECTION_PROBE_AMBIANCE)->getValue().asReal();
+    sky->setReflectionProbeAmbiance(ambiance);
+
+    // updateGammaLabel(sky);
+    sky->update();
+}
+
+void APFloaterPhototools::updateGammaLabel(LLSettingsSky::ptr_t sky) 
+{
+    if (!sky)
+        return;
+    static LLCachedControl<bool> should_auto_adjust(gSavedSettings, "RenderSkyAutoAdjustLegacy", false);
+    F32 ambiance = sky->getReflectionProbeAmbiance(should_auto_adjust);
+    if (ambiance != 0.f)
+    {
+        childSetValue("scene_gamma_label", LLSD(getString("hdr_string")));
+        getChild<LLUICtrl>(FIELD_SKY_SCENE_GAMMA)->setToolTip(getString("hdr_tooltip"));
+    }
+    else
+    {
+        childSetValue("scene_gamma_label", LLSD(getString("brightness_string")));
+        getChild<LLUICtrl>(FIELD_SKY_SCENE_GAMMA)->setToolTip(std::string());
+    }
+}
+
+// Rainbow and Halo Settings
+
+void APFloaterPhototools::onMoistureLevelChanged()
+{
+    LLSettingsSky::ptr_t sky = LLEnvironment::instance().getCurrentSky();
+    if (!sky)
+        return;
+    F32 moisture_level = (F32)getChild<LLUICtrl>(FIELD_SKY_DENSITY_MOISTURE_LEVEL)->getValue().asReal();
+    sky->setSkyMoistureLevel(moisture_level);
+    sky->update();
+
+}
+
+void APFloaterPhototools::onDropletRadiusChanged()
+{
+    LLSettingsSky::ptr_t sky = LLEnvironment::instance().getCurrentSky();
+    if (!sky)
+        return;
+    F32 droplet_radius = (F32)getChild<LLUICtrl>(FIELD_SKY_DENSITY_DROPLET_RADIUS)->getValue().asReal();
+    sky->setSkyDropletRadius(droplet_radius);
+    sky->update();
+
+}
+
+void APFloaterPhototools::onIceLevelChanged()
+{
+    LLSettingsSky::ptr_t sky = LLEnvironment::instance().getCurrentSky();
+    if (!sky)
+        return;
+    F32 ice_level = (F32)getChild<LLUICtrl>(FIELD_SKY_DENSITY_ICE_LEVEL)->getValue().asReal();
+    sky->setSkyIceLevel(ice_level);
+    sky->update();
+
+}
+
+// Clouds
+
+void APFloaterPhototools::onCloudColorChanged()
+{
+    LLSettingsSky::ptr_t sky = LLEnvironment::instance().getCurrentSky();
+    if (!sky)
+        return;
+    sky->setCloudColor(LLColor3(getChild<LLColorSwatchCtrl>(FIELD_SKY_CLOUD_COLOR)->get()));
+    sky->update();
+}
+
+void APFloaterPhototools::onCloudCoverageChanged()
+{
+    LLSettingsSky::ptr_t sky = LLEnvironment::instance().getCurrentSky();
+    if (!sky)
+        return;
+    sky->setCloudShadow((F32)getChild<LLUICtrl>(FIELD_SKY_CLOUD_COVERAGE)->getValue().asReal());
+    sky->update();
+}
+
+void APFloaterPhototools::onCloudScaleChanged()
+{
+    LLSettingsSky::ptr_t sky = LLEnvironment::instance().getCurrentSky();
+    if (!sky)
+        return;
+    sky->setCloudScale((F32)getChild<LLUICtrl>(FIELD_SKY_CLOUD_SCALE)->getValue().asReal());
+    sky->update();
+}
+
+void APFloaterPhototools::onCloudVarianceChanged()
+{
+    LLSettingsSky::ptr_t sky = LLEnvironment::instance().getCurrentSky();
+    if (!sky)
+        return;
+    sky->setCloudVariance((F32)getChild<LLUICtrl>(FIELD_SKY_CLOUD_VARIANCE)->getValue().asReal());
+}
+
+void APFloaterPhototools::onCloudDensityChanged()
+{
+    LLSettingsSky::ptr_t sky = LLEnvironment::instance().getCurrentSky();
+    if (!sky)
+        return;
+    LLColor3 density((F32)getChild<LLUICtrl>(FIELD_SKY_CLOUD_DENSITY_X)->getValue().asReal(),
+        (F32)getChild<LLUICtrl>(FIELD_SKY_CLOUD_DENSITY_Y)->getValue().asReal(),
+        (F32)getChild<LLUICtrl>(FIELD_SKY_CLOUD_DENSITY_D)->getValue().asReal());
+
+    sky->setCloudPosDensity1(density);
+}
+
+void APFloaterPhototools::onCloudDetailChanged()
+{
+    LLSettingsSky::ptr_t sky = LLEnvironment::instance().getCurrentSky();
+    if (!sky)
+        return;
+    LLColor3 detail((F32)getChild<LLUICtrl>(FIELD_SKY_CLOUD_DETAIL_X)->getValue().asReal(),
+        (F32)getChild<LLUICtrl>(FIELD_SKY_CLOUD_DETAIL_Y)->getValue().asReal(),
+        (F32)getChild<LLUICtrl>(FIELD_SKY_CLOUD_DETAIL_D)->getValue().asReal());
+
+    sky->setCloudPosDensity2(detail);
+}
+
+void APFloaterPhototools::onCloudScrollChanged()
+{
+    LLSettingsSky::ptr_t sky = LLEnvironment::instance().getCurrentSky();
+    if (!sky)
+        return;
+    LLVector2 scroll(getChild<LLUICtrl>(FIELD_SKY_CLOUD_SCROLL_XY)->getValue());
+    sky->setCloudScrollRate(scroll);
+}
+
+// void APFloaterPhototools::onCloudMapChanged()
+// {
+    // LLSettingsSky::ptr_t sky = LLEnvironment::instance().getCurrentSky();
+    // if (!sky)
+        // return;
+    // LLTextureCtrl* ctrl = getChild<LLTextureCtrl>(FIELD_SKY_CLOUD_MAP);
+    // sky->setCloudNoiseTextureId(ctrl->getValue().asUUID());
+    // sky->update(); 
+// }
+
+void APFloaterPhototools::onCloudMapChanged()
+{
+    LLEnvironment::instance().setSelectedEnvironment(LLEnvironment::ENV_LOCAL);
+
+    LLSettingsSky::ptr_t current_sky = LLEnvironment::instance().getCurrentSky();
+    if (!current_sky)
+    {
+        return;
+    }
+
+    LLTextureCtrl* picker_ctrl = getChild<LLTextureCtrl>(FIELD_SKY_CLOUD_MAP);
+    if (!picker_ctrl)
+    {
+         return;
+    }
+
+    LLUUID new_texture_id = picker_ctrl->getValue().asUUID();
+    LLSettingsSky::ptr_t sky_to_set = current_sky->buildClone();
+    sky_to_set->setCloudNoiseTextureId(new_texture_id);
+
+    LLEnvironment::instance().setEnvironment(LLEnvironment::ENV_LOCAL, sky_to_set);
+    LLEnvironment::instance().updateEnvironment(LLEnvironment::TRANSITION_INSTANT, true);
+    picker_ctrl->setValue(new_texture_id);
+}
+
+// Sun and Moon Colors
+
+void APFloaterPhototools::onSunColorChanged()
+{
+    LLSettingsSky::ptr_t sky = LLEnvironment::instance().getCurrentSky();
+    if (!sky)
+        return;
+    LLColor3 color(getChild<LLColorSwatchCtrl>(FIELD_SKY_SUN_COLOR)->get());
+
+    color *= SLIDER_SCALE_SUN_AMBIENT;
+
+    sky->setSunlightColor(color);
+    sky->update();
+}
+
+// Sun and Stars Settings
+
+void APFloaterPhototools::onSunImageChanged()
+{
+    LLSettingsSky::ptr_t sky = LLEnvironment::instance().getCurrentSky();
+    if (!sky)
+        return;
+    sky->setSunTextureId(getChild<LLTextureCtrl>(FIELD_SKY_SUN_IMAGE)->getValue().asUUID());
+    sky->update();
+}
+
+void APFloaterPhototools::onGlowChanged()
+{
+    LLSettingsSky::ptr_t sky = LLEnvironment::instance().getCurrentSky();
+    if (!sky)
+        return;
+    LLColor3 glow((F32)getChild<LLUICtrl>(FIELD_SKY_GLOW_SIZE)->getValue().asReal(), 0.0f, (F32)getChild<LLUICtrl>(FIELD_SKY_GLOW_FOCUS)->getValue().asReal());
+
+    // takes 0 - 1.99 UI range -> 40 -> 0.2 range
+    glow.mV[0] = (2.0f - glow.mV[0]) * SLIDER_SCALE_GLOW_R;
+    glow.mV[2] *= SLIDER_SCALE_GLOW_B;
+
+    sky->setGlow(glow);
+    sky->update();
+}
+
+void APFloaterPhototools::onStarBrightnessChanged()
+{
+    LLSettingsSky::ptr_t sky = LLEnvironment::instance().getCurrentSky();
+    if (!sky)
+        return;
+    sky->setStarBrightness((F32)getChild<LLUICtrl>(FIELD_SKY_STAR_BRIGHTNESS)->getValue().asReal());
+    sky->update();
+}
+
+void APFloaterPhototools::onSunScaleChanged()
+{
+    LLSettingsSky::ptr_t sky = LLEnvironment::instance().getCurrentSky();
+    if (!sky)
+        return;
+    sky->setSunScale((F32)(getChild<LLUICtrl>(FIELD_SKY_SUN_SCALE)->getValue().asReal()));
+    sky->update();
+}
+
+void APFloaterPhototools::onSunAzimElevChanged()
+{
+    F32 azimuth = (F32)getChild<LLUICtrl>(FIELD_SKY_SUN_AZIMUTH)->getValue().asReal();
+    F32 elevation = (F32)getChild<LLUICtrl>(FIELD_SKY_SUN_ELEVATION)->getValue().asReal();
+
+    LLQuaternion quat;
+
+    azimuth *= DEG_TO_RAD;
+    elevation *= DEG_TO_RAD;
+
+    if (is_approx_zero(elevation))
+    {
+        elevation = F_APPROXIMATELY_ZERO;
+    }
+
+     quat.setAngleAxis(-elevation, 0, 1, 0);
+    LLQuaternion az_quat;
+    az_quat.setAngleAxis(F_TWO_PI - azimuth, 0, 0, 1);
+    quat *= az_quat;
+
+
+    LLSettingsSky::ptr_t sky = LLEnvironment::instance().getCurrentSky();
+    if (sky)
+    {
+        sky->setSunRotation(quat);
+        sky->update();
+    }
+}
+
+// Moon Settings
+
+void APFloaterPhototools::onMoonImageChanged()
+{
+    LLSettingsSky::ptr_t sky = LLEnvironment::instance().getCurrentSky();
+    if (!sky)
+        return;
+    sky->setMoonTextureId(getChild<LLTextureCtrl>(FIELD_SKY_MOON_IMAGE)->getValue().asUUID());
+    sky->update();
+}
+
+void APFloaterPhototools::onMoonScaleChanged()
+{
+    LLSettingsSky::ptr_t sky = LLEnvironment::instance().getCurrentSky();
+    if (!sky)
+        return;
+    sky->setMoonScale((F32)(getChild<LLUICtrl>(FIELD_SKY_MOON_SCALE)->getValue().asReal()));
+    sky->update();
+}
+
+void APFloaterPhototools::onMoonBrightnessChanged()
+{
+    LLSettingsSky::ptr_t sky = LLEnvironment::instance().getCurrentSky();
+    if (!sky)
+        return;
+    sky->setMoonBrightness((F32)(getChild<LLUICtrl>(FIELD_SKY_MOON_BRIGHTNESS)->getValue().asReal()));
+    sky->update();
+}
+
+void APFloaterPhototools::onMoonAzimElevChanged()
+{
+    F32 azimuth = (F32)getChild<LLUICtrl>(FIELD_SKY_MOON_AZIMUTH)->getValue().asReal();
+    F32 elevation = (F32)getChild<LLUICtrl>(FIELD_SKY_MOON_ELEVATION)->getValue().asReal();
+    LLQuaternion quat;
+
+    azimuth *= DEG_TO_RAD;
+    elevation *= DEG_TO_RAD;
+
+    if (is_approx_zero(elevation))
+    {
+        elevation = F_APPROXIMATELY_ZERO;
+    }
+
+    quat.setAngleAxis(-elevation, 0, 1, 0);
+    LLQuaternion az_quat;
+    az_quat.setAngleAxis(F_TWO_PI - azimuth, 0, 0, 1);
+    quat *= az_quat;
+
+    // getChild<LLVirtualTrackball>(FIELD_SKY_MOON_ROTATION)->setRotation(quat);
+
+    LLSettingsSky::ptr_t sky = LLEnvironment::instance().getCurrentSky();
+    if (sky)
+    {
+        sky->setMoonRotation(quat);
+        sky->update();
+    }
+}
+
+// Atmosphere General Functions
+
+void APFloaterPhototools::refreshSky()
+{
+
+    LLSettingsSky::ptr_t sky = LLEnvironment::instance().getCurrentSky();
+
+    if (!sky)
+    {
+        setAllChildrenEnabled(false);
+        return;
+    }
+
+    setEnabled(true);
+    setAllChildrenEnabled(true);
+
+    // Atmospheric Colors
+    getChild<LLColorSwatchCtrl>(FIELD_SKY_AMBIENT_LIGHT)->set(sky->getAmbientColor() / SLIDER_SCALE_SUN_AMBIENT);
+    getChild<LLColorSwatchCtrl>(FIELD_SKY_BLUE_HORIZON)->set(sky->getBlueHorizon() / SLIDER_SCALE_BLUE_HORIZON_DENSITY);
+    getChild<LLColorSwatchCtrl>(FIELD_SKY_BLUE_DENSITY)->set(sky->getBlueDensity() / SLIDER_SCALE_BLUE_HORIZON_DENSITY);
+    
+    // Atmosphere Settings
+    getChild<LLUICtrl>(FIELD_SKY_HAZE_HORIZON)->setValue(sky->getHazeHorizon());
+    getChild<LLUICtrl>(FIELD_SKY_HAZE_DENSITY)->setValue(sky->getHazeDensity());
+    
+    F32 density_mult = sky->getDensityMultiplier();
+    density_mult /= SLIDER_SCALE_DENSITY_MULTIPLIER;
+    
+    getChild<LLUICtrl>(FIELD_SKY_DENSITY_MULTIP)->setValue(density_mult);
+    getChild<LLUICtrl>(FIELD_SKY_DISTANCE_MULTIP)->setValue(sky->getDistanceMultiplier());
+    getChild<LLUICtrl>(FIELD_SKY_MAX_ALT)->setValue(sky->getMaxY());
+    
+    getChild<LLUICtrl>(FIELD_SKY_SCENE_GAMMA)->setValue(sky->getGamma());
+    static LLCachedControl<bool> should_auto_adjust(gSavedSettings, "RenderSkyAutoAdjustLegacy", false);
+    
+    F32 rp_ambiance     = sky->getReflectionProbeAmbiance(should_auto_adjust);
+    getChild<LLUICtrl>(FIELD_REFLECTION_PROBE_AMBIANCE)->setValue(rp_ambiance);
+    
+    // updateGammaLabel(sky);
+    
+    // Rainbow and Halo Settings
+    F32 moisture_level  = sky->getSkyMoistureLevel();
+    getChild<LLUICtrl>(FIELD_SKY_DENSITY_MOISTURE_LEVEL)->setValue(moisture_level);
+        
+    F32 droplet_radius  = sky->getSkyDropletRadius();
+    getChild<LLUICtrl>(FIELD_SKY_DENSITY_DROPLET_RADIUS)->setValue(droplet_radius);
+    
+    F32 ice_level       = sky->getSkyIceLevel();
+    getChild<LLUICtrl>(FIELD_SKY_DENSITY_ICE_LEVEL)->setValue(ice_level);
+    
+    
+    // Cloud Settings
+    getChild<LLColorSwatchCtrl>(FIELD_SKY_CLOUD_COLOR)->set(sky->getCloudColor());
+    getChild<LLUICtrl>(FIELD_SKY_CLOUD_COVERAGE)->setValue(sky->getCloudShadow());
+    getChild<LLUICtrl>(FIELD_SKY_CLOUD_SCALE)->setValue(sky->getCloudScale());
+    getChild<LLUICtrl>(FIELD_SKY_CLOUD_VARIANCE)->setValue(sky->getCloudVariance());
+    
+    LLVector3 cloudDensity(sky->getCloudPosDensity1().getValue());
+    getChild<LLUICtrl>(FIELD_SKY_CLOUD_DENSITY_X)->setValue(cloudDensity[0]);
+    getChild<LLUICtrl>(FIELD_SKY_CLOUD_DENSITY_Y)->setValue(cloudDensity[1]);
+    getChild<LLUICtrl>(FIELD_SKY_CLOUD_DENSITY_D)->setValue(cloudDensity[2]);
+    
+    LLVector3 cloudDetail(sky->getCloudPosDensity2().getValue());
+    getChild<LLUICtrl>(FIELD_SKY_CLOUD_DETAIL_X)->setValue(cloudDetail[0]);
+    getChild<LLUICtrl>(FIELD_SKY_CLOUD_DETAIL_Y)->setValue(cloudDetail[1]);
+    getChild<LLUICtrl>(FIELD_SKY_CLOUD_DETAIL_D)->setValue(cloudDetail[2]);
+    
+    LLVector2 cloudScroll(sky->getCloudScrollRate());
+    getChild<LLUICtrl>(FIELD_SKY_CLOUD_SCROLL_XY)->setValue(cloudScroll.getValue());
+
+    getChild<LLTextureCtrl>(FIELD_SKY_CLOUD_MAP)->setValue(sky->getCloudNoiseTextureId());
+
+
+    // Sun and Moon Colors
+    getChild<LLColorSwatchCtrl>(FIELD_SKY_SUN_COLOR)->set(sky->getSunlightColor() / SLIDER_SCALE_SUN_AMBIENT);
+
+    // Sun and Stars Settings
+    getChild<LLTextureCtrl>(FIELD_SKY_SUN_IMAGE)->setValue(sky->getSunTextureId());
+    
+    LLColor3 glow(sky->getGlow());
+
+        // takes 40 - 0.2 range -> 0 - 1.99 UI range
+    getChild<LLUICtrl>(FIELD_SKY_GLOW_SIZE)->setValue(2.0 - (glow.mV[0] / SLIDER_SCALE_GLOW_R));
+    getChild<LLUICtrl>(FIELD_SKY_GLOW_FOCUS)->setValue(glow.mV[2] / SLIDER_SCALE_GLOW_B);
+    getChild<LLUICtrl>(FIELD_SKY_STAR_BRIGHTNESS)->setValue(sky->getStarBrightness());
+    getChild<LLUICtrl>(FIELD_SKY_SUN_SCALE)->setValue(sky->getSunScale());
+
+        // Sun rotation
+    LLQuaternion quat = sky->getSunRotation();
+    F32 azimuth;
+    F32 elevation;
+    LLVirtualTrackball::getAzimuthAndElevationDeg(quat, azimuth, elevation);
+
+    getChild<LLUICtrl>(FIELD_SKY_SUN_AZIMUTH)->setValue(azimuth);
+    getChild<LLUICtrl>(FIELD_SKY_SUN_ELEVATION)->setValue(elevation);
+    
+
+    // Moon Settings
+    
+    getChild<LLTextureCtrl>(FIELD_SKY_MOON_IMAGE)->setValue(sky->getMoonTextureId());
+    getChild<LLUICtrl>(FIELD_SKY_MOON_SCALE)->setValue(sky->getMoonScale());
+    getChild<LLUICtrl>(FIELD_SKY_MOON_BRIGHTNESS)->setValue(sky->getMoonBrightness());
+    
+    
+        // Moon rotation
+    quat = sky->getMoonRotation();
+    LLVirtualTrackball::getAzimuthAndElevationDeg(quat, azimuth, elevation);
+
+    getChild<LLUICtrl>(FIELD_SKY_MOON_AZIMUTH)->setValue(azimuth);
+    getChild<LLUICtrl>(FIELD_SKY_MOON_ELEVATION)->setValue(elevation);
+
+
+    // getChild<LLTextureCtrl>(FIELD_WATER_NORMAL_MAP)->setValue(mLiveWater->getNormalMapID());
+    //getChild<LLVirtualTrackball>(FIELD_SKY_SUN_ROTATION)->setRotation(quat);
+    // getChild<LLVirtualTrackball>(FIELD_SKY_MOON_ROTATION)->setRotation(quat);
 }

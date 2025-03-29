@@ -24,10 +24,11 @@
      layout="topleft"
      left="0"
      name="tabs"
-     tab_allow_rearrange="false"
+     tab_allow_rearrange="true"
      tab_group="0"
+     tab_height="25"
      tab_position="top"
-     tab_min_width="38"
+     tab_min_width="39"
      tab_max_width="46"
      top="0"
      width="288">
@@ -81,7 +82,7 @@
                  top_pad="1"
                  left="3"
                  right="-5"
-                 height="45"
+                 height="47"
                  border_thickness="1"
                  border_visible="true"
                  background_visible="true">
@@ -487,7 +488,89 @@
 -->
 
                 </panel>
+
 <!--
+
+                <text
+                 name="T_sun_azimuth"
+                 follows="top|left"
+                 layout="topleft"
+                 left="5"
+                 top_pad="3"
+                 tool_tip=""
+                 width="70">
+                    Sun Heading
+                </text>
+                <slider_bar
+                 name="sun_azimuth_slider_bar"
+                 follows="top|left"
+                 height="16"
+                 increment=".01"
+                 layout="topleft"
+                 left_pad="0"
+                 min_val="0"
+                 max_val="359.99"
+                 top_delta="-2"
+                 width="147"/>
+                <spinner
+                 name="sun_azimuth_spinner"
+                 top_delta="-3"
+                 label_width="0"
+                 left_pad="0"
+                 decimal_digits="3"
+                 follows="top|left"
+                 max_val="359.999"
+                 min_val="0"
+                 width="53"
+                 increment="1"/>
+
+                <text
+                 name="T_sun_elevation"
+                 follows="top|left"
+                 layout="topleft"
+                 left="5"
+                 top_pad="15"
+                 tool_tip=""
+                 width="70">
+                    Sun Elevat.
+                </text>
+                <slider_bar
+                 name="sun_elevation_slider_bar"
+                 follows="top|left"
+                 height="16"
+                 increment=".01"
+                 layout="topleft"
+                 left_pad="0"
+                 min_val="-90"
+                 max_val="90"
+                 top_delta="-2"
+                 width="147"/>
+                <spinner
+                 name="sun_elevation_spinner"
+                 top_delta="-3"
+                 label_width="0"
+                 left_pad="0"
+                 decimal_digits="3"
+                 follows="top|left"
+                 max_val="90"
+                 min_val="-90"
+                 width="53"
+                 increment=".001"/>
+
+-->
+            <panel
+            name="P_Atmosphere_Divider_1"
+            follows="left|top"
+            layout="topleft"
+            top_pad="1"
+            left="0"
+            width="288"
+            height="3"
+            bg_alpha_color="EmphasisColor"
+            border_visible="true"
+            background_visible="true">
+            </panel>
+        
             <tab_container
             follows="all"
             halign="center"
@@ -495,6 +578,7 @@
             layout="topleft"
             left="0"
             name="tab_settings"
+            tab_allow_rearrange="true"
             tab_position="top"
             tab_max_width="93"
             tab_width="90"
@@ -542,7 +626,7 @@
                     top_pad="1"
                     left="3"
                     width="280"
-                    height="87"
+                    height="89"
                     border_visible="true"
                     background_visible="true">
 
@@ -641,7 +725,7 @@
                     top_pad="1"
                     left="3"
                     width="280"
-                    height="149"
+                    height="140"
                     border_visible="true"
                     background_visible="true">
 
@@ -797,7 +881,7 @@
                         tool_tip="Irradiance control.  When not zero, enables HDR lighting model."
                         width="100"
                         word_wrap="true">
-                        Reflection Probe Ambiance (HDR):
+                        Refl Probe (HDR):
                         </text>
 
                         <slider
@@ -1313,7 +1397,7 @@
                         max_val_x="30"
                         min_val_y="-30"
                         max_val_y="30" 
-                        logarithmic="1"/>
+                        logarithmic="true"/>
 
 
 
@@ -1408,7 +1492,18 @@
                             layout="topleft"
                             left="5"
                             font="SansSerif"
+                            width="140"
                             value="Sun &amp; Stars Settings"/>
+                            
+                            <check_box
+                            control_name="sunbeacon"
+                            width="60"
+                            height="16"
+                            label="Show Beacon"
+                            layout="topleft"
+                            name="sunbeacon" 
+                            top_delta="1"
+                            right="-43"/> 
                         </panel>
 
                         <panel
@@ -1418,37 +1513,16 @@
                         top_pad="1"
                         left="3"
                         width="280"
-                        height="145"
+                        height="135"
                         border_visible="true"
                         background_visible="true">
-
-                            <text
-                            name="image_label"
-                            follows="left|top"
-                            height="10"
-                            layout="topleft"
-                            left="5"
-                            top_pad="5"
-                            width="180">
-                            Image:
-                            </text>
-
-                            <check_box
-                            control_name="sunbeacon"
-                            width="60"
-                            height="16"
-                            label="Show Beacon"
-                            layout="topleft"
-                            name="sunbeacon" 
-                            top_delta="0"
-                            left_pad="0"/> 
 
                             <texture_picker
                             height="83"
                             layout="topleft"
                             left="5"
                             name="sun_image"
-                            top_pad="0"
+                            top_pad="5"
                             width="60"/>
 
                             <text
@@ -1456,7 +1530,7 @@
                             follows="left|top"
                             height="15"
                             layout="topleft"
-                            left_pad="5"
+                            left="70"
                             top_delta="10"
                             width="85">
                             Glow Focus:
@@ -1617,6 +1691,17 @@
                             left="5"
                             font="SansSerif"
                             value="Moon Settings"/>
+                            
+                            <check_box
+                            control_name="moonbeacon"
+                            width="60"
+                            height="16"
+                            label="Show Beacon"
+                            layout="topleft"
+                            name="moonbeacon"
+                            top_delta="1"
+                            right="-43"/>
+                            
                         </panel>
 
                         <panel
@@ -1626,37 +1711,16 @@
                         top_pad="1"
                         left="3"
                         width="280"
-                        height="125"
+                        height="120"
                         border_visible="true"
                         background_visible="true">
-
-                            <text
-                            name="moon_image_label"
-                            follows="left|top"
-                            height="10"
-                            layout="topleft"
-                            left="5"
-                            top_pad="5"
-                            width="180">
-                            Image:
-                            </text>
-
-                            <check_box
-                            control_name="moonbeacon"
-                            width="60"
-                            height="16"
-                            label="Show Beacon"
-                            layout="topleft"
-                            name="moonbeacon"
-                            top_delta="0"
-                            left_pad="0"/>
 
                             <texture_picker
                             height="83"
                             layout="topleft"
                             left="5"
                             name="moon_image"
-                            top_pad="0"
+                            top="5"
                             width="60"/>
 
                             <text
@@ -1758,9 +1822,7 @@
                             can_edit_text="true"/>
                         </panel>
                 </panel>
-
             </tab_container>
--->
         </panel>
 
         <panel
@@ -1799,7 +1861,7 @@
              top_pad="1"
              left="3"
              right="-3"
-             height="68"
+             height="90"
              border_visible="true"
              background_visible="true">
                  <text
@@ -1871,6 +1933,34 @@
                    name="1"
                    value="1"/>
                 </combo_box>
+                                <!-- AP:WW Start Add Shadow Splits -->
+                 <text
+                  type="string"
+                  length="1"
+                  follows="left|top"
+                  height="15"
+                  layout="topleft"
+                  left="5"
+                  name="ShadowSplitsText"
+                  tool_tip="Amount of shadow map splits (cascades) to render. More splits distribute shadow resolution better over distance but cost more performance. Requires Sun/Moon shadows to be enabled. [Default: 3]"
+                  top_pad="7"
+                  width="135">
+                  Shadow Splits (Cascades)
+                 </text>
+                 <combo_box
+                  control_name="RenderShadowSplits"
+                  height="20"
+                  layout="topleft"
+                  left_pad="0"
+                  top_delta="-5"
+                  name="ShadowSplitsCombo"
+                  right="-5">
+                   <combo_box.item label="0 (No Splits)" name="0" value="0"/>
+                   <combo_box.item label="1 Split" name="1" value="1"/>
+                   <combo_box.item label="2 Splits" name="2" value="2"/>
+                   <combo_box.item label="3 Splits (Default)" name="3" value="3"/>
+                 </combo_box>
+                 <!-- AP:WW End Add Shadow Splits -->
                 <check_box
                  follows="top|left"
                  layout="topleft"
@@ -1888,8 +1978,7 @@
                      parameter="RenderAttachedLights"/>
                 </check_box>
             </panel>
-            
-            <!-- FS:WW: Decreased height of P_Shadow_Res panel from 205 to 185 to adjust layout. -->
+
             <panel
              name="P_Shadow_Res"
              follows="top|left"
@@ -1897,7 +1986,7 @@
              top_pad="1"
              left="3"
              right="-3"
-             height="185"
+             height="202" 
              border_visible="true"
              background_visible="true">
                 <text
@@ -1905,7 +1994,7 @@
                  follows="top|left"
                  layout="topleft"
                  left="5"
-                 top_pad="10"
+                 top_pad="7"
                  tool_tip="Number of local lights to render."
                  width="70">
                     Loc Lights
@@ -1942,7 +2031,7 @@
                  layout="topleft"
                  left_pad="0"
                  top_delta="0"
-                 right="-5"
+                 width="20" 
                  tool_tip="Reset to the default value.">
                     <button.commit_callback
                      function="ResetControl"
@@ -1958,9 +2047,6 @@
                  width="70">
                     Shd. Res
                 </text>
-                
-                <!-- FS:WW: Removed slider_bar.commit_callback and spinner.commit_callback from SB_Shadow_Res and S_Shadow_Res, and increased max_val of S_Shadow_Res spinner to 10. Commit callbacks are now redundant, max_val increase aligns with user needs. -->6777
-
                 <slider_bar
                  name="SB_Shadow_Res"
                  control_name="RenderShadowResolutionScale"
@@ -1980,7 +2066,7 @@
                  label_width="0"
                  left_pad="0"
                  decimal_digits="2"
-                 follows="left|right"
+                 follows="top|left"
                  max_val="10"
                  min_val="0"
                  width="53"
@@ -1993,7 +2079,7 @@
                  layout="topleft"
                  left_pad="0"
                  top_delta="0"
-                 right="-5"
+                 width="20" 
                  tool_tip="Reset to the default value.">
                     <button.commit_callback
                      function="ResetControl"
@@ -2006,7 +2092,7 @@
                  follows="top|left"
                  layout="topleft"
                  left="5"
-                 top_pad="5"
+                 top_pad="4" 
                  tool_tip="This setting controls how sharp and defined the Sun/Moon shadows appear. It’s recommended to adjust this setting after setting the Shadow Resolution to around 1.0 for optimal results. Gradually increase the Shadow Clarity value until the shadows reach the desired sharpness. Keep in mind that shadow clarity is influenced by both the camera angle and the position of the Sun/Moon, so any changes to lighting or camera placement may require readjustments. For easier fine-tuning, temporarily set 'Shadow Blur' to 0.0 to clearly see the effects of this adjustment before reapplying blur if needed."
                  width="70">
                     Shd. Clarity
@@ -2028,7 +2114,7 @@
                  label_width="0"
                  left_pad="0"
                  decimal_digits="3"
-                 follows="top|right"
+                 follows="top|left" 
                  max_val="1000"
                  min_val="0"
                  width="53"
@@ -2093,9 +2179,50 @@
                      parameter="RenderShadowBlurSize"/>
                 </button>
 
+                 <!-- AP:WW Start Add Shadow Blur Samples -->
+                 <!--
+                 <text
+                  name="T_Blur_Samples"
+                  follows="top|left"
+                  layout="topleft"
+                  left="5"
+                  top_pad="7"
+                  tool_tip="Number of samples used for shadow blurring. Higher values create smoother blur but impact performance. Range 1-16. [Default: 4]"
+                  width="70">
+                     Blur Samples
+                 </text>
+                 <spinner
+                  name="S_Blur_Samples"
+                  control_name="RenderShadowBlurSamples"
+                  top_delta="-5"
+                  label_width="0"
+                  left_pad="0"
+                  decimal_digits="0"
+                  follows="top|left"
+                  max_val="16"
+                  min_val="1"
+                  width="53"
+                  increment="1"/>
+                 <button
+                  follows="left|top"
+                  name="Blur_Samples_Reset"
+                  height="22"
+                  label="D"
+                  layout="topleft"
+                  left_pad="0"
+                  top_delta="0"
+                  width="20"
+                  tool_tip="Reset to the default value (4).">
+                     <button.commit_callback
+                      function="ResetControl"
+                      parameter="RenderShadowBlurSamples"/>
+                 </button>
+                 -->
+                 <!-- AP:WW End Add Shadow Blur Samples -->
+
                 <!-- RenderShadowGaussian X component -->
                 <text
-                 name="T_Shd_Soften" 
+                 name="T_Shd_Soften"
                  follows="top|left"
                  layout="topleft"
                  left="5"
@@ -2121,7 +2248,7 @@
                  label_width="0"
                  left_pad="0"
                  decimal_digits="3"
-                 follows="top|right"
+                 follows="top|left"
                  max_val="10000"
                  min_val="-10000"
                  width="53"
@@ -2186,6 +2313,57 @@
                      parameter="RenderShadowBlurDistFactor"/>
                 </button>
 
+                <!-- AP:WW Start Add Shadow Noise -->
+                <text
+                 name="T_Shadow_Noise"
+                 follows="top|left"
+                 layout="topleft"
+                 left="5"
+                 top_pad="5"
+                 tool_tip="Adds noise to shadow sampling, which can sometimes help break up sharp edges or artifacts. Small values recommended. [Default: -0.0001]"
+                 width="70">
+                    Shd. Noise
+                </text>
+                <slider_bar
+                 name="SB_Shadow_Noise"
+                 control_name="RenderShadowNoise"
+                 follows="left|right"
+                 height="16"
+                 increment="0.0001"
+                 layout="topleft"
+                 left_pad="0"
+                 min_val="-0.001"
+                 max_val="0.001"
+                 top_delta="-2"
+                 width="127"/>
+                <spinner
+                 name="S_Shadow_Noise"
+                 control_name="RenderShadowNoise"
+                 top_delta="-3"
+                 label_width="0"
+                 left_pad="0"
+                 decimal_digits="5"
+                 follows="top|left"
+                 max_val="0.01"
+                 min_val="-0.01"
+                 width="53"
+                 increment="0.00001"/>
+                <button
+                 follows="left|top"
+                 name="Shadow_Noise_Reset"
+                 height="22"
+                 label="D"
+                 layout="topleft"
+                 left_pad="0"
+                 top_delta="0"
+                 width="20"
+                 tool_tip="Reset to the default value (-0.0001).">
+                    <button.commit_callback
+                     function="ResetControl"
+                     parameter="RenderShadowNoise"/>
+                </button>
+                <!-- AP:WW End Add Shadow Noise -->
+
                 <text
                  name="T_Spot_Cutoff"
                  follows="top|left"
@@ -2215,7 +2393,7 @@
                  label_width="0"
                  left_pad="0"
                  decimal_digits="4"
-                 follows="top|right"
+                 follows="top|left" 
                  max_val="100"
                  min_val="0"
                  width="57"
@@ -2234,9 +2412,7 @@
                      function="ResetControl"
                      parameter="RenderSpotShadowOffset"/>
                 </button>
-                
-                <!-- FS:WW: Removed entire "FOV Cutoff" section (T_FOV_Cutoff text, SB_FOV_Cutoff slider_bar, S_FOV_Cutoff spinner, FOV_Cutoff_Reset button). This section was deemed unnecessary or redundant for Phototools functionality. -->
-                
+
                 <text
                  name="T_Shd_Bias"
                  follows="top|left"
@@ -2266,8 +2442,7 @@
                  label_width="0"
                  left_pad="0"
                  decimal_digits="6"
-                 follows="top|right"
-                 max_val="5"
+                 follows="top|left" 
                  min_val="-5"
                  width="73"
                  increment="0.000001"/>
@@ -2286,6 +2461,7 @@
                      parameter="RenderShadowBias"/>
                 </button>
             </panel>
+
 
             <panel
              name="P_Ambient_Occlusion"
@@ -2318,7 +2494,7 @@
              top_pad="1"
              left="3"
              right="-3"
-             height="25"
+             height="22"
              border_visible="true"
              background_visible="true">
                 <check_box
@@ -2329,7 +2505,7 @@
                  left="3"
                  name="UseSSAO"
                  tool_tip="Ambient Occlusion (AO) simulates the soft shadows that occur in creases, corners, and where objects are close together, enhancing depth and realism by mimicking how ambient light is naturally occluded. While AO works effectively on its own, the 'Effect' and 'AO Soften' settings help fine-tune the intensity and smoothness of the shading. AO contributes to a more realistic image at any resolution, though its subtle details are more noticeable at higher resolutions, such as 2048 pixels and above."
-                 top_pad="7"
+                 top_pad="4"
                  width="230">
                 </check_box>
             </panel>
@@ -2342,7 +2518,7 @@
              top_pad="1"
              left="3"
              right="-3"
-             height="201"
+             height="203"
              border_visible="true"
              background_visible="true">
                 <text
@@ -2350,7 +2526,7 @@
                  follows="top|left"
                  layout="topleft"
                  left="5"
-                 top_pad="10"
+                 top_pad="7"
                  tool_tip="Controls the number of samples used for Screen Space Ambient Occlusion (SSAO). Higher values improve quality but reduce performance."
                  width="70">
                     Samples
@@ -2810,7 +2986,7 @@
              top_pad="1"
              left="3"
              right="-3"
-             height="55"
+             height="54"
              border_visible="true"
              background_visible="true">
                 <check_box
@@ -2846,7 +3022,21 @@
                  name="FocusPointRenderToggle"
                  tool_tip="Toggle the focus point crosshair display. The crosshair is yellow when free and red when locked."
                  width="19"/>
+
                 <check_box
+                 control_name="RenderDepthOfFieldInEditMode"
+                 enabled_control="RenderDepthOfField"
+                 height="16"
+                 label="Keep DoF enabled in Edit Mode"
+                 layout="topleft"
+                 left="3"
+                 top_pad="0"
+                 name="DoFInEditMode"
+                 tool_tip="Keeps the Depth of Field effect active even when entering Edit mode. Useful for precise composition while editing objects within the DoF effect. [Default: Off]"
+                 width="280">
+                 </check_box>
+
+                 <!--check_box
                  follows="top|left"
                  layout="topleft"
                  left="3"
@@ -2861,9 +3051,9 @@
                     <check_box.check_button.commit_callback
                      function="Advanced.ToggleHUDInfo"
                      parameter="fov"/>
-                </check_box>
+                </check_box-->
             </panel>
-
+            
             <panel
              name="P_Zoom"
              follows="top|left"
@@ -3412,7 +3602,8 @@
                 </check_box>
             </panel>
 
-            <!-- FS:WW: Increased height of P_Glow_Iterations panel from 103 to 123 to accommodate content. -->
+            <!-- AP:WW Added advanced glow controls -->
+            <!-- AP:WW Adjusted height from 123 to 225 -->
             <panel
              name="P_Glow_Iterations"
              follows="top|left"
@@ -3420,13 +3611,12 @@
              top_pad="1"
              left="3"
              right="-3"
-             height="123"
+             height="161" 
              border_visible="true"
              background_visible="true">
 
-            
                 <text
-                 name="T_Glow_Quality" 
+                 name="T_Glow_Quality"
                  follows="top|left"
                  layout="topleft"
                  left="5"
@@ -3438,6 +3628,7 @@
                 <slider_bar
                  name="SB_Glow_Quality"
                  control_name="RenderGlowResolutionPow"
+                 enabled_control="RenderGlow"
                  follows="top|left"
                  height="16"
                  increment="1"
@@ -3450,6 +3641,7 @@
                 <spinner
                  name="S_Glow_Quality"
                  control_name="RenderGlowResolutionPow"
+                 enabled_control="RenderGlow"
                  top_delta="-5"
                  label_width="0"
                  left_pad="0"
@@ -3462,6 +3654,7 @@
                 <button
                  follows="left|top"
                  name="Reset_Glow_Quality"
+                 enabled_control="RenderGlow"
                  height="22"
                  label="D"
                  layout="topleft"
@@ -3473,7 +3666,7 @@
                      function="ResetControl"
                      parameter="RenderGlowResolutionPow"/>
                 </button>
-             
+
                 <text
                  name="T_Glow_Iterations"
                  follows="top|left"
@@ -3487,6 +3680,7 @@
                 <slider_bar
                  name="SB_Glow_Iterations"
                  control_name="RenderGlowIterations"
+                 enabled_control="RenderGlow"
                  follows="top|left"
                  height="16"
                  increment="1"
@@ -3499,6 +3693,7 @@
                 <spinner
                  name="S_Glow_Iterations"
                  control_name="RenderGlowIterations"
+                 enabled_control="RenderGlow"
                  top_delta="-3"
                  label_width="0"
                  left_pad="0"
@@ -3511,6 +3706,7 @@
                 <button
                  follows="left|top"
                  name="Reset_Glow_Iterations"
+                 enabled_control="RenderGlow"
                  height="22"
                  label="D"
                  layout="topleft"
@@ -3535,6 +3731,7 @@
                 <slider_bar
                  name="SB_Glow_Strength"
                  control_name="RenderGlowStrength"
+                 enabled_control="RenderGlow"
                  follows="top|left"
                  height="16"
                  increment=".001"
@@ -3547,6 +3744,7 @@
                 <spinner
                  name="S_Glow_Strength"
                  control_name="RenderGlowStrength"
+                 enabled_control="RenderGlow"
                  top_delta="-3"
                  label_width="0"
                  left_pad="0"
@@ -3559,6 +3757,7 @@
                 <button
                  follows="left|top"
                  name="Reset_Glow_Strength"
+                 enabled_control="RenderGlow"
                  height="22"
                  label="D"
                  layout="topleft"
@@ -3584,6 +3783,7 @@
                 <slider_bar
                  name="SB_Glow_Width"
                  control_name="RenderGlowWidth"
+                 enabled_control="RenderGlow"
                  follows="left|right"
                  height="16"
                  increment="0.001"
@@ -3596,6 +3796,7 @@
                 <spinner
                  name="S_Glow_Width"
                  control_name="RenderGlowWidth"
+                 enabled_control="RenderGlow"
                  top_delta="-3"
                  label_width="0"
                  left_pad="0"
@@ -3608,6 +3809,7 @@
                 <button
                  follows="left|top"
                  name="Reset_Glow_Width"
+                 enabled_control="RenderGlow"
                  height="22"
                  label="D"
                  layout="topleft"
@@ -3619,380 +3821,1039 @@
                      function="ResetControl"
                      parameter="RenderGlowWidth"/>
                 </button>
+
+                <!-- AP:WW Start Add Advanced Glow Controls -->
+                <text
+                 name="T_Glow_MinLum"
+                 follows="top|left"
+                 layout="topleft"
+                 left="5"
+                 top_pad="5"
+                 tool_tip="Minimum luminance threshold for pixels to contribute to the glow effect. Higher values exclude dimmer areas from glowing. [Default: 1.0]"
+                 width="70">
+                    Min Lum Thresh
+                </text>
+                <slider_bar
+                 name="SB_Glow_MinLum"
+                 control_name="RenderGlowMinLuminance"
+                 enabled_control="RenderGlow"
+                 follows="top|left"
+                 height="16"
+                 increment="0.01"
+                 layout="topleft"
+                 left_pad="0"
+                 min_val="0.0"
+                 max_val="1.0" 
+                 top_delta="-2"
+                 width="127"/>
+                <spinner
+                 name="S_Glow_MinLum"
+                 control_name="RenderGlowMinLuminance"
+                 enabled_control="RenderGlow"
+                 top_delta="-3"
+                 label_width="0"
+                 left_pad="0"
+                 decimal_digits="3"
+                 follows="top|left"
+                 max_val="5.0" 
+                 min_val="0.0"
+                 width="53"
+                 increment="0.001"/>
+                <button
+                 follows="left|top"
+                 name="Reset_Glow_MinLum"
+                 enabled_control="RenderGlow"
+                 height="22"
+                 label="D"
+                 layout="topleft"
+                 left_pad="0"
+                 top_delta="0"
+                 width="20"
+                 tool_tip="Reset to the default value (1.0).">
+                    <button.commit_callback
+                     function="ResetControl"
+                     parameter="RenderGlowMinLuminance"/>
+                </button>
+
+                <text
+                 name="T_Glow_MaxAlpha"
+                 follows="top|left"
+                 layout="topleft"
+                 left="5"
+                 top_pad="5"
+                 tool_tip="Maximum alpha value used when extracting brightness for the glow effect. Affects how transparent objects contribute to glow. [Default: 0.25]"
+                 width="70">
+                    Max Alpha Ext
+                </text>
+                <slider_bar
+                 name="SB_Glow_MaxAlpha"
+                 control_name="RenderGlowMaxExtractAlpha"
+                 enabled_control="RenderGlow"
+                 follows="top|left"
+                 height="16"
+                 increment="0.01"
+                 layout="topleft"
+                 left_pad="0"
+                 min_val="0.0"
+                 max_val="1.0"
+                 top_delta="-2"
+                 width="127"/>
+                <spinner
+                 name="S_Glow_MaxAlpha"
+                 control_name="RenderGlowMaxExtractAlpha"
+                 enabled_control="RenderGlow"
+                 top_delta="-3"
+                 label_width="0"
+                 left_pad="0"
+                 decimal_digits="3"
+                 follows="top|left"
+                 max_val="1.0"
+                 min_val="0.0"
+                 width="53"
+                 increment="0.001"/>
+                <button
+                 follows="left|top"
+                 name="Reset_Glow_MaxAlpha"
+                 enabled_control="RenderGlow"
+                 height="22"
+                 label="D"
+                 layout="topleft"
+                 left_pad="0"
+                 top_delta="0"
+                 width="20"
+                 tool_tip="Reset to the default value (0.25).">
+                    <button.commit_callback
+                     function="ResetControl"
+                     parameter="RenderGlowMaxExtractAlpha"/>
+                </button>
+
+                <text
+                 name="T_Glow_Warmth"
+                 follows="top|left"
+                 layout="topleft"
+                 left="5"
+                 top_pad="5"
+                 tool_tip="Blends glow extraction between luminance (0.0) and warmth (1.0). Higher values tint the glow towards warmer colors. [Default: 0.0]"
+                 width="70">
+                    Glow Warmth
+                </text>
+                <slider_bar
+                 name="SB_Glow_Warmth"
+                 control_name="RenderGlowWarmthAmount"
+                 enabled_control="RenderGlow"
+                 follows="top|left"
+                 height="16"
+                 increment="0.05"
+                 layout="topleft"
+                 left_pad="0"
+                 min_val="0.0"
+                 max_val="1.0"
+                 top_delta="-2"
+                 width="127"/>
+                <spinner
+                 name="S_Glow_Warmth"
+                 control_name="RenderGlowWarmthAmount"
+                 enabled_control="RenderGlow"
+                 top_delta="-3"
+                 label_width="0"
+                 left_pad="0"
+                 decimal_digits="2"
+                 follows="top|left"
+                 max_val="1.0"
+                 min_val="0.0"
+                 width="53"
+                 increment="0.01"/>
+                <button
+                 follows="left|top"
+                 name="Reset_Glow_Warmth"
+                 enabled_control="RenderGlow"
+                 height="22"
+                 label="D"
+                 layout="topleft"
+                 left_pad="0"
+                 top_delta="0"
+                 width="20"
+                 tool_tip="Reset to the default value (0.0).">
+                    <button.commit_callback
+                     function="ResetControl"
+                     parameter="RenderGlowWarmthAmount"/>
+                </button>
+
+                <!--check_box
+                 control_name="RenderGlowNoise"
+                 enabled_control="RenderGlow"
+                 height="16"
+                 label="Enable Glow Noise (Dithering)"
+                 layout="topleft"
+                 left="5"
+                 top_pad="7"
+                 name="GlowNoise"
+                 tool_tip="Adds noise (dithering) to the glow effect, which can help reduce color banding artifacts in smooth gradients. [Default: On]"
+                 width="240">
+                </check_box-->
+                <!-- AP:WW End Add Advanced Glow Controls -->
+
             </panel>
         </panel>
 
-        <panel
-         name="P_Reflection"
+<panel
+ name="P_Reflection"
+ follows="left|top"
+ layout="topleft"
+ label="Refl">
+
+
+    <panel
+     name="P_W_Reflections"
+     follows="top|left"
+     layout="topleft"
+     top_pad="1"
+     left="0"
+     right="-1"
+     height="22"
+     bg_alpha_color="Phototools_Header"
+     border_visible="true"
+     border_thickness="1"
+     background_visible="true">
+        <text
+         name="T_W_Reflections"
          follows="left|top"
          layout="topleft"
-         label="Refl">
+         left="5"
+         font="SansSerif"
+         height="17"
+         width="280">
+            Reflection Settings
+        </text>
+    </panel>
 
-            <panel
-             name="P_W_Reflections"
-             follows="top|left"
-             layout="topleft"
-             top_pad="1"
-             left="0"
-             right="-1"
-             height="22"
-             bg_alpha_color="Phototools_Header"
-             border_visible="true"
-             border_thickness="1"
-             background_visible="true">
-                <text
-                 name="T_W_Reflections"
-                 follows="left|top"
-                 layout="topleft"
-                 left="5"
-                 font="SansSerif"
-                 height="17"
-                 width="280">
-                    Reflection Settings
-                </text>
-            </panel>
+    <panel
+     name="P_R_Enable"
+     follows="top|left"
+     layout="topleft"
+     top_pad="1"
+     left="3"
+     right="-5"
+     height="74" 
+     border_visible="true"
+     background_visible="true">
+        <check_box
+         control_name="RenderTransparentWater"
+         height="16"
+         label="Enable Transparent Water"
+         layout="topleft"
+         left="3"
+         name="TransparentWater"
+         tool_tip="Render water as transparent. Disabling renders water as opaque with a simple texture applied."
+         top_pad="5" 
+         width="240">
+        </check_box>
+        <check_box
+         control_name="RenderScreenSpaceReflections"
+         height="16"
+         initial_value="true"
+         label="Enable Screen Space Reflections (SSR)"
+         layout="topleft"
+         left_delta="0"
+         name="ScreenSpaceReflections"
+         tool_tip="Enables reflections based on the screen's current view. Provides realistic reflections for objects within the camera's field of view, but may miss details outside the screen. Can impact performance depending on the complexity of the scene. This toggle enables/disables the SSR settings below."
+         top_pad="1"
+         width="256">
+        </check_box>
+        <check_box
+         control_name="RenderMirrors"
+         height="16"
+         initial_value="false"
+         label="Enable Mirrors"
+         layout="topleft"
+         left_delta="0"
+         name="Mirrors"
+         tool_tip="Enables real-time mirror reflections. Accurately reflects the environment, including objects and avatars, but may significantly affect performance due to the additional rendering load. This toggle enables/disables the Mirror settings below."
+         top_pad="1"
+         width="280">
+        </check_box>
+        <check_box
+         control_name="SelectReflectionProbes"
+         height="16"
+         initial_value="false"
+         label="Enable Reflection Probe Selection"
+         layout="topleft"
+         left_delta="0"
+         name="checkbox select probes"
+         tool_tip="Enable to select and inspect reflection probes in the scene."
+         top_pad="1"
+         width="280">
+        </check_box>
+    </panel>
 
-                <panel
-                 name="P_R_Res"
-                 follows="top|left"
-                 layout="topleft"
-                 top_pad="1"
-                 left="3"
-                 right="-5"
-                 height="77"
-                 border_visible="true"
-                 background_visible="true">
-                    <check_box
-                     control_name="RenderTransparentWater"
-                     height="16"
-                     label="Enable Transparent Water"
-                     layout="topleft"
-                     left="3"
-                     name="TransparentWater"
-                     tool_tip="Render water as transparent. Disabling renders water as opaque with a simple texture applied."
-                     top_pad="7"
-                     width="240">
-                    </check_box>
-                    <check_box
-                     control_name="RenderScreenSpaceReflections"
-                     height="16"
-                     initial_value="true"
-                     label="Enable Screen Space Reflections"
-                     layout="topleft"
-                     left_delta="0"
-                     name="ScreenSpaceReflections"
-                     tool_tip="Enables reflections based on the screen's current view. Provides realistic reflections for objects within the camera's field of view, but may miss details outside the screen. Can impact performance depending on the complexity of the scene."
-                     top_pad="1"
-                     width="256">
-                    </check_box>
-                    <check_box
-                     control_name="RenderMirrors"
-                     height="16"
-                     initial_value="false"
-                     label="Enable Mirrors"
-                     layout="topleft"
-                     left_delta="0"
-                     name="Mirrors"
-                     tool_tip="Enables real-time mirror reflections. Accurately reflects the environment, including objects and avatars, but may significantly affect performance due to the additional rendering load."
-                     top_pad="1"
-                     width="280">
-                    </check_box>
-                    <check_box
-                     control_name="SelectReflectionProbes"
-                     height="16"
-                     initial_value="false"
-                     label="Enable Reflection Probe Selection"
-                     layout="topleft"
-                     left_delta="0"
-                     name="checkbox select probes"
-                     tool_tip="Enable to select and inspect reflection probes in the scene."
-                     top_pad="1"
-                     width="280">
-                    </check_box>
-                </panel>
+    <panel
+     name="P_R_SSR_Header"
+     follows="top|left"
+     layout="topleft"
+     top_pad="3"
+     left="0"
+     right="-1"
+     height="22"
+     bg_alpha_color="Phototools_Header"
+     border_visible="true"
+     border_thickness="1"
+     background_visible="true">
+        <text
+         name="T_R_SSR_Header"
+         follows="left|top"
+         layout="topleft"
+         left="5"
+         font="SansSerif"
+         height="17"
+         width="280">
+            Screen Space Reflections (SSR)
+        </text>
+    </panel>
 
-                <panel
-                 name="P_R_Res_2"
-                 follows="top|left"
-                 layout="topleft"
-                 top_pad="1"
-                 left="3"
-                 right="-5"
-                 height="105"
-                 border_visible="true"
-                 background_visible="true">
+    <panel
+     name="P_R_SSR_Controls"
+     follows="top|left"
+     layout="topleft"
+     top_pad="1"
+     left="3"
+     right="-5"
+     height="138" 
+     border_visible="true"
+     background_visible="true"
+     enabled_control="RenderScreenSpaceReflections">
 
-                    <text
-                     type="string"
-                     length="1"
-                     follows="left|top"
-                     height="15"
-                     layout="topleft"
-                     left="5"
-                     name="ReflectionDetailText"
-                     text_readonly_color="LabelDisabledColor"
-                     tool_tip="Determines the level of detail in reflections. 'Static Only' reflects non-moving objects, while higher settings include dynamic objects and real-time reflections."
-                     top_pad="9"
-                     width="162">
-                      Reflection Detail
-                    </text>
-                    <combo_box
-                     control_name="RenderReflectionProbeDetail"
-                     height="20"
-                     layout="topleft"
-                     left_pad="0"
-                     top_delta="-5"
-                     name="ReflectionDetail"
-                     right="-5">
-                      <combo_box.item
-                       label="Static Only"
-                       name="0"
-                       value="0"/>
-                      <combo_box.item
-                       label="Static &amp; Dynamic"
-                       name="1"
-                       value="1"/>
-                      <combo_box.item
-                       label="Realtime"
-                       name="2"
-                       value="2"/>
-                    </combo_box>
-                    <text
-                     type="string"
-                     length="1"
-                     follows="left|top"
-                     height="15"
-                     layout="topleft"
-                     left="5"
-                     name="ReflectionProbeText"
-                     text_readonly_color="LabelDisabledColor"
-                     tool_tip="Controls how much of the scene is covered by reflections. 'Manual Only' reflects selected objects, while 'Full Scene' includes everything in view."
-                     top_pad="4"
-                     width="162">
-                      Reflection Coverage
-                    </text>
-                    <combo_box
-                     control_name="RenderReflectionProbeLevel"
-                     height="20"
-                     layout="topleft"
-                     left_pad="0"
-                     top_delta="-5"
-                     name="ReflectionLevel"
-                     right="-5">
-                      <combo_box.item
-                       label="None"
-                       name="0"
-                       value="0"/>
-                      <combo_box.item
-                       label="Manual only"
-                       name="1"
-                       value="1"/>
-                      <combo_box.item
-                       label="Manual &amp; terrain"
-                       name="2"
-                       value="2"/>
-                      <combo_box.item
-                       label="Full scene"
-                       name="3"
-                       value="3"/>
-                    </combo_box>
-                    <text
-                     type="string"
-                     length="1"
-                     follows="left|top"
-                     height="15"
-                     layout="topleft"
-                     left="5"
-                     name="MirrorResolutionText"
-                     text_readonly_color="LabelDisabledColor"
-                     tool_tip="Sets the resolution for mirror reflections. Higher values produce sharper reflections but require more processing power."
-                     top_pad="4"
-                     width="162">
-                      Mirror Resolution
-                    </text>
-                    <combo_box
-                     control_name="RenderHeroProbeResolution"
-                     enabled_control="RenderMirrors"
-                     height="20"
-                     layout="topleft"
-                     left_pad="0"
-                     top_delta="-5"
-                     name="MirrorResolution"
-                     right="-5">
-                      <combo_box.item
-                       label="256"
-                       name="0"
-                       value="256"/>
-                      <combo_box.item
-                       label="512"
-                       name="1"
-                       value="512"/>
-                      <combo_box.item
-                       label="1024"
-                       name="2"
-                       value="1024"/>
-                      <combo_box.item
-                       label="2048"
-                       name="3"
-                       value="2048"/>
-                       <combo_box.item
-                       label="4096"
-                       name="4"
-                       value="4096"/>
-                    </combo_box>
-                    <text
-                     type="string"
-                     length="1"
-                     follows="left|top"
-                     height="15"
-                     layout="topleft"
-                     left="5"
-                     name="HeroProbeUpdateText"
-                     text_readonly_color="LabelDisabledColor"
-                     tool_tip="Adjusts how frequently mirror reflections are updated. Higher settings offer smoother real-time reflections but can impact performance."
-                     top_pad="4"
-                     width="162">
-                      Mirror Update Rate
-                    </text>
-                    <combo_box
-                     control_name="RenderHeroProbeUpdateRate"
-                     enabled_control="RenderMirrors"
-                     height="20"
-                     layout="topleft"
-                     left_pad="0"
-                     top_delta="-5"
-                     name="HeroProbeUpdateRate"
-                     right="-5">
-                      <combo_box.item
-                       label="Low"
-                       name="6"
-                       value="6"/>
-                      <combo_box.item
-                       label="Medium"
-                       name="3"
-                       value="3"/>
-                      <combo_box.item
-                       label="High"
-                       name="1"
-                       value="2"/>
-                      <combo_box.item
-                       label="Ultra"
-                       name="0"
-                       value="1"/>
-                    </combo_box>
-                    <text
-                     type="string"
-                     length="1"
-                     follows="left|top"
-                     height="15"
-                     layout="topleft"
-                     left="5"
-                     name="Probe_Resolution"
-                     tool_tip="Defines the resolution of reflection probes. Higher resolutions provide more detailed reflections but may increase memory usage and require a viewer restart to apply. Settings above 128 can consume significant amounts of video RAM, potentially impacting performance on systems with limited GPU resources."
-                     top_pad="4"
-                     width="162">
-                        Probe Resolution (Restart)
-                    </text>
-                    <combo_box
-                     control_name="RenderReflectionProbeResolution"
-                     height="20"
-                     layout="topleft"
-                     left_pad="0"
-                     top_delta="-5"
-                     right="-5"
-                     follows="left|top"
-                     name="Probe_Resolution_Combo">
-                        <combo_box.item
-                         label="64"
-                         name="0"
-                         value="64"/>
-                        <combo_box.item
-                         label="128"
-                         name="1"
-                         value="128"/>
-                        <combo_box.item
-                         label="256"
-                         name="2"
-                         value="256"/>
-                        <combo_box.item
-                         label="512"
-                         name="3"
-                         value="512"/>
-                        <combo_box.item
-                         label="1024"
-                         name="4"
-                         value="1024"/>
-                        <combo_box.item
-                         label="2048"
-                         name="5"
-                         value="2048"/>
-                    </combo_box>
-                
-                </panel>
-                <!-- FS:WW: Increased height of P_R_Res_3 panel from 46 to 66 to accommodate content. -->
-                <panel
-                 name="P_R_Res_3"
-                 follows="top|left"
-                 layout="topleft"
-                 top_pad="1"
-                 left="3"
-                 right="-5"
-                 height="66"
-                 border_visible="true"
-                 background_visible="true">
+        <!-- AP:WW Start Add SSR Glossy Samples -->
+        <text
+         type="string"
+         length="1"
+         follows="left|top"
+         height="15"
+         layout="topleft"
+         left="5"
+         name="SSR_GlossySamplesText"
+         tool_tip="Controls the maximum number of samples used for glossy SSR. Higher values improve reflection quality (smoothness) but increase performance cost. [Default: 4]"
+         top_pad="10"
+         width="162">
+          SSR Glossy Samples
+        </text>
+        <combo_box
+         control_name="RenderScreenSpaceReflectionGlossySamples"
+         height="20"
+         layout="topleft"
+         left_pad="0"
+         top_delta="-5"
+         name="SSR_GlossySamplesCombo"
+         right="-3">
+          <combo_box.item label="1 Sample" name="1" value="1"/>
+          <combo_box.item label="2 Samples" name="2" value="2"/>
+          <combo_box.item label="4 Samples" name="4" value="4"/>
+          <combo_box.item label="8 Samples" name="8" value="8"/>
+          <combo_box.item label="16 Samples" name="16" value="16"/>
+          <combo_box.item label="32 Samples" name="32" value="32"/>
+          <combo_box.item label="64 Samples" name="64" value="64"/>
+          <combo_box.item label="128 Samples" name="128" value="128"/>
+          <combo_box.item label="256 Samples" name="256" value="256"/>
+          <combo_box.item label="512 Samples" name="512" value="512"/>
+          <combo_box.item label="1024 Samples" name="1024" value="1024"/>
+          <combo_box.item label="2048 Samples" name="2048" value="2048"/>
+          <!-- Add more if needed/supported -->
+        </combo_box>
+        <!-- AP:WW End Add SSR Glossy Samples -->
 
-                    <text
-                     name="T_Reflection_Distance"
-                     follows="top|left"
-                     layout="topleft"
-                     left="5"
-                     top_pad="10"
-                     tool_tip="Controls the visibility range for reflections, affecting reflection detail and performance across reflection probes, mirrors, and screen space reflections. Higher values increase the distance at which reflections are visible, enhancing detail but increasing performance cost."
-                     width="70">
-                        Reflect. Dist.
-                    </text>
-                    <!-- FS:WW: Changed min_val of SB_Reflection_Distance slider from 0 to 1 to prevent potential issues with 0 value. -->
-                    <slider_bar
-                     name="SB_Reflection_Distance"
-                     control_name="RenderReflectionProbeDrawDistance"
-                     follows="top|left"
-                     height="16"
-                     increment="1"
-                     layout="topleft"
-                     left_pad="0"
-                     min_val="1"
-                     max_val="4096"
-                     top_delta="-2"
-                     width="127"/>
-                    <spinner
-                     name="S_Reflection_Distance"
-                     control_name="RenderReflectionProbeDrawDistance"
-                     top_delta="-3"
-                     label_width="0"
-                     left_pad="0"
-                     decimal_digits="0"
-                     follows="top|left"
-                     max_val="4096"
-                     min_val="1"
-                     width="53"
-                     increment="1"/>
-                    <button
-                     follows="left|top"
-                     name="Reset_Reflection_Distance"
-                     height="22"
-                     label="D"
-                     layout="topleft"
-                     left_pad="0"
-                     top_delta="0"
-                     width="20"
-                     tool_tip="Reset to the default value.">
-                        <button.commit_callback
-                         function="ResetControl"
-                         parameter="RenderReflectionProbeDrawDistance"/>
-                    </button>
-                </panel>
-         </panel>
+        <!-- SSR Iterations -->
+        <text
+         name="T_SSR_Iterations"
+         follows="top|left"
+         layout="topleft"
+         left="5"
+         top_pad="5"
+         tool_tip="Controls the number of refinement steps for SSR. Higher values improve reflection quality and reduce noise but increase performance cost significantly. [Default: Check Setting]"
+         width="70">
+            Iterations
+        </text>
+        <slider_bar
+         name="SB_SSR_Iterations"
+         control_name="RenderScreenSpaceReflectionIterations"
+         follows="top|left"
+         height="16"
+         increment="1"
+         layout="topleft"
+         left_pad="0"
+         min_val="1"
+         max_val="256"
+         top_delta="-2"
+         width="127"/>
+        <spinner
+         name="S_SSR_Iterations"
+         control_name="RenderScreenSpaceReflectionIterations"
+         top_delta="-3"
+         label_width="0"
+         left_pad="0"
+         decimal_digits="0"
+         follows="top|left"
+         max_val="1024"
+         min_val="1"
+         width="53"
+         increment="1"/>
+        <button
+         follows="left|top"
+         name="Reset_SSR_Iterations"
+         height="22"
+         label="D"
+         layout="topleft"
+         left_pad="0"
+         top_delta="0"
+         width="20"
+         tool_tip="Reset to the default value.">
+            <button.commit_callback
+             function="ResetControl"
+             parameter="RenderScreenSpaceReflectionIterations"/>
+        </button>
 
+        <!-- SSR Ray Step -->
+        <text
+         name="T_SSR_RayStep"
+         follows="top|left"
+         layout="topleft"
+         left="5"
+         top_pad="5"
+         tool_tip="Determines the length of each step taken when tracing reflection rays. Smaller values increase accuracy, especially for nearby reflections, but cost more performance. Larger values trace faster but may miss finer details. [Default: Check Setting]"
+         width="70">
+            Ray Step
+        </text>
+        <slider_bar
+         name="SB_SSR_RayStep"
+         control_name="RenderScreenSpaceReflectionRayStep"
+         follows="top|left"
+         height="16"
+         increment="0.01"
+         layout="topleft"
+         left_pad="0"
+         min_val="0.01"
+         max_val="2.0"
+         top_delta="-2"
+         width="127"/>
+        <spinner
+         name="S_SSR_RayStep"
+         control_name="RenderScreenSpaceReflectionRayStep"
+         top_delta="-3"
+         label_width="0"
+         left_pad="0"
+         decimal_digits="3"
+         follows="top|left"
+         max_val="10.0"
+         min_val="0.0"
+         width="53"
+         increment="0.001"/>
+        <button
+         follows="left|top"
+         name="Reset_SSR_RayStep"
+         height="22"
+         label="D"
+         layout="topleft"
+         left_pad="0"
+         top_delta="0"
+         width="20"
+         tool_tip="Reset to the default value.">
+            <button.commit_callback
+             function="ResetControl"
+             parameter="RenderScreenSpaceReflectionRayStep"/>
+        </button>
+
+        <!-- SSR Distance Bias -->
+        <text
+         name="T_SSR_DistanceBias"
+         follows="top|left"
+         layout="topleft"
+         left="5"
+         top_pad="5"
+         tool_tip="Adds a small offset to the start of reflection rays to prevent self-reflection artifacts ('acne'). Adjust if reflections seem disconnected or noisy near the reflecting surface. [Default: Check Setting]"
+         width="70">
+            Dist Bias
+        </text>
+        <slider_bar
+         name="SB_SSR_DistanceBias"
+         control_name="RenderScreenSpaceReflectionDistanceBias"
+         follows="top|left"
+         height="16"
+         increment="0.001"
+         layout="topleft"
+         left_pad="0"
+         min_val="0.0"
+         max_val="0.5"
+         top_delta="-2"
+         width="127"/>
+        <spinner
+         name="S_SSR_DistanceBias"
+         control_name="RenderScreenSpaceReflectionDistanceBias"
+         top_delta="-3"
+         label_width="0"
+         left_pad="0"
+         decimal_digits="4"
+         follows="top|left"
+         max_val="1.0"
+         min_val="0.0"
+         width="53"
+         increment="0.0001"/>
+        <button
+         follows="left|top"
+         name="Reset_SSR_DistanceBias"
+         height="22"
+         label="D"
+         layout="topleft"
+         left_pad="0"
+         top_delta="0"
+         width="20"
+         tool_tip="Reset to the default value.">
+            <button.commit_callback
+             function="ResetControl"
+             parameter="RenderScreenSpaceReflectionDistanceBias"/>
+        </button>
+
+        <!-- SSR Depth Reject Bias -->
+        <text
+         name="T_SSR_DepthRejectBias"
+         follows="top|left"
+         layout="topleft"
+         left="5"
+         top_pad="5"
+         tool_tip="Helps prevent reflections from appearing 'through' objects by comparing depths. Adjust if reflections seem incorrect based on object occlusion. [Default: Check Setting]"
+         width="70">
+            Depth Bias
+        </text>
+        <slider_bar
+         name="SB_SSR_DepthRejectBias"
+         control_name="RenderScreenSpaceReflectionDepthRejectBias"
+         follows="top|left"
+         height="16"
+         increment="0.01"
+         layout="topleft"
+         left_pad="0"
+         min_val="0.0"
+         max_val="1.0"
+         top_delta="-2"
+         width="127"/>
+        <spinner
+         name="S_SSR_DepthRejectBias"
+         control_name="RenderScreenSpaceReflectionDepthRejectBias"
+         top_delta="-3"
+         label_width="0"
+         left_pad="0"
+         decimal_digits="3"
+         follows="top|left"
+         max_val="5.0"
+         min_val="0.0"
+         width="53"
+         increment="0.001"/>
+        <button
+         follows="left|top"
+         name="Reset_SSR_DepthRejectBias"
+         height="22"
+         label="D"
+         layout="topleft"
+         left_pad="0"
+         top_delta="0"
+         width="20"
+         tool_tip="Reset to the default value.">
+            <button.commit_callback
+             function="ResetControl"
+             parameter="RenderScreenSpaceReflectionDepthRejectBias"/>
+        </button>
+
+        <!-- SSR Adaptive Step Multiplier -->
+        <text
+         name="T_SSR_AdaptiveStep"
+         follows="top|left"
+         layout="topleft"
+         left="5"
+         top_pad="5"
+         tool_tip="Multiplier for adaptive ray stepping. Likely increases ray step size for distant reflections to improve performance. Lower values may increase distant detail at higher cost. [Default: Check Setting]"
+         width="70">
+            Adapt Step
+        </text>
+        <slider_bar
+         name="SB_SSR_AdaptiveStep"
+         control_name="RenderScreenSpaceReflectionAdaptiveStepMultiplier"
+         follows="top|left"
+         height="16"
+         increment="0.1"
+         layout="topleft"
+         left_pad="0"
+         min_val="0.1"
+         max_val="10.0"
+         top_delta="-2"
+         width="127"/>
+        <spinner
+         name="S_SSR_AdaptiveStep"
+         control_name="RenderScreenSpaceReflectionAdaptiveStepMultiplier"
+         top_delta="-3"
+         label_width="0"
+         left_pad="0"
+         decimal_digits="2"
+         follows="top|left"
+         max_val="50.0"
+         min_val="0.0"
+         width="53"
+         increment="0.01"/>
+        <button
+         follows="left|top"
+         name="Reset_SSR_AdaptiveStep"
+         height="22"
+         label="D"
+         layout="topleft"
+         left_pad="0"
+         top_delta="0"
+         width="20"
+         tool_tip="Reset to the default value.">
+            <button.commit_callback
+             function="ResetControl"
+             parameter="RenderScreenSpaceReflectionAdaptiveStepMultiplier"/>
+        </button>
+
+    </panel>
+
+    <panel
+     name="P_R_Mirror_Header"
+     follows="top|left"
+     layout="topleft"
+     top_pad="3"
+     left="0"
+     right="-1"
+     height="22"
+     bg_alpha_color="Phototools_Header"
+     border_visible="true"
+     border_thickness="1"
+     background_visible="true">
+        <text
+         name="T_R_Mirror_Header"
+         follows="left|top"
+         layout="topleft"
+         left="5"
+         font="SansSerif"
+         height="17"
+         width="280">
+            Mirror Reflections
+        </text>
+    </panel>
+
+
+    <panel
+     name="P_R_Mirror_Controls"
+     follows="top|left"
+     layout="topleft"
+     top_pad="1"
+     left="3"
+     right="-5"
+     height="73" 
+     border_visible="true"
+     background_visible="true">
+
+        <text
+         type="string"
+         length="1"
+         follows="left|top"
+         height="15"
+         layout="topleft"
+         left="5"
+         name="MirrorResolutionText"
+         text_readonly_color="LabelDisabledColor"
+         tool_tip="Sets the resolution for mirror reflections. Higher values produce sharper reflections but require more processing power. Enabled by the 'Enable Mirrors' checkbox."
+         top_pad="9"
+         width="162">
+          Mirror Resolution
+        </text>
+        <combo_box
+         control_name="RenderHeroProbeResolution"
+         enabled_control="RenderMirrors"
+         height="20"
+         layout="topleft"
+         left_pad="0"
+         top_delta="-5"
+         name="MirrorResolution"
+         right="-3">
+          <combo_box.item label="256" name="0" value="256"/>
+          <combo_box.item label="512" name="1" value="512"/>
+          <combo_box.item label="1024" name="2" value="1024"/>
+          <combo_box.item label="2048" name="3" value="2048"/>
+          <combo_box.item label="4096" name="4" value="4096"/>
+        </combo_box>
+        <text
+         type="string"
+         length="1"
+         follows="left|top"
+         height="15"
+         layout="topleft"
+         left="5"
+         name="HeroProbeUpdateText"
+         text_readonly_color="LabelDisabledColor"
+         tool_tip="Adjusts how frequently mirror reflections are updated. Higher settings offer smoother real-time reflections but can impact performance. Enabled by the 'Enable Mirrors' checkbox."
+         top_pad="4"
+         width="162">
+          Mirror Update Rate
+        </text>
+        <combo_box
+         control_name="RenderHeroProbeUpdateRate"
+         enabled_control="RenderMirrors"
+         height="20"
+         layout="topleft"
+         left_pad="0"
+         top_delta="-5"
+         name="HeroProbeUpdateRate"
+         right="-3">
+          <combo_box.item label="Low" name="6" value="6"/>
+          <combo_box.item label="Medium" name="3" value="3"/>
+          <combo_box.item label="High" name="1" value="2"/>
+          <combo_box.item label="Ultra" name="0" value="1"/>
+        </combo_box>
+
+        <!-- AP:WW Start Add Mirror Distance -->
+        <text
+         name="T_Mirror_Distance"
+         follows="top|left"
+         layout="topleft"
+         left="5"
+         top_pad="10"
+         tool_tip="Sets the maximum distance (in meters) mirrors will render reflections. Enabled by the 'Enable Mirrors' checkbox. [Default: 8]"
+         width="70">
+            Mirr Dist (m)
+        </text>
+        <slider_bar
+         name="SB_Mirror_Distance"
+         control_name="RenderHeroProbeDistance"
+         enabled_control="RenderMirrors"
+         follows="top|left"
+         height="16"
+         increment="1.0"
+         layout="topleft"
+         left_pad="0"
+         min_val="1"
+         max_val="128"
+         top_delta="-2"
+         width="127"/>
+        <spinner
+         name="S_Mirror_Distance"
+         control_name="RenderHeroProbeDistance"
+         enabled_control="RenderMirrors"
+         top_delta="-3"
+         label_width="0"
+         left_pad="0"
+         decimal_digits="1"
+         follows="top|left"
+         max_val="512"
+         min_val="0.1"
+         width="53"
+         increment="0.1"/>
+        <button
+         follows="left|top"
+         name="Reset_Mirror_Distance"
+         enabled_control="RenderMirrors"
+         height="22"
+         label="D"
+         layout="topleft"
+         left_pad="0"
+         top_delta="0"
+         width="20"
+         tool_tip="Reset to the default value (8).">
+            <button.commit_callback
+             function="ResetControl"
+             parameter="RenderHeroProbeDistance"/>
+        </button>
+        <!-- AP:WW End Add Mirror Distance -->
+
+    </panel>
+
+    <panel
+     name="P_R_Probe_Controls"
+     follows="top|left"
+     layout="topleft"
+     top_pad="1"
+     left="3"
+     right="-5"
+     height="158"
+     border_visible="true"
+     background_visible="true">
+        <text
+         type="string"
+         length="1"
+         follows="left|top"
+         height="15"
+         layout="topleft"
+         left="5"
+         name="ReflectionDetailText"
+         text_readonly_color="LabelDisabledColor"
+         tool_tip="Determines the level of detail in reflections. Static Only reflects non-moving objects, while higher settings include dynamic objects and real-time reflections."
+         top_pad="9"
+         width="162">
+          Reflection Detail
+        </text>
+        <combo_box
+         control_name="RenderReflectionProbeDetail"
+         height="20"
+         layout="topleft"
+         left_pad="0"
+         top_delta="-5"
+         name="ReflectionDetail"
+         right="-3">
+          <combo_box.item label="Static Only" name="0" value="0"/>
+          <combo_box.item label="Static &amp; Dynamic" name="1" value="1"/>
+          <combo_box.item label="Realtime" name="2" value="2"/>
+        </combo_box>
+        <text
+         type="string"
+         length="1"
+         follows="left|top"
+         height="15"
+         layout="topleft"
+         left="5"
+         name="ReflectionProbeText"
+         text_readonly_color="LabelDisabledColor"
+         tool_tip="Controls how much of the scene is covered by reflections. 'Manual Only' reflects selected objects, while 'Full Scene' includes everything in view."
+         top_pad="4"
+         width="162">
+          Reflection Coverage
+        </text>
+        <combo_box
+         control_name="RenderReflectionProbeLevel"
+         height="20"
+         layout="topleft"
+         left_pad="0"
+         top_delta="-5"
+         name="ReflectionLevel"
+         right="-3">
+          <combo_box.item label="None" name="0" value="0"/>
+          <combo_box.item label="Manual only" name="1" value="1"/>
+          <combo_box.item label="Manual &amp; terrain" name="2" value="2"/>
+          <combo_box.item label="Full scene" name="3" value="3"/>
+        </combo_box>
+         <text
+         type="string"
+         length="1"
+         follows="left|top"
+         height="15"
+         layout="topleft"
+         left="5"
+         name="Probe_Resolution"
+         tool_tip="Defines the resolution of reflection probes. Higher resolutions provide more detailed reflections but may increase memory usage and require a viewer restart to apply. Settings above 128 can consume significant amounts of video RAM, potentially impacting performance on systems with limited GPU resources."
+         top_pad="4"
+         width="162">
+            Probe Resolution (Restart)
+        </text>
+        <combo_box
+         control_name="RenderReflectionProbeResolution"
+         height="20"
+         layout="topleft"
+         left_pad="0"
+         top_delta="-5"
+         right="-3"
+         follows="left|top"
+         name="Probe_Resolution_Combo">
+            <combo_box.item label="64" name="0" value="64"/>
+            <combo_box.item label="128" name="1" value="128"/>
+            <combo_box.item label="256" name="2" value="256"/>
+            <combo_box.item label="512" name="3" value="512"/>
+            <combo_box.item label="1024" name="4" value="1024"/>
+            <combo_box.item label="2048" name="5" value="2048"/>
+        </combo_box>
+
+        <text
+         name="T_Reflection_Distance"
+         follows="top|left"
+         layout="topleft"
+         left="5"
+         top_pad="10"
+         tool_tip="Controls the visibility range for reflections, affecting reflection detail and performance across reflection probes, mirrors, and screen space reflections. Higher values increase the distance at which reflections are visible, enhancing detail but increasing performance cost. [Default: Check Setting]"
+         width="70">
+            Reflect. Dist.
+        </text>
+        <slider_bar
+         name="SB_Reflection_Distance"
+         control_name="RenderReflectionProbeDrawDistance"
+         follows="top|left"
+         height="16"
+         increment="1"
+         layout="topleft"
+         left_pad="0"
+         min_val="1"
+         max_val="4096"
+         top_delta="-2"
+         width="127"/>
+        <spinner
+         name="S_Reflection_Distance"
+         control_name="RenderReflectionProbeDrawDistance"
+         top_delta="-3"
+         label_width="0"
+         left_pad="0"
+         decimal_digits="0"
+         follows="top|left"
+         max_val="4096"
+         min_val="1"
+         width="53"
+         increment="1"/>
+        <button
+         follows="left|top"
+         name="Reset_Reflection_Distance"
+         height="22"
+         label="D"
+         layout="topleft"
+         left_pad="0"
+         top_delta="0"
+         width="20"
+         tool_tip="Reset to the default value.">
+            <button.commit_callback
+             function="ResetControl"
+             parameter="RenderReflectionProbeDrawDistance"/>
+        </button>
+
+        <text
+         name="T_Probe_Ambiance"
+         follows="top|left"
+         layout="topleft"
+         left="5"
+         top_pad="5"
+         tool_tip="Scales how much reflection probes contribute to the overall ambient light in the scene. Higher values increase ambient brightness derived from probes. [Default: 0]"
+         width="70">
+            Probe Amb.
+        </text>
+        <slider_bar
+         name="SB_Probe_Ambiance"
+         control_name="RenderReflectionProbeAmbiance"
+         follows="top|left"
+         height="16"
+         increment="0.05"
+         layout="topleft"
+         left_pad="0"
+         min_val="0.0"
+         max_val="2.0"
+         top_delta="-2"
+         width="127"/>
+        <spinner
+         name="S_Probe_Ambiance"
+         control_name="RenderReflectionProbeAmbiance"
+         top_delta="-3"
+         label_width="0"
+         left_pad="0"
+         decimal_digits="2"
+         follows="top|left"
+         max_val="10.0"
+         min_val="0.0"
+         width="53"
+         increment="0.01"/>
+        <button
+         follows="left|top"
+         name="Reset_Probe_Ambiance"
+         height="22"
+         label="D"
+         layout="topleft"
+         left_pad="0"
+         top_delta="0"
+         width="20"
+         tool_tip="Reset to the default value (0).">
+            <button.commit_callback
+             function="ResetControl"
+             parameter="RenderReflectionProbeAmbiance"/>
+        </button>
+
+        <text
+         name="T_Probe_UpdatePeriod"
+         follows="top|left"
+         layout="topleft"
+         left="5"
+         top_pad="5"
+         tool_tip="Time in seconds between updates for Static or Static &amp; Dynamic reflection probes. Lower values update more frequently but cost more performance. Does not affect Realtime probes. [Default: 2.0]"
+         width="70">
+            Upd Period(s)
+        </text>
+        <slider_bar
+         name="SB_Probe_UpdatePeriod"
+         control_name="RenderDefaultProbeUpdatePeriod"
+         follows="top|left"
+         height="16"
+         increment="0.5"
+         layout="topleft"
+         left_pad="0"
+         min_val="0.1"
+         max_val="30.0"
+         top_delta="-2"
+         width="127"/>
+        <spinner
+         name="S_Probe_UpdatePeriod"
+         control_name="RenderDefaultProbeUpdatePeriod"
+         top_delta="-3"
+         label_width="0"
+         left_pad="0"
+         decimal_digits="1"
+         follows="top|left"
+         max_val="300.0"
+         min_val="0.1"
+         width="53"
+         increment="0.1"/>
+        <button
+         follows="left|top"
+         name="Reset_Probe_UpdatePeriod"
+         height="22"
+         label="D"
+         layout="topleft"
+         left_pad="0"
+         top_delta="0"
+         width="20"
+         tool_tip="Reset to the default value (2.0).">
+            <button.commit_callback
+             function="ResetControl"
+             parameter="RenderDefaultProbeUpdatePeriod"/>
+        </button>
+
+        <text
+         name="T_Probe_MaxLocalAmb"
+         follows="top|left"
+         layout="topleft"
+         left="5"
+         top_pad="5"
+         tool_tip="Sets the maximum effective ambient contribution from local lights (projectors, point lights) captured by reflection probes. [Default: 4.0]"
+         width="70">
+            Max Local Amb
+        </text>
+        <slider_bar
+         name="SB_Probe_MaxLocalAmb"
+         control_name="RenderReflectionProbeMaxLocalLightAmbiance"
+         follows="top|left"
+         height="16"
+         increment="0.5"
+         layout="topleft"
+         left_pad="0"
+         min_val="0.0"
+         max_val="16.0"
+         top_delta="-2"
+         width="127"/>
+        <spinner
+         name="S_Probe_MaxLocalAmb"
+         control_name="RenderReflectionProbeMaxLocalLightAmbiance"
+         top_delta="-3"
+         label_width="0"
+         left_pad="0"
+         decimal_digits="1"
+         follows="top|left"
+         max_val="64.0"
+         min_val="0.0"
+         width="53"
+         increment="0.1"/>
+        <button
+         follows="left|top"
+         name="Reset_Probe_MaxLocalAmb"
+         height="22"
+         label="D"
+         layout="topleft"
+         left_pad="0"
+         top_delta="0"
+         width="20"
+         tool_tip="Reset to the default value (4.0).">
+            <button.commit_callback
+             function="ResetControl"
+             parameter="RenderReflectionProbeMaxLocalLightAmbiance"/>
+        </button>
+
+    </panel>
+
+</panel>
 
         <panel
          name="P_General"
@@ -4031,7 +4892,7 @@
              top_pad="1"
              left="3"
              right="-3"
-             height="315"
+             height="312"
              border_visible="true"
              background_visible="true">
                 <text
@@ -4039,7 +4900,7 @@
                  follows="left|top"
                  layout="topleft"
                  left="5"
-                 top_pad="10"
+                 top_pad="7"
                  tool_tip="Sets the maximum distance at which objects are rendered in the scene. Increasing this value allows you to see farther into the environment, enhancing detail in large landscapes or distant objects. However, higher values significantly impact performance, reducing FPS, especially in complex areas. For better performance, use lower values in crowded regions or when using older hardware."
                  width="70">
                     Draw Dist.
@@ -4865,7 +5726,7 @@
              top_pad="1"
              left="3"
              right="-3"
-             height="130"
+             height="127"
              border_visible="true"
              border_thickness="1"
              background_visible="true">
@@ -5143,7 +6004,7 @@
              top_pad="1"
              left="3"
              right="-3"
-             height="302"
+             height="311"
              border_visible="true"
              background_visible="true">
                 <check_box
@@ -5290,7 +6151,7 @@
                     <check_box.check_button.commit_callback
                      function="View.ShowHUDAttachments"/>
                 </check_box>
-                <check_box
+                <!--check_box
                  follows="top|left"
                  label="Slop-mo Animation - Your Avatar and Viewer"
                  layout="topleft"
@@ -5304,7 +6165,58 @@
                     <check_box.check_button.commit_callback
                      function="ToggleControl"
                      parameter="SlowMotionAnimation"/>
-                </check_box>
+                </check_box-->
+                <text
+                 name="UI Size:"
+                 follows="top|left"
+                 layout="topleft"
+                 left="5"
+                 top_pad="10"
+                 tool_tip=""
+                 width="70">
+                    UI Scaling
+                </text>
+                <slider_bar
+                 name="ui_scale_slider"
+                 control_name="UIScaleFactor"
+                 follows="left|right"
+                 height="16"
+                 increment=".25"
+                 layout="topleft"
+                 left_pad="0"
+                 min_val=".25"
+                 max_val="2"
+                 top_delta="-2"
+                 width="127"/>
+                <spinner
+                 name="ui_scale_spinner"
+                 control_name="UIScaleFactor"
+                 top_delta="-3"
+                 label_width="0"
+                 left_pad="0"
+                 decimal_digits="2"
+                 follows="top|left"
+                 max_val="2"
+                 min_val="25"
+                 width="53"
+                 increment=".25"/>
+                <button
+                 follows="left|top"
+                 name="Reset_Local_Lights"
+                 height="22"
+                 label="D"
+                 layout="topleft"
+                 left_pad="0"
+                 top_delta="0"
+                 right="-5"
+                 tool_tip="Reset to the default value.">
+                    <button.commit_callback
+                     function="ResetControl"
+                     parameter="RenderLocalLightCount"/>
+                </button>
+                
+                
+                
                 <button
                  follows="left|top"
                  name="Rebake Texture"
@@ -5385,7 +6297,7 @@
             <!-- FS:WW: Increased height of statistics_scroll scroll_container from 158 to 178 to accommodate content. -->
             <scroll_container
              follows="top|left"
-             height="179"
+             height="207"
              layout="topleft"
              left="3"
              name="statistics_scroll"
@@ -6362,7 +7274,7 @@
                              control_name="FirstPersonAvatarVisible"
                              follows="left|top"
                              height="16"
-                             label="Display avatar &amp; attachments in mouselook"
+                             label="Display avatar &amp;amp; attachments in mouselook"
                              layout="topleft"
                              left="3"
                              tool_tip="Displays avatar and attachments below neck while in mouselook. Default is OFF."

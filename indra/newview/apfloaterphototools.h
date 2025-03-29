@@ -34,6 +34,15 @@
 #include "llenvironment.h"
 #include "llfloater.h"
 
+#include "llsettingsbase.h"
+#include "llsettingssky.h"
+
+#include "boost/signals2.hpp"
+
+// #include "llquaternion.h"  // Required for quaternion calculations
+// #include "llvirtualtrackball.h"
+// #include "llsky.h"  // Needed for mLiveSky
+
 // Forward Declarations - declare specific classes that are needed in order to build this header and cpp without have to create a dependnacy on additonal headers to reduce complile time and complexity
 class LLCheckBoxCtrl;
 class LLComboBox;
@@ -46,20 +55,18 @@ class LLSpinCtrl;
 class LLTextBox;
 class LLColorSwatchCtrl;
 
-// defines something I don't know what or whie - Find this the most confusion thing here - don't get this at all
+
 #define PRESET_NAME_REGION_DEFAULT "__Regiondefault__"
 #define PRESET_NAME_DAY_CYCLE "__Day_Cycle__"
 #define PRESET_NAME_NONE "__None__"
 
-// this is type defnioaiton, it defines a type of thing, here phototools update param, but I don't understand it and have no idea how it link to the cpp and why
 typedef enum e_phototools_update_param
 {
     PT_PARAM_SKY,
     PT_PARAM_WATER,
-    PT_PARAM_DAYCYCLE
+    // PT_PARAM_DAYCYCLE
 } EPhototoolsParam;
 
-// Class Definition - I understand this defines this class, which makes sense because this the header file for this floater and it is WHERE we create the conept of the FloaterPhotools, so this is where we keep our blue print. The public LLfloater least os know the templaye we are making this blueprint from
 class APFloaterPhototools : public LLFloater
 {
     friend class LLFloaterReg;
@@ -80,11 +87,16 @@ public:
     // --- Environment Preset Management: Methods to set the sky, water, day cycle, and environment, since other parts of the code may call these methods. ---
     void setSelectedSky(const std::string& preset_name);
     void setSelectedWater(const std::string& preset_name);
-    void setSelectedDayCycle(const std::string& preset_name);
+    // void setSelectedDayCycle(const std::string& preset_name);
     void setSelectedEnvironment();
 
     // --- Settings Refresh: A method for other code to request the floater be refreshed with new values. ---
     void refreshSettings();
+    
+    // General Environment Editing Functions 
+    void captureCurrentEnvironment();           // FEA
+    void refreshSky();                         // FEA
+    void onEnvironmentUpdated(LLEnvironment::EnvSelection_t env, S32 version);  //FEA
 
 private:
     // --- Private Section ---
@@ -93,7 +105,7 @@ private:
     // --- UI Element Declarations: Keep all the LLComboBox, LLSlider, LLSpinCtrl, etc., member variables together. This makes it easier to see what UI elements the class manages. ---
     LLComboBox*         mWLPresetsCombo;
     LLComboBox*         mWaterPresetsCombo;
-    LLComboBox*         mDayCyclePresetsCombo;
+    // LLComboBox*         mDayCyclePresetsCombo;
     LLSlider*           mSliderRenderShadowSplitExponentY;
     LLSpinCtrl*         mSpinnerRenderShadowSplitExponentY;
     LLSlider*           mSliderRenderShadowGaussianX;
@@ -115,7 +127,7 @@ private:
     // --- Environment Management: These member variables are closely related to environment settings. ---
     LLSettingsSky::ptr_t        mLiveSky;
     LLSettingsWater::ptr_t      mLiveWater;
-    LLSettingsDay::ptr_t        mLiveDay;
+    // LLSettingsDay::ptr_t        mLiveDay;
 
     // --- Connections and Slots: These member variables are related to signal and slot connections. ---
     LLEnvironment::connection_t mEnvChangedConnection;
@@ -123,25 +135,25 @@ private:
 
     // --- Preset Loading: All the loadPresets methods are kept together. These are internal methods used to populate the UI and are not intended to be called from outside the class. ---
     void loadPresets();
-    void loadDayCyclePresets(const std::multimap<std::string, LLUUID>& daycycle_map);
+    // void loadDayCyclePresets(const std::multimap<std::string, LLUUID>& daycycle_map);
     void loadSkyPresets(const std::multimap<std::string, LLUUID>& sky_map);
     void loadWaterPresets(const std::multimap<std::string, LLUUID>& water_map);
 
     // --- Environment Preset Selection Handlers: All the onChange... methods are kept together. These methods are called when the user interacts with the environment preset combo boxes. ---
     void onChangeWaterPreset();
     void onChangeSkyPreset();
-    void onChangeDayCyclePreset();
+    // void onChangeDayCyclePreset();
     void selectSkyPreset(const LLSD& preset);
     void selectWaterPreset(const LLSD& preset);
-    void selectDayCyclePreset(const LLSD& preset);
+    // void selectDayCyclePreset(const LLSD& preset);
 
     // --- Environment Preset Navigation Handlers: All the onClick... methods for handling the previous and next buttons are grouped together. ---
     void onClickSkyPrev();
     void onClickSkyNext();
     void onClickWaterPrev();
     void onClickWaterNext();
-    void onClickDayCyclePrev();
-    void onClickDayCycleNext();
+    // void onClickDayCyclePrev();
+    // void onClickDayCycleNext();
     void onClickResetToRegionDefault();
     void setDefaultPresetsEnabled(bool enabled);
 
@@ -172,6 +184,65 @@ private:
     bool isValidPreset(const LLSD& preset);
     void stepComboBox(LLComboBox* ctrl, bool forward);
     void initCallbacks(); 
+
+    // Evironment Preset Editing Fuctions
+    // Function order matchs UI structure
+
+    // Atmospheric Colors
+    void onAmbientLightChanged();               // FEA
+    void onBlueHorizonChanged();                // FEA
+    void onBlueDensityChanged();                // FEA
+
+    // Atmosphere Settings
+    void onHazeHorizonChanged();                // PES
+    void onHazeDensityChanged();                // PES
+    void onDensityMultipChanged();              // PES
+    void onDistanceMultipChanged();             // PES
+    void onMaxAltChanged();                     // PES
+    void onSceneGammaChanged();                 // FEA
+    void updateGammaLabel(LLSettingsSky::ptr_t sky);                // FEA (I think this is UI for Brightness)
+    void onReflectionProbeAmbianceChanged();    // FEA
+
+    // Rainbow and Halo Settings
+    void onMoistureLevelChanged();              // PES
+    void onDropletRadiusChanged();              // PES
+    void onIceLevelChanged();                   // PES
+
+    // Cloud Settings
+    void onCloudColorChanged();                 // FEA
+    void onCloudCoverageChanged();              // FEA
+    void onCloudScaleChanged();                 // FEA
+    void onCloudVarianceChanged();              // PES
+    void onCloudDensityChanged();               // PES
+    void onCloudDetailChanged();                // PES
+    void onCloudScrollChanged();                // PES
+    void onCloudMapChanged();                   // FEA
+
+    // Sun and Moon Colors
+    void onSunColorChanged();                   // FEA
+
+    // Sun and Stars Settings
+    void onSunImageChanged();                   // PES
+    void onGlowChanged();                       // FES
+    void onStarBrightnessChanged();             // FES
+    void onSunScaleChanged();                   // FES
+    void onSunAzimElevChanged();                // FES
+    
+    // Moon Settings
+    void onMoonImageChanged();                  // PES
+    void onMoonScaleChanged();                  // PES
+    void onMoonBrightnessChanged();             // PES
+    void onMoonAzimElevChanged();               // FEA
+
+    // Refresh Functions
+    // void refreshSunPosition();
+    
+    // Functions for Spinner Slider Control - Implemetation Post Fuctionality of All UI
+    // void onSunAzimuthChanged();
+    // void onSunElevationChanged();
+    // void onSunAzimuthSpinnerChanged();
+    // void onSunElevationSpinnerChanged();
+
 
 };
 
