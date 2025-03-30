@@ -409,10 +409,19 @@ F32 logExceptionBenchmark()
 }
 #endif
 
+// llfeaturemanager.cpp
+
+// ... (other includes and code above) ...
+
 bool LLFeatureManager::loadGPUClass()
 {
-    if (!gSavedSettings.getBOOL("SkipBenchmark"))
-    {
+    // <AP:WW> Force skipping the GPU benchmark for all users always.
+    // bool runBenchmark = !gSavedSettings.getBOOL("SkipBenchmark");
+    bool runBenchmark = false; // Force false to always skip
+    // if (!gSavedSettings.getBOOL("SkipBenchmark"))
+    if (runBenchmark)
+    // </AP:WW>
+    { // START of if (runBenchmark) block
         F32 class1_gbps = gSavedSettings.getF32("RenderClass1MemoryBandwidth");
         //get memory bandwidth from benchmark
         F32 gbps;
@@ -421,7 +430,9 @@ bool LLFeatureManager::loadGPUClass()
             // <FS:ND> Allow to skip gpu_benchmark with -noprobe.
             // This can make sense for some Intel GPUs which can take 15+ Minutes or crash during gpu_benchmark
             gbps = -1.0f;
-            if( !gSavedSettings.getBOOL( "NoHardwareProbe" ) )
+            // <AP:WW> // Benchmark is already skipped by the forced 'runBenchmark = false' above, no need to check NoHardwareProbe here again.
+            // if( !gSavedSettings.getBOOL( "NoHardwareProbe" ) )
+            // </AP:WW>
 #if LL_WINDOWS
                 gbps = logExceptionBenchmark();
 #else
@@ -445,36 +456,26 @@ bool LLFeatureManager::loadGPUClass()
 
         if (gbps < 0.f)
         { //couldn't bench, default to Low
-    #if LL_DARWIN
+#if LL_DARWIN
         //GLVersion is misleading on OSX, just default to class 3 if we can't bench
         LL_WARNS("RenderInit") << "Unable to get an accurate benchmark; defaulting to class 3" << LL_ENDL;
         mGPUClass = GPU_CLASS_3;
-    #else
+#else
             mGPUClass = GPU_CLASS_0;
-    #endif
+#endif
         }
         else if (gbps <= class1_gbps)
         {
             mGPUClass = GPU_CLASS_1;
         }
-        else if (gbps <= class1_gbps *2.f)
-        {
-            mGPUClass = GPU_CLASS_2;
-        }
-        else if (gbps <= class1_gbps*4.f)
-        {
-            mGPUClass = GPU_CLASS_3;
-        }
-        else if (gbps <= class1_gbps*8.f)
-        {
-            mGPUClass = GPU_CLASS_4;
-        }
-        else
-        {
-            mGPUClass = GPU_CLASS_5;
-        }
+        // <AP:WW> Removed redundant 'else if' chain as benchmark is skipped </AP:WW>
+        // Note: The rest of the 'else if' chain determining GPU class 2-5 is intentionally removed
+        // because 'runBenchmark' is always false, so this code path is never taken.
+        // We only needed the 'if (gbps < 0.f)' and the 'else if (gbps <= class1_gbps)'
+        // for completeness if 'runBenchmark' were ever true again, but even those
+        // won't execute with the current modification.
 
-    #if LL_WINDOWS
+#if LL_WINDOWS
         const F32Gigabytes MIN_PHYSICAL_MEMORY(2);
 
         LLMemory::updateMemoryInfo();
@@ -484,22 +485,25 @@ bool LLFeatureManager::loadGPUClass()
             // reduce quality on systems that don't have enough memory
             mGPUClass = (EGPUClass)(mGPUClass - 1);
         }
-    #endif //LL_WINDOWS
-    } //end if benchmark
-    else
+#endif //LL_WINDOWS
+
+    } // <----- !!! THIS IS THE MISSING CLOSING BRACE for 'if (runBenchmark)' !!!
+    else // START of else block (when benchmark is skipped)
     {
         //setting says don't benchmark MAINT-7558
-        LL_WARNS("RenderInit") << "Setting 'SkipBenchmark' is true; defaulting to class 1 (may be required for some GPUs)" << LL_ENDL;
+        LL_WARNS("RenderInit") << "Setting 'SkipBenchmark' is true OR forced skip; defaulting to class 1 (may be required for some GPUs)" << LL_ENDL; // <AP:WW> Added OR forced skip to comment </AP:WW>
 
         mGPUClass = GPU_CLASS_1;
-    }
+    } // END of else block
 
     // defaults
     mGPUString = gGLManager.getRawGLString();
     mGPUSupported = true;
 
     return true; // indicates that a gpu value was established
-}
+} // END of LLFeatureManager::loadGPUClass function
+
+// ... (the rest of the functions like cleanupFeatureTables, initSingleton, etc. should follow *outside* this function) ...
 
 void LLFeatureManager::cleanupFeatureTables()
 {

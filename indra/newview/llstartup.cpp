@@ -3373,11 +3373,17 @@ void login_show()
     FSPanelLogin::show( gViewerWindow->getWindowRectScaled(), login_callback, NULL );
     // </FS:Ansariel> [FS Login Panel]
     // <FS:PP> Whitelist reminder
+    // <FS:PP> Whitelist reminder
+    // <AP:WW> Disable the WhitelistReminder notification permanently.
+    /*
     if( gSavedSettings.getBOOL("FSShowWhitelistReminder") )
     {
-        LLNotificationsUtil::add("WhitelistReminder"); 
+        LLNotificationsUtil::add("WhitelistReminder");
         gSavedSettings.setBOOL("FSShowWhitelistReminder", false);
     }
+    */
+    // </AP:WW>
+// </FS:PP>
     // </FS:PP>
 }
 

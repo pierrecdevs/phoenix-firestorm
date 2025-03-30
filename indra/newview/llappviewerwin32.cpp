@@ -1056,13 +1056,23 @@ void write_debug_dx(const std::string& str)
     write_debug_dx(str.c_str());
 }
 
+// llappviewerwin32.cpp
+
+// ... (other code) ...
+
 bool LLAppViewerWin32::initHardwareTest()
 {
     //
     // Do driver verification and initialization based on DirectX
     // hardware polling and driver versions
     //
-    if (/*true == gSavedSettings.getBOOL("ProbeHardwareOnStartup") &&*/ false == gSavedSettings.getBOOL("NoHardwareProbe")) // <FS:Ansariel> FIRE-20378 / FIRE-20382: Breaks memory detection an 4K monitor workaround
+
+    // <AP:WW> Force disable the DirectX/WMI hardware probe always.
+    // bool shouldProbe = (false == gSavedSettings.getBOOL("NoHardwareProbe"));
+    bool shouldProbe = false; // Force false to always skip this probe block.
+    // if (/*true == gSavedSettings.getBOOL("ProbeHardwareOnStartup") &&*/ false == gSavedSettings.getBOOL("NoHardwareProbe")) // <FS:Ansariel> FIRE-20378 / FIRE-20382: Breaks memory detection an 4K monitor workaround
+    if (shouldProbe)
+    // </AP:WW>
     {
         // per DEV-11631 - disable hardware probing for everything
         // but vram.
@@ -1113,17 +1123,26 @@ bool LLAppViewerWin32::initHardwareTest()
         LLSplashScreen::update(splash_msg);
     }
 
+    // <AP:WW> The above 'if (shouldProbe)' is now always false, so the probe block is skipped. </AP:WW>
+
     if (!restoreErrorTrap())
     {
         LL_WARNS("AppInit") << " Someone took over my exception handler (post hardware probe)!" << LL_ENDL;
     }
 
+    // VRAM Fallback Logic - This part still runs:
     if (gGLManager.mVRAM == 0)
     {
-        gGLManager.mVRAM = gDXHardware.getVRAM();
+        // <AP:WW> Since the DirectX probe above is now skipped, gDXHardware.getVRAM() might not have a valid value.
+        // However, if we are also overriding gGLManager.mVRAM later in LLGLManager::initGL,
+        // this fallback might become irrelevant anyway. If relying solely on OpenGL VRAM detection,
+        // be aware this fallback won't work if the probe was skipped.
+        LL_WARNS("RenderInit") << "APERTURE: OpenGL VRAM detection failed (mVRAM=0). DirectX/WMI probe was disabled, cannot use its VRAM result as fallback." << LL_ENDL;
+        // gGLManager.mVRAM = gDXHardware.getVRAM(); // Use the (potentially uninitialized) value from gDXHardware
+        // </AP:WW>
     }
 
-    // LL_INFOS("AppInit") << "Detected VRAM: " << gGLManager.mVRAM << LL_ENDL; // <FS:Beq/> move this into common code
+    LL_INFOS("AppInit") << "VRAM from LLGLManager (Post-DX fallback check): " << gGLManager.mVRAM << LL_ENDL;
 
     return true;
 }
