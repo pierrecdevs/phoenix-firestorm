@@ -366,6 +366,9 @@ public:
         // <AP:WW> ADD START: Saturation Uniform Enum
         AP_SATURATION,                      // "ap_saturation" - Controls overall image saturation
         // <AP:WW> ADD END: Saturation Uniform Enum
+        // <AP:WW> ADD START: Luminance Weights Uniform Enum
+        AP_LUMINANCE_WEIGHTS,               // "ap_luminance_weights" - RGB weights for luminance calculation
+        // <AP:WW> ADD END: Luminance Weights Uniform Enum
         END_RESERVED_UNIFORMS
     } eGLSLReservedUniforms;
     // clang-format on

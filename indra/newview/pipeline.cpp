@@ -208,6 +208,9 @@ F32 LLPipeline::APRenderSSAOSampleCount; // <AP:WW> Default SSAO sample count
 // <AP:WW> Define Saturation Variable
 F32 LLPipeline::APRenderSaturation;
 // <AP:WW> 
+// <AP:WW> ADD START: Define Luminance Weights Variable
+LLVector3 LLPipeline::APLuminanceWeights;
+// <AP:WW> ADD END: Define Luminance Weights Variable
 LLVector3 LLPipeline::RenderSSAOEffect;
 F32 LLPipeline::RenderShadowOffsetError;
 F32 LLPipeline::RenderShadowBiasError;
@@ -633,6 +636,9 @@ void LLPipeline::init()
     // <AP:WW> Add Saturation listener
     connectRefreshCachedSettingsSafe("APRenderSaturation");
     // <AP:WW> 
+    // <AP:WW> ADD START: Add Luminance Weights listener
+    connectRefreshCachedSettingsSafe("APLuminanceWeights");
+    // <AP:WW> ADD END: Add Luminance Weights listener
     connectRefreshCachedSettingsSafe("RenderShadowOffsetError");
     connectRefreshCachedSettingsSafe("RenderShadowBiasError");
     connectRefreshCachedSettingsSafe("RenderShadowOffset");
@@ -1250,6 +1256,9 @@ void LLPipeline::refreshCachedSettings()
     // <AP:WW> Load Saturation Setting
     APRenderSaturation = gSavedSettings.getF32("APRenderSaturation");
     // <AP:WW> 
+    // <AP:WW> ADD START: Load Luminance Weights Setting
+    APLuminanceWeights = gSavedSettings.getVector3("APLuminanceWeights");
+    // <AP:WW> ADD END: Load Luminance Weights Setting
     RenderShadowOffsetError = gSavedSettings.getF32("RenderShadowOffsetError");
     RenderShadowBiasError = gSavedSettings.getF32("RenderShadowBiasError");
     RenderShadowOffset = gSavedSettings.getF32("RenderShadowOffset");
@@ -8567,6 +8576,9 @@ void LLPipeline::renderFinalize()
     // <AP:WW> ADD START: Set Saturation Uniform
     final_shader.uniform1f(LLShaderMgr::AP_SATURATION, APRenderSaturation);
     // <AP:WW> ADD END: Set Saturation Uniform
+    // <AP:WW> ADD START: Set Luminance Weights Uniform
+    final_shader.uniform3fv(LLShaderMgr::AP_LUMINANCE_WEIGHTS, 1, APLuminanceWeights.mV);
+    // <AP:WW> ADD END: Set Luminance Weights Uniform
 
     {
         LLGLDepthTest depth_test(GL_TRUE, GL_TRUE, GL_ALWAYS);

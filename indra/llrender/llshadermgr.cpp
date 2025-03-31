@@ -1530,6 +1530,9 @@ void LLShaderMgr::initAttribsAndUniforms()
     // <AP:WW> ADD START: Saturation Uniform Name String
     mReservedUniforms.push_back("ap_saturation");
     // <AP:WW> ADD END: Saturation Uniform Name String
+    // <AP:WW> ADD START: Luminance Weights Uniform Name String
+    mReservedUniforms.push_back("ap_luminance_weights");
+    // <AP:WW> ADD END: Luminance Weights Uniform Name String
     llassert(mReservedUniforms.size() == END_RESERVED_UNIFORMS);
 
     std::set<std::string> dupe_check;

@@ -34,7 +34,12 @@ uniform sampler2D depthMap;
 uniform vec2 screen_res;
 in vec2 vary_fragcoord;
 
-uniform float ap_saturation;
+// <AP:WW> ADD START: Declare Saturation Uniform
+uniform float ap_saturation; // 0=gray, 1=normal, >1=more saturated
+// <AP:WW> ADD END: Declare Saturation Uniform
+// <AP:WW> ADD START: Declare Luminance Weights Uniform
+uniform vec3 ap_luminance_weights; // User-defined RGB weights
+// <AP:WW> ADD END: Declare Luminance Weights Uniform
 
 //=================================
 // borrowed noise from:
@@ -76,36 +81,44 @@ float noise(vec2 x) {
 
 
 
+
 void main()
 {
+    // Get the original color
     vec4 diff = texture(diffuseRect, vary_fragcoord.xy);
 
 #ifdef HAS_NOISE
-    vec2 tc = vary_fragcoord.xy*screen_res*4.0;
-    vec3 seed = (diff.rgb+vec3(1.0))*vec3(tc.xy, tc.x+tc.y);
+    // --- NOISE PATH ---
+    // Calculate and add noise if enabled
+    vec2 tc = vary_fragcoord.xy * screen_res * 4.0;
+    vec3 seed = (diff.rgb + vec3(1.0)) * vec3(tc.xy, tc.x + tc.y);
     vec3 nz = vec3(noise(seed.rg), noise(seed.gb), noise(seed.rb));
-    diff.rgb += nz*0.003;
-    
-    // <AP:WW> ADDED SATURATION LOGIC *INSIDE* NOISE BLOCK
-    float luminance_noise = dot(diff.rgb, vec3(0.299, 0.587, 0.114));
-    vec3 gray_noise = vec3(luminance_noise);
-    diff.rgb = mix(gray_noise, diff.rgb, ap_saturation);
-    diff.rgb = clamp(diff.rgb, 0.0, 1.0);
-    // <AP:WW> END ADDED SATURATION LOGIC *INSIDE* NOISE BLOCK
-    
- #endif
- 
-    // <AP:WW> ADD START: Apply Saturation
-    // Calculate luminance (grayscale value) using NTSC weights
-    float luminance = dot(diff.rgb, vec3(0.299, 0.587, 0.114));
-    vec3 gray = vec3(luminance);
-    // Lerp between grayscale and original color based on saturation uniform
-    diff.rgb = mix(gray, diff.rgb, ap_saturation);
-    // Clamp to ensure valid color range
-    diff.rgb = clamp(diff.rgb, 0.0, 1.0);
-    // <AP:WW> ADD END: Apply Saturation
+    diff.rgb += nz * 0.003;
 
-    frag_color = diff; // Removed max() as clamp above handles it
- 
-     gl_FragDepth = texture(depthMap, vary_fragcoord.xy).r;
- }
+    // Calculate weights, luminance, and apply saturation INSIDE noise block
+    vec3 weights = ap_luminance_weights / max(dot(ap_luminance_weights, vec3(1.0)), 0.0001);
+    float luminance = dot(diff.rgb, weights);
+    vec3 gray_version = vec3(luminance); // Renamed from gray_noise, fixed source
+    diff.rgb = mix(gray_version, diff.rgb, ap_saturation);
+    // diff.rgb is now potentially noisy AND saturation-adjusted
+
+#else
+    // --- NON-NOISE PATH ---
+    // Calculate weights, luminance, and apply saturation OUTSIDE noise block
+    vec3 weights = ap_luminance_weights / max(dot(ap_luminance_weights, vec3(1.0)), 0.0001);
+    float luminance = dot(diff.rgb, weights);
+    vec3 gray_version = vec3(luminance); // Renamed from gray_nonoise for consistency
+    diff.rgb = mix(gray_version, diff.rgb, ap_saturation);
+    // diff.rgb is now saturation-adjusted (but not noisy)
+
+#endif // End HAS_NOISE
+
+    // Clamp the final color regardless of the path taken
+    diff.rgb = clamp(diff.rgb, 0.0, 1.0);
+
+    // Set the final fragment color.
+    frag_color = diff;
+
+    // Set the fragment depth from the depth map.
+    gl_FragDepth = texture(depthMap, vary_fragcoord.xy).r;
+}

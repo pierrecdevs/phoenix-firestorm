@@ -123,6 +123,10 @@ public:
     } eFBOStatus;
 
     static F32 APRenderSaturation; // <AP:WW> Controls final image saturation (0=gray, 1=normal, >1=more saturated)
+    // <AP:WW> ADD END: Saturation Control Setting Variable
+    // <AP:WW> ADD START: Luminance Weights Setting Variable
+    static LLVector3 APLuminanceWeights; // User-controllable RGB weights for luminance calc
+    // <AP:WW> ADD END: Luminance Weights Setting Variable
 
 private:
     //implementation of above, wrapped for easy error handling

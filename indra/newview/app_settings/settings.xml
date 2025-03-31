@@ -2,6 +2,21 @@
 <llsd xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:noNamespaceSchemaLocation="llsd.xsd">
 <map>
+  <key>APLuminanceWeights</key>
+  <map>
+    <key>Comment</key>
+    <string>Controls the R, G, B weights used for calculating luminance (for grayscale conversion/saturation). Default is NTSC/BT.709 standard (0.299, 0.587, 0.114).</string>
+    <key>Persist</key>
+    <integer>0</integer>
+    <key>Type</key>
+    <string>Vector3</string>
+    <key>Value</key>
+    <array>
+        <real>0.299</real>
+        <real>0.587</real>
+        <real>0.114</real>
+    </array>
+  </map>
     <key>APRenderSaturation</key>
     <map>
     <key>Comment</key>
