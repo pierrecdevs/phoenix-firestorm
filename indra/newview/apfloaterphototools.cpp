@@ -227,7 +227,28 @@ void APFloaterPhototools::initCallbacks()
 
     getChild<LLSlider>("SB_Saturation")->setCommitCallback(boost::bind(&APFloaterPhototools::onChangeRenderSSAOEffectSliderY, this));
     getChild<LLSpinCtrl>("S_Saturation")->setCommitCallback(boost::bind(&APFloaterPhototools::onChangeRenderSSAOEffectSpinnerY, this));
-    getChild<LLButton>("Reset_Saturation")->setCommitCallback(boost::bind(&APFloaterPhototools::onClickResetRenderSSAOEffectY, this));
+
+    // <AP:WW> REVISED START: Set Callbacks for ALL Luminance Weight Controls using getChild directly
+    getChild<LLSlider>("SB_LumWeightR")->setCommitCallback(boost::bind(&APFloaterPhototools::onChangeLumWeightRSlider, this));
+    getChild<LLSpinCtrl>("S_LumWeightR")->setCommitCallback(boost::bind(&APFloaterPhototools::onChangeLumWeightRSpinner, this));
+    getChild<LLButton>("ResetLumWeightRBtn")->setCommitCallback(boost::bind(&APFloaterPhototools::onClickResetLumWeightR, this));
+
+    getChild<LLSlider>("SB_LumWeightG")->setCommitCallback(boost::bind(&APFloaterPhototools::onChangeLumWeightGSlider, this));
+    getChild<LLSpinCtrl>("S_LumWeightG")->setCommitCallback(boost::bind(&APFloaterPhototools::onChangeLumWeightGSpinner, this));
+    getChild<LLButton>("ResetLumWeightGBtn")->setCommitCallback(boost::bind(&APFloaterPhototools::onClickResetLumWeightG, this));
+
+    getChild<LLSlider>("SB_LumWeightB")->setCommitCallback(boost::bind(&APFloaterPhototools::onChangeLumWeightBSlider, this));
+    getChild<LLSpinCtrl>("S_LumWeightB")->setCommitCallback(boost::bind(&APFloaterPhototools::onChangeLumWeightBSpinner, this));
+    getChild<LLButton>("ResetLumWeightBBtn")->setCommitCallback(boost::bind(&APFloaterPhototools::onClickResetLumWeightB, this));
+    // <AP:WW> REVISED END: Set Callbacks for ALL Luminance Weight Controls
+
+    // <AP:WW> CORRECTED START: Connect APLuminanceWeights signal to refreshSettings
+    LLControlVariable* lum_weights_setting = gSavedSettings.getControl("APLuminanceWeights");
+    if (lum_weights_setting)
+    {
+        lum_weights_setting->getSignal()->connect(boost::bind(&APFloaterPhototools::refreshSettings, this));
+    }
+    // <AP:WW> CORRECTED END: Connect signal
 
     mMaxComplexitySlider->setCommitCallback(boost::bind(&APFloaterPhototools::updateMaxComplexity, this));
     gSavedSettings.getControl("RenderAvatarMaxComplexity")->getCommitSignal()->connect(boost::bind(&APFloaterPhototools::updateMaxComplexityLabel, this, _2));
@@ -340,6 +361,21 @@ bool APFloaterPhototools::postBuild()
     // getChild<LLTextureCtrl>(FIELD_WATER_NORMAL_MAP)->setDefaultImageAssetID(LLSettingsWater::GetDefaultWaterNormalAssetId());
     // getChild<LLTextureCtrl>(FIELD_WATER_NORMAL_MAP)->setBlankImageAssetID(BLANK_OBJECT_NORMAL);
     // getChild<LLTextureCtrl>(FIELD_WATER_NORMAL_MAP)->setCommitCallback([this](LLUICtrl *, const LLSD &) { onWaterMapChanged(); });
+
+
+    // <AP:WW> ADD START: Initialize Luminance Weight UI Control Pointers
+    mSliderLumWeightR = getChild<LLSlider>("SB_LumWeightR");
+    mSpinnerLumWeightR = getChild<LLSpinCtrl>("S_LumWeightR");
+    mResetLumWeightRBtn = getChild<LLButton>("ResetLumWeightRBtn");
+
+    mSliderLumWeightG = getChild<LLSlider>("SB_LumWeightG");
+    mSpinnerLumWeightG = getChild<LLSpinCtrl>("S_LumWeightG");
+    mResetLumWeightGBtn = getChild<LLButton>("ResetLumWeightGBtn");
+
+    mSliderLumWeightB = getChild<LLSlider>("SB_LumWeightB");
+    mSpinnerLumWeightB = getChild<LLSpinCtrl>("S_LumWeightB");
+    mResetLumWeightBBtn = getChild<LLButton>("ResetLumWeightBBtn");
+    // <AP:WW> ADD END: Initialize Luminance Weight UI Control Pointers
 
     refreshSettings(); 
     
@@ -972,6 +1008,20 @@ void APFloaterPhototools::refreshSettings()
 
     mSpinnerRenderSSAOEffectY->setValue(renderSSAOEffect.mV[VY]);
     mSliderRenderSSAOEffectY->setValue(renderSSAOEffect.mV[VY]);
+
+    // <AP:WW> CORRECTED START: Update Luminance Weight controls within refreshSettings (No IF checks)
+    LLVector3 currentWeights = gSavedSettings.getVector3("APLuminanceWeights");
+
+    // Directly use the pointers obtained in postBuild
+    mSliderLumWeightR->setValue(currentWeights.mV[0]);
+    mSpinnerLumWeightR->setValue(currentWeights.mV[0]);
+
+    mSliderLumWeightG->setValue(currentWeights.mV[1]);
+    mSpinnerLumWeightG->setValue(currentWeights.mV[1]);
+
+    mSliderLumWeightB->setValue(currentWeights.mV[2]);
+    mSpinnerLumWeightB->setValue(currentWeights.mV[2]);
+    // <AP:WW> CORRECTED END: Update Luminance Weight controls
 }
 
 void APFloaterPhototools::onChangeRenderShadowSplitExponentSliderY()
@@ -1643,3 +1693,94 @@ void APFloaterPhototools::refreshSky()
     //getChild<LLVirtualTrackball>(FIELD_SKY_SUN_ROTATION)->setRotation(quat);
     // getChild<LLVirtualTrackball>(FIELD_SKY_MOON_ROTATION)->setRotation(quat);
 }
+
+// <AP:WW> REVISED START: Callback Implementations (Following User Pattern)
+
+// --- Red Component Callbacks ---
+void APFloaterPhototools::onChangeLumWeightRSlider()
+{
+    LLVector3 currentWeights = gSavedSettings.getVector3("APLuminanceWeights");
+    F32 newValue = mSliderLumWeightR->getValueF32(); // Get value from slider
+    currentWeights.mV[0] = newValue;                  // Update Red component
+    mSpinnerLumWeightR->setValue(newValue);           // Sync spinner
+    gSavedSettings.setVector3("APLuminanceWeights", currentWeights); // Save setting
+}
+
+void APFloaterPhototools::onChangeLumWeightRSpinner()
+{
+    LLVector3 currentWeights = gSavedSettings.getVector3("APLuminanceWeights");
+    F32 newValue = mSpinnerLumWeightR->getValueF32(); // Get value from spinner
+    currentWeights.mV[0] = newValue;                  // Update Red component
+    mSliderLumWeightR->setValue(newValue);            // Sync slider
+    gSavedSettings.setVector3("APLuminanceWeights", currentWeights); // Save setting
+}
+
+void APFloaterPhototools::onClickResetLumWeightR()
+{
+    LLVector3 currentWeights = gSavedSettings.getVector3("APLuminanceWeights");
+    F32 defaultValue = 0.299f; // Default Red weight
+    currentWeights.mV[0] = defaultValue;                  // Update Red component
+    mSpinnerLumWeightR->setValue(defaultValue);           // Sync spinner
+    mSliderLumWeightR->setValue(defaultValue);            // Sync slider
+    gSavedSettings.setVector3("APLuminanceWeights", currentWeights); // Save setting
+}
+
+// --- Green Component Callbacks ---
+void APFloaterPhototools::onChangeLumWeightGSlider()
+{
+    LLVector3 currentWeights = gSavedSettings.getVector3("APLuminanceWeights");
+    F32 newValue = mSliderLumWeightG->getValueF32(); // Get value from slider
+    currentWeights.mV[1] = newValue;                  // Update Green component
+    mSpinnerLumWeightG->setValue(newValue);           // Sync spinner
+    gSavedSettings.setVector3("APLuminanceWeights", currentWeights); // Save setting
+}
+
+void APFloaterPhototools::onChangeLumWeightGSpinner()
+{
+    LLVector3 currentWeights = gSavedSettings.getVector3("APLuminanceWeights");
+    F32 newValue = mSpinnerLumWeightG->getValueF32(); // Get value from spinner
+    currentWeights.mV[1] = newValue;                  // Update Green component
+    mSliderLumWeightG->setValue(newValue);            // Sync slider
+    gSavedSettings.setVector3("APLuminanceWeights", currentWeights); // Save setting
+}
+
+void APFloaterPhototools::onClickResetLumWeightG()
+{
+    LLVector3 currentWeights = gSavedSettings.getVector3("APLuminanceWeights");
+    F32 defaultValue = 0.587f; // Default Green weight
+    currentWeights.mV[1] = defaultValue;                  // Update Green component
+    mSpinnerLumWeightG->setValue(defaultValue);           // Sync spinner
+    mSliderLumWeightG->setValue(defaultValue);            // Sync slider
+    gSavedSettings.setVector3("APLuminanceWeights", currentWeights); // Save setting
+}
+
+// --- Blue Component Callbacks ---
+void APFloaterPhototools::onChangeLumWeightBSlider()
+{
+    LLVector3 currentWeights = gSavedSettings.getVector3("APLuminanceWeights");
+    F32 newValue = mSliderLumWeightB->getValueF32(); // Get value from slider
+    currentWeights.mV[2] = newValue;                  // Update Blue component
+    mSpinnerLumWeightB->setValue(newValue);           // Sync spinner
+    gSavedSettings.setVector3("APLuminanceWeights", currentWeights); // Save setting
+}
+
+void APFloaterPhototools::onChangeLumWeightBSpinner()
+{
+    LLVector3 currentWeights = gSavedSettings.getVector3("APLuminanceWeights");
+    F32 newValue = mSpinnerLumWeightB->getValueF32(); // Get value from spinner
+    currentWeights.mV[2] = newValue;                  // Update Blue component
+    mSliderLumWeightB->setValue(newValue);            // Sync slider
+    gSavedSettings.setVector3("APLuminanceWeights", currentWeights); // Save setting
+}
+
+void APFloaterPhototools::onClickResetLumWeightB()
+{
+    LLVector3 currentWeights = gSavedSettings.getVector3("APLuminanceWeights");
+    F32 defaultValue = 0.114f; // Default Blue weight
+    currentWeights.mV[2] = defaultValue;                  // Update Blue component
+    mSpinnerLumWeightB->setValue(defaultValue);           // Sync spinner
+    mSliderLumWeightB->setValue(defaultValue);            // Sync slider
+    gSavedSettings.setVector3("APLuminanceWeights", currentWeights); // Save setting
+}
+
+// <AP:WW> REVISED END: Callback Implementations (Following User Pattern)

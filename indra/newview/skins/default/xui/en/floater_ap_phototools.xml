@@ -2986,7 +2986,7 @@
              top_pad="1"
              left="3"
              right="-3"
-             height="54"
+             height="39"
              border_visible="true"
              background_visible="true">
                 <check_box
@@ -3023,6 +3023,7 @@
                  tool_tip="Toggle the focus point crosshair display. The crosshair is yellow when free and red when locked."
                  width="19"/>
 
+<!--
                 <check_box
                  control_name="RenderDepthOfFieldInEditMode"
                  enabled_control="RenderDepthOfField"
@@ -3035,6 +3036,7 @@
                  tool_tip="Keeps the Depth of Field effect active even when entering Edit mode. Useful for precise composition while editing objects within the DoF effect. [Default: Off]"
                  width="280">
                  </check_box>
+-->
 
                  <!--check_box
                  follows="top|left"
@@ -3427,7 +3429,7 @@
                  font="SansSerif"
                  height="17"
                  width="280">
-                    Color Settings &amp; HDR Tone Mapping 
+                    Color Grading &amp; HDR Tone Mapping 
                 </text>
             </panel>
 
@@ -3438,7 +3440,7 @@
          layout="topleft"
          top_pad="3"
          left="3"
-         height="80" 
+         height="100" 
          border_visible="true"
          background_visible="true">
             <text
@@ -3489,9 +3491,157 @@
                  function="ResetControl"
                  parameter="APRenderSaturation"/> <!-- Link to the new setting -->
             </button>
+            
+            <!-- <AP:WW> ADD START: Luminance Weight Controls (Revised Structure & Naming) -->
+            <!-- Red Weight Control -->
+            <text
+             name="T_LumWeightR"
+             follows="left|top"
+             layout="topleft"
+             left="5"
+             top_pad="5" 
+             height="16"
+             width="70"
+             tool_tip="Controls the weight of the Red channel in luminance calculation.">
+                Lum R:
+            </text>
+            <slider_bar
+             name="SB_LumWeightR" 
+             follows="left|top"
+             height="16"
+             increment="0.001"
+             layout="topleft"
+             left_pad="0"
+             min_val="-1.0"
+             max_val="2.0"
+             top_delta="-2"
+             width="127"/>
+            <spinner
+             name="S_LumWeightR" 
+             top_delta="-1"
+             label_width="0"
+             left_pad="0"
+             decimal_digits="3"
+             follows="left|top"
+             max_val="10"
+             min_val="-10.0"
+             width="53"
+             increment="0.001"/>
+            <button
+             name="ResetLumWeightRBtn"
+             follows="left|top"
+             height="22"
+             label="D"
+             layout="topleft"
+             left_pad="0"
+             top_delta="-1"
+             width="20"
+             tool_tip="Reset Red luminance weight to default (0.299).">
+                <button.commit_callback
+                 function="APFloaterPhototools::onClickResetLumWeightR"/>
+            </button>
+            
+            
+            <!-- Green Weight Control -->
+            <text
+             name="T_LumWeightG"
+             follows="left|top"
+             layout="topleft"
+             left="5"
+             top_pad="5" 
+             height="16"
+             width="70"
+             tool_tip="Controls the weight of the Green channel in luminance calculation.">
+                Lum G:
+            </text>
+            <slider_bar
+             name="SB_LumWeightG"
+             follows="left|top"
+             height="16"
+             increment="0.001"
+             layout="topleft"
+             left_pad="0"
+             min_val="-1.0"
+             max_val="2.0"
+             top_delta="-2"
+             width="127"/>
+            <spinner
+             name="S_LumWeightG" 
+             top_delta="-1"
+             label_width="0"
+             left_pad="0"
+             decimal_digits="3"
+             follows="left|top"
+             max_val="10.0"
+             min_val="-10.0"
+             width="53"
+             increment="0.001"/>
+            <button
+             name="ResetLumWeightGBtn"
+             follows="left|top"
+             height="22"
+             label="D"
+             layout="topleft"
+             left_pad="0"
+             top_delta="-1"
+             width="20"
+             tool_tip="Reset Green luminance weight to default (0.587).">
+                <button.commit_callback
+                 function="APFloaterPhototools::onClickResetLumWeightG"/>
+            </button>
+            
+            <!-- Blue Weight Control -->
+            <text
+             name="T_LumWeightB"
+             follows="left|top"
+             layout="topleft"
+             left="5"
+             top_pad="5" 
+             height="16"
+             width="70"
+             tool_tip="Controls the weight of the Blue channel in luminance calculation.">
+                Lum Weight B:
+            </text>
+            <slider_bar
+             name="SB_LumWeightB" 
+             follows="left|top"
+             height="16"
+             increment="0.001"
+             layout="topleft"
+             left_pad="0"
+             min_val="-1.0"
+             max_val="2.0"
+             top_delta="-2"
+             width="127"/>
+            <spinner
+             name="S_LumWeightB" 
+             top_delta="-1"
+             label_width="0"
+             left_pad="0"
+             decimal_digits="3"
+             follows="left|top"
+             max_val="10.0"
+             min_val="-10.0"
+             width="53"
+             increment="0.001"/>
+            <button
+             name="ResetLumWeightBBtn" 
+             follows="left|top"
+             height="22"
+             label="D"
+             layout="topleft"
+             left_pad="0"
+             top_delta="-1"
+             width="20"
+             tool_tip="Reset Blue luminance weight to default (0.114).">
+                <button.commit_callback
+                 function="APFloaterPhototools::onClickResetLumWeightB"/>
+            </button>
+            
         </panel>
         <!-- AP:WW End Add Saturation Control -->
 
+<!--
             <panel
              name="P_Tone_Settings_2"
              follows="top|left"
@@ -3500,6 +3650,20 @@
              left="3"
              right="-3"
              height="25"
+             border_visible="true"
+             background_visible="true">
+
+
+            </panel>
+-->
+            <panel
+             name="P_Tone_Settings_3"
+             follows="top|left"
+             layout="topleft"
+             top_pad="1"
+             left="3"
+             right="-3"
+             height="71"
              border_visible="true"
              background_visible="true">
 
@@ -3514,18 +3678,6 @@
                  top_pad="6"
                  width="240">
                 </check_box>
-            </panel>
-
-            <panel
-             name="P_Tone_Settings_3"
-             follows="top|left"
-             layout="topleft"
-             top_pad="1"
-             left="3"
-             right="-3"
-             height="50"
-             border_visible="true"
-             background_visible="true">
 
                 <text
                  name="T_Tonemap_Type"
@@ -3533,7 +3685,7 @@
                  height="15"
                  left="5" 
                  tool_tip="Controls the algorithm used for High Dynamic Range (HDR) tone mapping, which affects how bright and dark areas are balanced. Khronos Neutral provides a natural, neutral look with less contrast and minimal color manipulation, maintaining the original lighting as intended. ACES (Academy Color Encoding System) is designed to mimic film-like dynamic range, offering richer colors, higher contrast, and more cinematic highlights. Changing this setting may alter overall brightness and color balance, depending on the scene."
-                 top_pad="7"
+                 top_pad="5"
                  width="162"
                  layout="topleft">
                     HDR Tonemap Type

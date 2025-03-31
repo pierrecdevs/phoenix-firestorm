@@ -233,6 +233,38 @@ private:
     void onMoonScaleChanged();                  // PES
     void onMoonBrightnessChanged();             // PES
     void onMoonAzimElevChanged();               // FEA
+    
+    // <AP:WW> ADD START: Luminance Weight UI Control Member Variables
+    LLSlider*           mSliderLumWeightR;
+    LLSpinCtrl*         mSpinnerLumWeightR;
+    LLButton*           mResetLumWeightRBtn;
+
+    LLSlider*           mSliderLumWeightG;
+    LLSpinCtrl*         mSpinnerLumWeightG;
+    LLButton*           mResetLumWeightGBtn;
+
+    LLSlider*           mSliderLumWeightB;
+    LLSpinCtrl*         mSpinnerLumWeightB;
+    LLButton*           mResetLumWeightBBtn;
+    // <AP:WW> ADD END: Luminance Weight UI Control Member Variables
+
+    // --- Callbacks ---
+    // <AP:WW> ADD START: Luminance Weight Callbacks (Sliders, Spinners, Buttons)
+    void onChangeLumWeightRSlider();
+    void onChangeLumWeightRSpinner();
+    void onClickResetLumWeightR();
+
+    void onChangeLumWeightGSlider();
+    void onChangeLumWeightGSpinner();
+    void onClickResetLumWeightG();
+
+    void onChangeLumWeightBSlider();
+    void onChangeLumWeightBSpinner();
+    void onClickResetLumWeightB();
+    // <AP:WW> ADD END: Luminance Weight Callbacks
+
+    // --- Helper Methods ---
+    // void updateVectorComponent(int index, F32 value); // Helper to update setting
 
     // Refresh Functions
     // void refreshSunPosition();
