@@ -122,6 +122,8 @@ public:
         FBO_FAILURE
     } eFBOStatus;
 
+    static F32 APRenderSaturation; // <AP:WW> Controls final image saturation (0=gray, 1=normal, >1=more saturated)
+
 private:
     //implementation of above, wrapped for easy error handling
     eFBOStatus doAllocateScreenBuffer(U32 resX, U32 resY);

@@ -1527,7 +1527,9 @@ void LLShaderMgr::initAttribsAndUniforms()
     mReservedUniforms.push_back("guide_style");
     mReservedUniforms.push_back("frame_rect");
     // </FS:Beq>
-
+    // <AP:WW> ADD START: Saturation Uniform Name String
+    mReservedUniforms.push_back("ap_saturation");
+    // <AP:WW> ADD END: Saturation Uniform Name String
     llassert(mReservedUniforms.size() == END_RESERVED_UNIFORMS);
 
     std::set<std::string> dupe_check;

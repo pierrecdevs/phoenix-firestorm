@@ -2,6 +2,17 @@
 <llsd xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:noNamespaceSchemaLocation="llsd.xsd">
 <map>
+    <key>APRenderSaturation</key>
+    <map>
+    <key>Comment</key>
+    <string>Controls the overall saturation of the final rendered image. 0.0 is grayscale, 1.0 is normal saturation, values greater 1.0 increases saturation.</string>
+    <key>Persist</key>
+    <integer>0</integer>
+    <key>Type</key>
+    <string>F32</string>
+    <key>Value</key>
+    <real>1.0</real> 
+  </map>
   <key>APPhototoolsShowOnlyMySettings</key>
   <map>
     <key>Comment</key>
@@ -11464,7 +11475,7 @@ Change of this parameter will affect the layout of buttons in notification toast
     <key>Type</key>
     <string>F32</string>
     <key>Value</key>
-    <real>4.0</real>
+    <real>0.0</real>
     <key>Backup</key>
     <integer>0</integer>
   </map>

@@ -1642,9 +1642,9 @@ namespace LLError
     {
         // Files Are missing, likely can't localize.
         const std::string error_string =
-            "Firestorm couldn't access some of the files it needs and will be closed."
-            "\n\nPlease reinstall viewer from https://www.firestormviewer.org/download and "
-            "contact https://www.firestormviewer.org/support if issue persists after reinstall.";
+            "Aperture couldn't access some of the files it needs and will be closed."
+            "\n\nPlease reinstall viewer from https://github.com/ApertureViewer/Aperture-Viewer/wiki/Download-&-Installation and "
+            "contact https://github.com/ApertureViewer/Aperture-Viewer/wiki/Troubleshooting if issue persists after reinstall.";
         sHandler("Missing Files", error_string, ERROR_MISSING_FILES);
     }
 

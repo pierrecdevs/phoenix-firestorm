@@ -4,6 +4,7 @@
  * $LicenseInfo:firstyear=2007&license=viewerlgpl$
  * Second Life Viewer Source Code
  * Copyright (C) 2007, Linden Research, Inc.
+ * Copyright (C) 2025, William Weaver (paperwork) @ Second Life
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -32,6 +33,8 @@ uniform sampler2D depthMap;
 
 uniform vec2 screen_res;
 in vec2 vary_fragcoord;
+
+uniform float ap_saturation;
 
 //=================================
 // borrowed noise from:
@@ -82,10 +85,27 @@ void main()
     vec3 seed = (diff.rgb+vec3(1.0))*vec3(tc.xy, tc.x+tc.y);
     vec3 nz = vec3(noise(seed.rg), noise(seed.gb), noise(seed.rb));
     diff.rgb += nz*0.003;
-#endif
+    
+    // <AP:WW> ADDED SATURATION LOGIC *INSIDE* NOISE BLOCK
+    float luminance_noise = dot(diff.rgb, vec3(0.299, 0.587, 0.114));
+    vec3 gray_noise = vec3(luminance_noise);
+    diff.rgb = mix(gray_noise, diff.rgb, ap_saturation);
+    diff.rgb = clamp(diff.rgb, 0.0, 1.0);
+    // <AP:WW> END ADDED SATURATION LOGIC *INSIDE* NOISE BLOCK
+    
+ #endif
+ 
+    // <AP:WW> ADD START: Apply Saturation
+    // Calculate luminance (grayscale value) using NTSC weights
+    float luminance = dot(diff.rgb, vec3(0.299, 0.587, 0.114));
+    vec3 gray = vec3(luminance);
+    // Lerp between grayscale and original color based on saturation uniform
+    diff.rgb = mix(gray, diff.rgb, ap_saturation);
+    // Clamp to ensure valid color range
+    diff.rgb = clamp(diff.rgb, 0.0, 1.0);
+    // <AP:WW> ADD END: Apply Saturation
 
-    frag_color = diff;
-
-    gl_FragDepth = texture(depthMap, vary_fragcoord.xy).r;
-}
-
+    frag_color = diff; // Removed max() as clamp above handles it
+ 
+     gl_FragDepth = texture(depthMap, vary_fragcoord.xy).r;
+ }

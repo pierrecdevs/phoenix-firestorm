@@ -205,6 +205,9 @@ F32 LLPipeline::RenderSSAOFactor;
 // <AP:WW> // Refactor: Rename SSAO sample count setting for Aperture.
 F32 LLPipeline::APRenderSSAOSampleCount; // <AP:WW> Default SSAO sample count
 // </AP:WW>
+// <AP:WW> Define Saturation Variable
+F32 LLPipeline::APRenderSaturation;
+// <AP:WW> 
 LLVector3 LLPipeline::RenderSSAOEffect;
 F32 LLPipeline::RenderShadowOffsetError;
 F32 LLPipeline::RenderShadowBiasError;
@@ -627,6 +630,9 @@ void LLPipeline::init()
 	// <AP:WW> // Refactor: Rename SSAO sample count setting.
 	connectRefreshCachedSettingsSafe("APRenderSSAOSampleCount");
     // </AP:WW>
+    // <AP:WW> Add Saturation listener
+    connectRefreshCachedSettingsSafe("APRenderSaturation");
+    // <AP:WW> 
     connectRefreshCachedSettingsSafe("RenderShadowOffsetError");
     connectRefreshCachedSettingsSafe("RenderShadowBiasError");
     connectRefreshCachedSettingsSafe("RenderShadowOffset");
@@ -1241,6 +1247,9 @@ void LLPipeline::refreshCachedSettings()
     // <AP:WW> // Refactor: Rename SSAO sample count setting.
     APRenderSSAOSampleCount = gSavedSettings.getF32("APRenderSSAOSampleCount"); // <AP:WW> Load SSAO sample count setting
     // </AP:WW>
+    // <AP:WW> Load Saturation Setting
+    APRenderSaturation = gSavedSettings.getF32("APRenderSaturation");
+    // <AP:WW> 
     RenderShadowOffsetError = gSavedSettings.getF32("RenderShadowOffsetError");
     RenderShadowBiasError = gSavedSettings.getF32("RenderShadowBiasError");
     RenderShadowOffset = gSavedSettings.getF32("RenderShadowOffset");
@@ -8542,13 +8551,22 @@ void LLPipeline::renderFinalize()
 
     // Present the screen target.
 
-    gDeferredPostNoDoFNoiseProgram.bind(); // Add noise as part of final render to screen pass to avoid damaging other post effects
+    // <AP:WW> Select the correct final shader based on noise setting
+    // <AP:WW> FIX START: Correctly check F32 RenderDeferredNoise setting to select shader
+    // LLGLSLShader& final_shader = gSavedSettings.getBOOL("RenderDeferredNoise") ? gDeferredPostNoDoFNoiseProgram : gDeferredPostNoDoFProgram; // OLD INCORRECT LINE
+    LLGLSLShader& final_shader = (gSavedSettings.getF32("RenderDeferredNoise") > 0.0f) ? gDeferredPostNoDoFNoiseProgram : gDeferredPostNoDoFProgram;
 
+    final_shader.bind(); // Add noise as part of final render to screen pass to avoid damaging other post effects
+ 
     // Whatever is last in the above post processing chain should _always_ be rendered directly here.  If not, expect problems.
-    gDeferredPostNoDoFNoiseProgram.bindTexture(LLShaderMgr::DEFERRED_DIFFUSE, finalBuffer);
-    gDeferredPostNoDoFNoiseProgram.bindTexture(LLShaderMgr::DEFERRED_DEPTH, &mRT->deferredScreen, true);
+    final_shader.bindTexture(LLShaderMgr::DEFERRED_DIFFUSE, finalBuffer);
+    final_shader.bindTexture(LLShaderMgr::DEFERRED_DEPTH, &mRT->deferredScreen, true);
 
-    gDeferredPostNoDoFNoiseProgram.uniform2f(LLShaderMgr::DEFERRED_SCREEN_RES, (GLfloat)finalBuffer->getWidth(), (GLfloat)finalBuffer->getHeight());
+    final_shader.uniform2f(LLShaderMgr::DEFERRED_SCREEN_RES, (GLfloat)finalBuffer->getWidth(), (GLfloat)finalBuffer->getHeight());
+
+    // <AP:WW> ADD START: Set Saturation Uniform
+    final_shader.uniform1f(LLShaderMgr::AP_SATURATION, APRenderSaturation);
+    // <AP:WW> ADD END: Set Saturation Uniform
 
     {
         LLGLDepthTest depth_test(GL_TRUE, GL_TRUE, GL_ALWAYS);

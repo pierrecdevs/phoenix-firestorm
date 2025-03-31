@@ -363,6 +363,9 @@ public:
         SNAPSHOT_GUIDE_STYLE,               // "guide_style"
         SNAPSHOT_FRAME_RECT,                // "frame_rect"
         // </FS:Beq>
+        // <AP:WW> ADD START: Saturation Uniform Enum
+        AP_SATURATION,                      // "ap_saturation" - Controls overall image saturation
+        // <AP:WW> ADD END: Saturation Uniform Enum
         END_RESERVED_UNIFORMS
     } eGLSLReservedUniforms;
     // clang-format on
