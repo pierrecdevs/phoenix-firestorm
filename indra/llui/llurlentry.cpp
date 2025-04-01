@@ -1660,7 +1660,7 @@ std::string LLUrlEntryJira::getUrl(const std::string &string) const
         string.find("SLS") != std::string::npos ||
         string.find("SUP") != std::string::npos )
     {
-        return llformat("https://jira.firestormviewer.org/browse/%s", string.c_str());
+        return llformat("https://github.com/ApertureViewer/Aperture-Viewer/wiki", string.c_str());
     }
     else
     {

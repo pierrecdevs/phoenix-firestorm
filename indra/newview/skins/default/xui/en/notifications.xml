@@ -1905,7 +1905,7 @@ Visit [_URL] for more information?
     <tag>confirm</tag>
     <url option="0" name="url">
 
-			https://wiki.firestormviewer.org/fs_system_requirements
+			https://github.com/ApertureViewer/Aperture-Viewer/wiki
     </url>
     <usetemplate
      ignoretext="My computer hardware is not supported"
@@ -10051,7 +10051,7 @@ Please check your network and firewall setup.
 Disable any SIP ALG feature in your router.
 
 Voice communications will not be available.
-https://wiki.firestormviewer.org/fs_voice
+https://github.com/ApertureViewer/Aperture-Viewer/wiki
     <tag>voice</tag>
   <tag>fail</tag>
     <usetemplate
@@ -10068,7 +10068,7 @@ We're having trouble connecting to your voice server.
 
 Voice communications will not be available.
 Please check your network and firewall setup.
-[https://wiki.firestormviewer.org/fs_voice]
+[https://github.com/ApertureViewer/Aperture-Viewer/wiki]
     <tag>voice</tag>
   <tag>fail</tag>
     <usetemplate
@@ -14637,7 +14637,7 @@ Some antivirus programs may mistakenly block parts of [APP_NAME], slowing down i
 
 For detailed instructions on how to whitelist [APP_NAME] - including a list of files and folders to exclude - please visit our guide:
 
-https://wiki.firestormviewer.org/antivirus_whitelisting
+
   </notification>
 
 </notifications>

@@ -3589,8 +3589,8 @@ void LLAppViewer::initStrings()
         gDirUtilp->dumpCurrentDirectories(LLError::LEVEL_WARN);
         LLError::LLUserWarningMsg::showMissingFiles();
         LL_ERRS() << "Viewer failed to find localization and UI files."
-            << " Please reinstall viewer from https://www.firestormviewer.org/downloads"
-            << " and contact https://www.firestormviewer.org/support if issue persists after reinstall." << LL_ENDL;
+            << " Please reinstall viewer from https://github.com/ApertureViewer/Aperture-Viewer/wiki/Download-&-Installation"
+            << " and contact https://github.com/ApertureViewer/Aperture-Viewer/wiki/Troubleshooting if issue persists after reinstall." << LL_ENDL;
     }
     LLTransUtil::parseStrings(strings_file, default_trans_args);
     LLTransUtil::parseLanguageStrings("language_settings.xml");
@@ -5403,7 +5403,7 @@ void LLAppViewer::badNetworkHandler()
         "the issue. \n"
         " \n"
         "If the problem continues, see the Tech Support FAQ at: \n"
-        "www.firestormviewer.org/support";
+        "https://github.com/ApertureViewer/Aperture-Viewer/wiki/Troubleshooting";
     forceDisconnect(message.str());
 
     LLApp::instance()->writeMiniDump();
