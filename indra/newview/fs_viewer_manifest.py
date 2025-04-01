@@ -7,7 +7,7 @@ class FSViewerManifest:
         if self.fs_is_avx2():
             opt_string = "AVX2"
         else:
-            opt_string = "LEGACY"
+            opt_string = "AVX"
         substitution_strings = {
             'version' : '.'.join(self.args['version']),
             'version_short' : '.'.join(self.args['version'][:-1]),

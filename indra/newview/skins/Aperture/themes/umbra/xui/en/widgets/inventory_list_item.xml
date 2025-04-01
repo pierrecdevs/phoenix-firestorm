@@ -13,6 +13,7 @@
    font="SansSerifSmall"
    font.style="White" />
 
+
   <!-- style for inventory list item WORN on avatar -->
   <worn_style
    font="SansSerifSmall"

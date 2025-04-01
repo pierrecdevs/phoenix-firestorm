@@ -213,6 +213,7 @@ class ViewerManifest(LLManifest,FSViewerManifest):
                             self.path("*.jpg") # <FS:Ansariel> Needed for Firestorm
                             self.path("*.png")
                             self.path("textures.xml")
+                    self.path("*/themes/*/xui/en/widgets/*.xml")
                     self.path("*/xui/*/*.xml")
                     self.path("*/xui/*/widgets/*.xml")
                     self.path("*/themes/*/colors.xml")
