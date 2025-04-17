@@ -79,6 +79,7 @@ float noise(vec2 x) {
 
 //=============================
 
+vec3 clampHDRRange(vec3 color);
 
 
 

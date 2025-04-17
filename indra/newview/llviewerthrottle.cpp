@@ -59,6 +59,8 @@ const F32 MAX_BANDWIDTH = 1000000.f; // <AP:WW/>
 
     
 const F32 STEP_FRACTIONAL = 0.1f;
+const F32 HIGH_BUFFER_LOAD_TRESHOLD = 1.f;
+const F32 LOW_BUFFER_LOAD_TRESHOLD = 0.8f;
 const LLUnit<F32, LLUnits::Percent> TIGHTEN_THROTTLE_THRESHOLD(3.0f); // packet loss % per s
 const LLUnit<F32, LLUnits::Percent> EASE_THROTTLE_THRESHOLD(0.5f); // packet loss % per s
 const F32 DYNAMIC_UPDATE_DURATION = 5.0f; // seconds
@@ -157,7 +159,7 @@ LLViewerThrottleGroup LLViewerThrottleGroup::operator-(const LLViewerThrottleGro
 
 void LLViewerThrottleGroup::sendToSim() const
 {
-    LL_INFOS() << "Sending throttle settings, total BW " << mThrottleTotal << LL_ENDL;
+    LL_DEBUGS("Throttle") << "Sending throttle settings, total BW " << mThrottleTotal << LL_ENDL;
     LLMessageSystem* msg = gMessageSystem;
 
     msg->newMessageFast(_PREHASH_AgentThrottle);
@@ -316,7 +318,10 @@ void LLViewerThrottle::updateDynamicThrottle()
     mUpdateTimer.reset();
 
     LLUnit<F32, LLUnits::Percent> mean_packets_lost = LLViewerStats::instance().getRecording().getMean(LLStatViewer::PACKETS_LOST_PERCENT);
-    if (mean_packets_lost > TIGHTEN_THROTTLE_THRESHOLD)
+    if (
+        mean_packets_lost > TIGHTEN_THROTTLE_THRESHOLD // already losing packets
+        || mBufferLoadRate >= HIGH_BUFFER_LOAD_TRESHOLD // let viewer sort through the backlog before it starts dropping packets
+        )
     {
         if (mThrottleFrac <= MIN_FRACTIONAL || mCurrentBandwidth / 1024.0f <= MIN_BANDWIDTH)
         {
@@ -329,7 +334,8 @@ void LLViewerThrottle::updateDynamicThrottle()
         mCurrent.sendToSim();
         LL_INFOS() << "Tightening network throttle to " << mCurrentBandwidth << LL_ENDL;
     }
-    else if (mean_packets_lost <= EASE_THROTTLE_THRESHOLD)
+    else if (mean_packets_lost <= EASE_THROTTLE_THRESHOLD
+             && mBufferLoadRate < LOW_BUFFER_LOAD_TRESHOLD)
     {
         if (mThrottleFrac >= MAX_FRACTIONAL || mCurrentBandwidth / 1024.0f >= MAX_BANDWIDTH)
         {
@@ -342,4 +348,6 @@ void LLViewerThrottle::updateDynamicThrottle()
         mCurrent.sendToSim();
         LL_INFOS() << "Easing network throttle to " << mCurrentBandwidth << LL_ENDL;
     }
+
+    mBufferLoadRate = 0;
 }
