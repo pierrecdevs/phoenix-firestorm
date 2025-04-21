@@ -207,104 +207,104 @@ FunctionEnd
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Open link in a new browser window
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-Function openLinkNewWindow
-  Push $3
-  Exch
-  Push $2
-  Exch
-  Push $1
-  Exch
-  Push $0
-  Exch
+; Function openLinkNewWindow
+  ; Push $3
+  ; Exch
+  ; Push $2
+  ; Exch
+  ; Push $1
+  ; Exch
+  ; Push $0
+  ; Exch
  
-  ReadRegStr $0 HKCR "http\shell\open\command" ""
+  ; ReadRegStr $0 HKCR "http\shell\open\command" ""
 # Get browser path
-    DetailPrint $0
-  StrCpy $2 '"'
-  StrCpy $1 $0 1
-  StrCmp $1 $2 +2 # if path is not enclosed in " look for space as final char
-    StrCpy $2 ' '
-  StrCpy $3 1
-  loop:
-    StrCpy $1 $0 1 $3
-    DetailPrint $1
-    StrCmp $1 $2 found
-    StrCmp $1 "" found
-    IntOp $3 $3 + 1
-    Goto loop
+    ; DetailPrint $0
+  ; StrCpy $2 '"'
+  ; StrCpy $1 $0 1
+  ; StrCmp $1 $2 +2 # if path is not enclosed in " look for space as final char
+    ; StrCpy $2 ' '
+  ; StrCpy $3 1
+  ; loop:
+    ; StrCpy $1 $0 1 $3
+    ; DetailPrint $1
+    ; StrCmp $1 $2 found
+    ; StrCmp $1 "" found
+    ; IntOp $3 $3 + 1
+    ; Goto loop
  
-  found:
-    StrCpy $1 $0 $3
-    StrCmp $2 " " +2
-      StrCpy $1 '$1"'
+  ; found:
+    ; StrCpy $1 $0 $3
+    ; StrCmp $2 " " +2
+      ; StrCpy $1 '$1"'
  
-  Pop $0
-  Exec '$1 $0'
-  Pop $0
-  Pop $1
-  Pop $2
-  Pop $3
-FunctionEnd
+  ; Pop $0
+  ; Exec '$1 $0'
+  ; Pop $0
+  ; Pop $1
+  ; Pop $2
+  ; Pop $3
+; FunctionEnd
  
-!macro _OpenURL URL
-Push "${URL}"
-Call openLinkNewWindow
-!macroend
+; !macro _OpenURL URL
+; Push "${URL}"
+; Call openLinkNewWindow
+; !macroend
  
-!define OpenURL '!insertmacro "_OpenURL"'
+; !define OpenURL '!insertmacro "_OpenURL"'
 
 ; Add the AVX2 check functions
-Function CheckCPUFlagsAVX2
-    Push $1
-    Push $2
-    Push $3
-    System::Call 'kernel32::IsProcessorFeaturePresent(i 40) i .r1'  ; 40 is PF_AVX2_INSTRUCTIONS_AVAILABLE
-    IntCmp $1 1 OK_AVX2
+; Function CheckCPUFlagsAVX2
+    ; Push $1
+    ; Push $2
+    ; Push $3
+    ; System::Call 'kernel32::IsProcessorFeaturePresent(i 40) i .r1'  ; 40 is PF_AVX2_INSTRUCTIONS_AVAILABLE
+    ; IntCmp $1 1 OK_AVX2
     ; AVX2 not supported
     ; Replace %DLURL% in the language string with the URL
-    ${WordReplace} "$(MissingAVX2)" "%DLURL%" "${DL_URL}-legacy-cpus" "+*" $3
-    MessageBox MB_OK "$3"
+    ; ${WordReplace} "$(MissingAVX2)" "%DLURL%" "${DL_URL}-legacy-cpus" "+*" $3
+    ; MessageBox MB_OK "$3"
     
-    MessageBox MB_YESNO $(AVX2OverrideConfirmation) IDNO NoInstall
-    MessageBox MB_OKCANCEL $(AVX2OverrideNote) IDCANCEL NoInstall
+    ; MessageBox MB_YESNO $(AVX2OverrideConfirmation) IDNO NoInstall
+    ; MessageBox MB_OKCANCEL $(AVX2OverrideNote) IDCANCEL NoInstall
 
     ; User chose to proceed
-    Pop $3
-    Pop $2
-    Pop $1
-    Return
+    ; Pop $3
+    ; Pop $2
+    ; Pop $1
+    ; Return
 
-  NoInstall:
-    ${OpenURL} "${DL_URL}-legacy-cpus"
-    Quit
+  ; NoInstall:
+    ; ${OpenURL} "${DL_URL}-legacy-cpus"
+    ; Quit
 
-  OK_AVX2:
-    Pop $3
-    Pop $2
-    Pop $1
-    Return
-FunctionEnd
+  ; OK_AVX2:
+    ; Pop $3
+    ; Pop $2
+    ; Pop $1
+    ; Return
+; FunctionEnd
 
-Function CheckCPUFlagsAVX2_Prompt
-    Push $1
-    Push $3
-    System::Call 'kernel32::IsProcessorFeaturePresent(i 40) i .r1'  ; 40 is PF_AVX2_INSTRUCTIONS_AVAILABLE
-    IntCmp $1 1 OK_AVX2 
-    Pop $1
-    Return
-  OK_AVX2:
+; Function CheckCPUFlagsAVX2_Prompt
+    ; Push $1
+    ; Push $3
+    ; System::Call 'kernel32::IsProcessorFeaturePresent(i 40) i .r1'  ; 40 is PF_AVX2_INSTRUCTIONS_AVAILABLE
+    ; IntCmp $1 1 OK_AVX2 
+    ; Pop $1
+    ; Return
+  ; OK_AVX2:
     ; Replace %DLURL% in the language string with the URL
-    ${WordReplace} "$(AVX2Available)" "%DLURL%" "${DL_URL}" "+*" $3
+    ; ${WordReplace} "$(AVX2Available)" "%DLURL%" "${DL_URL}" "+*" $3
 
-    MessageBox MB_YESNO $3 IDYES DownloadAVX2 IDNO ContinueInstall
-    DownloadAVX2:
-      ${OpenURL} '${DL_URL}'
-      Quit
-    ContinueInstall:
-      Pop $3
-      Pop $1
-      Return
-FunctionEnd
+    ; MessageBox MB_YESNO $3 IDYES DownloadAVX2 IDNO ContinueInstall
+    ; DownloadAVX2:
+      ; ${OpenURL} '${DL_URL}'
+      ; Quit
+    ; ContinueInstall:
+      ; Pop $3
+      ; Pop $1
+      ; Return
+; FunctionEnd
 
 # <FS:Ansariel> Optional start menu entry
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -353,11 +353,11 @@ Call CheckCPUFlags							# Make sure we have SSE2 support
 # Two checks here, if we are an AVX2 build we want to abort if no AVX2 support on this CPU.
 # If we are not an AVX2 build but the CPU can support it then we want to prompt them to download the AVX2 version
 # but also allow them to override.
-${If} ${ISAVX2} == 1
-  Call CheckCPUFlagsAVX2
-${Else}
-  Call CheckCPUFlagsAVX2_Prompt
-${EndIf}
+; ${If} ${ISAVX2} == 1
+  ; Call CheckCPUFlagsAVX2
+; ${Else}
+  ; Call CheckCPUFlagsAVX2_Prompt
+; ${EndIf}
 
 Call CheckWindowsVersion					# Don't install On unsupported systems
     Push $0
