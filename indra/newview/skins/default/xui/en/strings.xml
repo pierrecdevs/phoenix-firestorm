@@ -28,7 +28,7 @@
 
 	<!-- starting up -->
 	<string name="StartupDetectingHardware">Detecting hardware...</string>
-	<string name="StartupLoading">Weclome to [APP_NAME]... ...</string>
+	<string name="StartupLoading">Welcome to [APP_NAME]... ...</string>
 	<string name="StartupClearingCache">Welcome to your life...</string>
 	<string name="StartupClearingTextureCache">There's no turning back...</string>
 	<string name="StartupInitializingTextureCache">Aperture Viewer: nothing is not possible...</string>
