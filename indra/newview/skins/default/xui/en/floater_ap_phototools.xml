@@ -3537,8 +3537,6 @@
              top_delta="-1"
              width="20"
              tool_tip="Reset Red luminance weight to default (0.299).">
-                <button.commit_callback
-                 function="APFloaterPhototools::onClickResetLumWeightR"/>
             </button>
             
             
@@ -3586,8 +3584,6 @@
              top_delta="-1"
              width="20"
              tool_tip="Reset Green luminance weight to default (0.587).">
-                <button.commit_callback
-                 function="APFloaterPhototools::onClickResetLumWeightG"/>
             </button>
             
             <!-- Blue Weight Control -->
@@ -3634,8 +3630,6 @@
              top_delta="-1"
              width="20"
              tool_tip="Reset Blue luminance weight to default (0.114).">
-                <button.commit_callback
-                 function="APFloaterPhototools::onClickResetLumWeightB"/>
             </button>
             
         </panel>
@@ -6483,6 +6477,9 @@
                  top_pad="265"
                  width="260"/-->
             </panel>
+
+<!--
+
             <panel
              name="P_Quick_Stats"
              follows="top|left"
@@ -6508,7 +6505,7 @@
                 </text>
             </panel>
             
-            <!-- FS:WW: Increased height of statistics_scroll scroll_container from 158 to 178 to accommodate content. -->
+
             <scroll_container
              follows="top|left"
              height="207"
@@ -6626,6 +6623,8 @@
                     </stat_view>
                 </container_view>
             </scroll_container>
+-->
+
         </panel>
 
         <panel
