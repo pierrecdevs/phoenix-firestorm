@@ -1459,12 +1459,7 @@ void LLPipeline::createGLBuffers()
 
     if (!mNoiseMap)
     {
-<<<<<<< HEAD
-		// <FS:WW/> Increase noise resolution to 1024 within mNoiseMap initialization for higher quality noise
-		const U32 noiseRes = 128;
-=======
         const U32 noiseRes = 128;
->>>>>>> bfd39c0052 (Fixes: Remove incorrect zeroing of mRT dimensions in createGLBuffers)
         LLVector3 noise[noiseRes*noiseRes];
 
         F32 scaler = gSavedSettings.getF32("RenderDeferredNoise")/100.f;
@@ -1484,10 +1479,6 @@ void LLPipeline::createGLBuffers()
 
     if (!mTrueNoiseMap)
     {
-<<<<<<< HEAD
-		// <FS:WW/> Increase noise resolution to 1024 within mTrueNoiseMap initialization for higher quality noise
-=======
->>>>>>> bfd39c0052 (Fixes: Remove incorrect zeroing of mRT dimensions in createGLBuffers)
         const U32 noiseRes = 128;
         F32 noise[noiseRes*noiseRes*3];
         for (U32 i = 0; i < noiseRes*noiseRes*3; i++)
