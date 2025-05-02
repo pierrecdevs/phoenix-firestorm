@@ -92,7 +92,7 @@
     <key>Type</key>
     <string>String</string>
     <key>Value</key>
-    <string>dusk</string>
+    <string>phantom</string>
   </map>
 
   <key>FSSkinCurrentReadableName</key>
@@ -120,7 +120,7 @@
     <key>Type</key>
     <string>String</string>
     <key>Value</key>
-    <string>dusk</string>
+    <string>phantom</string>
   </map>
 
   <key>LetterKeysAffectsMovementNotFocusChatBar</key>
