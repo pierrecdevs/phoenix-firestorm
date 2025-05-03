@@ -721,6 +721,162 @@
         <key>Value</key>
         <real>0.0</real>
     </map>
+    <key>APFlycamRoll_01</key>
+    <map>
+        <key>Backup</key>
+        <boolean>1</boolean>
+        <key>Comment</key>
+        <string>Stored Flycam roll angle for Aperture Phototools Slot 01.</string>
+        <key>Persist</key>
+        <integer>1</integer> 
+        <key>Type</key>
+        <string>F32</string>
+        <key>Value</key>
+        <real>0.0</real>
+    </map>
+    <key>APFlycamRoll_02</key>
+    <map>
+        <key>Backup</key>
+        <boolean>1</boolean>
+        <key>Comment</key>
+        <string>Stored Flycam roll angle for Aperture Phototools Slot 01.</string>
+        <key>Persist</key>
+        <integer>1</integer> 
+        <key>Type</key>
+        <string>F32</string>
+        <key>Value</key>
+        <real>0.0</real>
+    </map>
+    <key>APFlycamRoll_03</key>
+    <map>
+        <key>Backup</key>
+        <boolean>1</boolean>
+        <key>Comment</key>
+        <string>Stored Flycam roll angle for Aperture Phototools Slot 01.</string>
+        <key>Persist</key>
+        <integer>1</integer> 
+        <key>Type</key>
+        <string>F32</string>
+        <key>Value</key>
+        <real>0.0</real>
+    </map>
+    <key>APFlycamRoll_04</key>
+    <map>
+        <key>Backup</key>
+        <boolean>1</boolean>
+        <key>Comment</key>
+        <string>Stored Flycam roll angle for Aperture Phototools Slot 01.</string>
+        <key>Persist</key>
+        <integer>1</integer> 
+        <key>Type</key>
+        <string>F32</string>
+        <key>Value</key>
+        <real>0.0</real>
+    </map>
+    <key>APFlycamRoll_05</key>
+    <map>
+        <key>Backup</key>
+        <boolean>1</boolean>
+        <key>Comment</key>
+        <string>Stored Flycam roll angle for Aperture Phototools Slot 01.</string>
+        <key>Persist</key>
+        <integer>1</integer> 
+        <key>Type</key>
+        <string>F32</string>
+        <key>Value</key>
+        <real>0.0</real>
+    </map>
+    <key>APFlycamRoll_06</key>
+    <map>
+        <key>Backup</key>
+        <boolean>1</boolean>
+        <key>Comment</key>
+        <string>Stored Flycam roll angle for Aperture Phototools Slot 01.</string>
+        <key>Persist</key>
+        <integer>1</integer> 
+        <key>Type</key>
+        <string>F32</string>
+        <key>Value</key>
+        <real>0.0</real>
+    </map>
+    <key>APFlycamRoll_07</key>
+    <map>
+        <key>Backup</key>
+        <boolean>1</boolean>
+        <key>Comment</key>
+        <string>Stored Flycam roll angle for Aperture Phototools Slot 01.</string>
+        <key>Persist</key>
+        <integer>1</integer> 
+        <key>Type</key>
+        <string>F32</string>
+        <key>Value</key>
+        <real>0.0</real>
+    </map>
+    <key>APFlycamRoll_08</key>
+    <map>
+        <key>Backup</key>
+        <boolean>1</boolean>
+        <key>Comment</key>
+        <string>Stored Flycam roll angle for Aperture Phototools Slot 01.</string>
+        <key>Persist</key>
+        <integer>1</integer> 
+        <key>Type</key>
+        <string>F32</string>
+        <key>Value</key>
+        <real>0.0</real>
+    </map>
+    <key>APFlycamRoll_09</key>
+    <map>
+        <key>Backup</key>
+        <boolean>1</boolean>
+        <key>Comment</key>
+        <string>Stored Flycam roll angle for Aperture Phototools Slot 01.</string>
+        <key>Persist</key>
+        <integer>1</integer> 
+        <key>Type</key>
+        <string>F32</string>
+        <key>Value</key>
+        <real>0.0</real>
+    </map>
+    <key>APFlycamRoll_10</key>
+    <map>
+        <key>Backup</key>
+        <boolean>1</boolean>
+        <key>Comment</key>
+        <string>Stored Flycam roll angle for Aperture Phototools Slot 01.</string>
+        <key>Persist</key>
+        <integer>1</integer> 
+        <key>Type</key>
+        <string>F32</string>
+        <key>Value</key>
+        <real>0.0</real>
+    </map>
+    <key>APFlycamRoll_11</key>
+    <map>
+        <key>Backup</key>
+        <boolean>1</boolean>
+        <key>Comment</key>
+        <string>Stored Flycam roll angle for Aperture Phototools Slot 01.</string>
+        <key>Persist</key>
+        <integer>1</integer> 
+        <key>Type</key>
+        <string>F32</string>
+        <key>Value</key>
+        <real>0.0</real>
+    </map>
+    <key>APFlycamRoll_12</key>
+    <map>
+        <key>Backup</key>
+        <boolean>1</boolean>
+        <key>Comment</key>
+        <string>Stored Flycam roll angle for Aperture Phototools Slot 01.</string>
+        <key>Persist</key>
+        <integer>1</integer> 
+        <key>Type</key>
+        <string>F32</string>
+        <key>Value</key>
+        <real>0.0</real>
+    </map>
     <map>
     <key>AvatarHoverOffsetZ</key>
     <map>

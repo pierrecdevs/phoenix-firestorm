@@ -2808,48 +2808,67 @@ void APFloaterPhototools::updateCameraItemsSelection()
     object_view_item->setValue(argument);
 }
 
-void APFloaterPhototools::onStoreCameraView(S32 slot_index)
+void APFloaterPhototools::onStoreCameraView(S32 slot_index) // Assumes this signature
 {
-    // Format slot index with leading zero (e.g., "01", "02", ..., "12")
+    // --- NEW: Check if Flycam is active ---
+    LLViewerJoystick* joystick = LLViewerJoystick::getInstance();
+    bool is_flycam_active = joystick && joystick->getOverrideCamera();
+
+    if (is_flycam_active)
+    {
+        // Wrong mode: Flycam is ON, but trying to save Viewer Preset
+        FSCommon::report_to_nearby_chat("Cannot save Viewer Camera preset while Flycam is active.");
+        LL_WARNS("PhotoToolsCamera") << "Attempted to save Viewer preset in Flycam mode for slot " << slot_index << LL_ENDL;
+        return; // Stop execution
+    }
+    // --- End NEW Check ---
+
+    // --- Existing Viewer Preset Save Logic ---
+    LL_WARNS("PhotoToolsCamera") << "onStoreCameraView (Standard Save) Slot " << slot_index << ":" << LL_ENDL;
+
+    // Get data appropriate for Viewer mode (e.g., using gAgentCamera focus, etc.)
+    LLVector3d current_pos_global = gAgentCamera.getCameraPositionGlobal();
+    LLVector3d current_focus_global = gAgentCamera.getFocusTargetGlobal(); // Use focus from AgentCamera
+    LLUUID focus_object_id = LLUUID::null;
+    if (gAgentCamera.getFocusObject()) {
+        focus_object_id = gAgentCamera.getFocusObject()->getID();
+    }
+    // Note: Standard viewer presets might not store AtAxis or Roll explicitly,
+    // as these are derived from Pos/Focus/Roll settings on load.
+    // We'll save Pos, Focus, and optionally Focus Object ID.
+
+    LL_WARNS("PhotoToolsCamera") << "  - Storing Pos (AgentCam): " << current_pos_global << LL_ENDL;
+    LL_WARNS("PhotoToolsCamera") << "  - Storing Focus (AgentCam): " << current_focus_global << LL_ENDL;
+    LL_WARNS("PhotoToolsCamera") << "  - Storing Focus Obj ID: " << focus_object_id.asString() << LL_ENDL;
+
+    // Format slot index
     std::ostringstream slot_stream;
     slot_stream << std::setw(2) << std::setfill('0') << slot_index;
     std::string slot_str = slot_stream.str();
 
-    // Construct the setting keys with "AP" prefix
+    // Define Setting Keys
     std::string key_pos = "APStoredCameraPos_" + slot_str;
     std::string key_focus = "APStoredCameraFocus_" + slot_str;
-    std::string key_objid = "APStoredCameraFocusObjectId_" + slot_str;
-    std::string key_roll = "APStoredCameraRoll_" + slot_str;
+    std::string key_focus_id = "APStoredCameraFocusObjectId_" + slot_str;
 
-    // --- Dynamically declare controls before setting (ensures they are registered) ---
-    // Use LLControlVariable::PERSIST_ALWAYS for the persistence flag.
-    gSavedPerAccountSettings.declareVec3d(key_pos, LLVector3d::zero, "Aperture Camera Pos Slot " + slot_str, LLControlVariable::PERSIST_ALWAYS);
-    gSavedPerAccountSettings.declareVec3d(key_focus, LLVector3d::zero, "Aperture Camera Focus Slot " + slot_str, LLControlVariable::PERSIST_ALWAYS);
-    gSavedPerAccountSettings.declareString(key_objid, LLUUID::null.asString(), "Aperture Camera ObjID Slot " + slot_str, LLControlVariable::PERSIST_ALWAYS);
-    gSavedPerAccountSettings.declareF32(key_roll, 0.0f, "Aperture Camera Roll Slot " + slot_str, LLControlVariable::PERSIST_ALWAYS);
+    // Declare Settings (Ideally done once at startup)
+    gSavedPerAccountSettings.declareVec3d(key_pos, LLVector3d::zero, "Aperture Stored Camera Pos Slot " + slot_str, LLControlVariable::PERSIST_ALWAYS);
+    gSavedPerAccountSettings.declareVec3d(key_focus, LLVector3d::zero, "Aperture Stored Camera Focus Slot " + slot_str, LLControlVariable::PERSIST_ALWAYS);
+    gSavedPerAccountSettings.declareString(key_focus_id, LLUUID::null.asString(), "Aperture Stored Camera Focus Object ID Slot " + slot_str, LLControlVariable::PERSIST_ALWAYS);
 
-    // --- Get Current Camera State ---
-    LLVector3d current_pos = gAgentCamera.getCameraPositionGlobal();
-    LLVector3d current_focus = gAgentCamera.getFocusTargetGlobal();
-    LLUUID focus_object_id = LLUUID::null;
-    if (gAgentCamera.getFocusObject().notNull())
-    {
-        focus_object_id = gAgentCamera.getFocusObject()->getID();
-    }
-    F32 current_roll = gAgentCamera.getRollAngle(); // Uses public getter
+    // Save Values
+    gSavedPerAccountSettings.setVector3d(key_pos, current_pos_global);
+    gSavedPerAccountSettings.setVector3d(key_focus, current_focus_global);
+    gSavedPerAccountSettings.setString(key_focus_id, focus_object_id.asString());
 
-    // --- Save to Per-Account Settings ---
-    gSavedPerAccountSettings.setVector3d(key_pos, current_pos);
-    gSavedPerAccountSettings.setVector3d(key_focus, current_focus);
-    gSavedPerAccountSettings.setString(key_objid, focus_object_id.asString());
-    gSavedPerAccountSettings.setF32(key_roll, current_roll);
+    LL_WARNS("PhotoToolsCamera") << "Stored Viewer Camera Pos/Focus for slot " << slot_index << LL_ENDL;
 
-    // --- User Feedback (Simple string concatenation) ---
-    std::string message = "Camera view saved to slot " + std::to_string(slot_index) + ".";
+    // User Feedback
+    std::string message = "Viewer Camera preset saved to slot " + std::to_string(slot_index) + ".";
     FSCommon::report_to_nearby_chat(message);
 
-    LL_DEBUGS("PhotoToolsCamera") << "Stored camera view to slot " << slot_index
-                                  << " (Keys: " << key_pos << ", " << key_focus << ", etc.)" << LL_ENDL;
+    // Optional: Refresh UI if needed
+    // refreshCameraControls();
 }
 
 void APFloaterPhototools::onLoadCameraView(S32 slot_index)
@@ -2929,89 +2948,110 @@ void APFloaterPhototools::onLoadCameraView(S32 slot_index)
     refreshCameraControls();
 }
 
+
 void APFloaterPhototools::onStoreFlycamView(S32 slot_index)
 {
-    // Format slot index
+    LL_WARNS("PhotoToolsCamera") << "onStoreFlycamView (V20+Roll Save) Slot " << slot_index << ":" << LL_ENDL;
+
+    // --- Check Flycam Active ---
+    // V20 didn't explicitly check, but good practice
+    LLViewerJoystick* joystick = LLViewerJoystick::getInstance();
+    bool is_flycam_active = joystick && joystick->getOverrideCamera();
+    if (!is_flycam_active)
+    {
+        LL_WARNS("PhotoToolsCamera") << "Store failed: Flycam not active for slot " << slot_index << LL_ENDL;
+        FSCommon::report_to_nearby_chat("Cannot save Flycam preset: Flycam is not active.");
+        return;
+    }
+    // --- End Check ---
+
+    // --- Get Data Exactly as Specified in V20 ---
+    LLVector3d current_pos_global = gAgentCamera.getCameraPositionGlobal();
+    LLVector3 current_at_axis = LLViewerCamera::getInstance()->getAtAxis();
+
+    // *** NEW: Get Roll from the final camera orientation ***
+    LLQuaternion current_orientation = LLViewerCamera::getInstance()->getQuaternion();
+    F32 current_roll = 0.0f; // Default to 0
+    F32 pitch_unused, yaw_unused; // We only need roll
+    current_orientation.getEulerAngles(&current_roll, &pitch_unused, &yaw_unused); // Correct use of pointers
+    // *** End NEW Roll Code ***
+
+    LL_WARNS("PhotoToolsCamera") << "  - Storing Pos (AgentCam): " << current_pos_global << LL_ENDL;
+    LL_WARNS("PhotoToolsCamera") << "  - Storing AtAxis (ViewerCam): " << current_at_axis << LL_ENDL;
+    LL_WARNS("PhotoToolsCamera") << "  - Storing Roll (ViewerCam Quat): " << current_roll << LL_ENDL; // Log roll
+
+    // 1. Format slot index
     std::ostringstream slot_stream;
     slot_stream << std::setw(2) << std::setfill('0') << slot_index;
     std::string slot_str = slot_stream.str();
 
-    // *** Flycam Keys ***
-    std::string key_pos = "APStoredFlycamPos_" + slot_str;
-    // Focus key is optional now, orientation implies focus direction
-    // std::string key_focus = "APStoredFlycamFocus_" + slot_str;
-    std::string key_orient = "APStoredFlycamOrientation_" + slot_str; // Store Quaternion
+    // 2. Define Setting Keys (Add Roll)
+    std::string key_pos = "APFlycamPos_" + slot_str;
+    std::string key_at_axis = "APFlycamAtAxis_" + slot_str;
+    std::string key_roll = "APFlycamRoll_" + slot_str; // NEW Key for Roll
 
-    // --- Declare controls before setting ---
+    // 3. Declare Settings (Add Roll)
+    // Note: Declaring here ensures they exist, but ideally declare once at startup.
     gSavedPerAccountSettings.declareVec3d(key_pos, LLVector3d::zero, "Aperture Flycam Pos Slot " + slot_str, LLControlVariable::PERSIST_ALWAYS);
-    // gSavedPerAccountSettings.declareVec3d(key_focus, LLVector3d::zero, "Aperture Flycam Focus Slot " + slot_str, LLControlVariable::PERSIST_ALWAYS); // Optional
-    gSavedPerAccountSettings.declareQuat(key_orient, LLQuaternion::DEFAULT, "Aperture Flycam Orientation Slot " + slot_str, LLControlVariable::PERSIST_ALWAYS);
+    gSavedPerAccountSettings.declareVec3(key_at_axis, LLVector3::x_axis, "Aperture Flycam AtAxis Slot " + slot_str, LLControlVariable::PERSIST_ALWAYS);
+    gSavedPerAccountSettings.declareF32(key_roll, 0.0f, "Aperture Flycam Roll Slot " + slot_str, LLControlVariable::PERSIST_ALWAYS); // NEW Declare Roll
 
-    // --- Get Current LLViewerCamera State ---
-    LLVector3 current_pos_agent = LLViewerCamera::getInstance()->getOrigin();
-    LLVector3d current_pos_global = gAgent.getPosGlobalFromAgent(current_pos_agent);
-    LLQuaternion current_orientation = LLViewerCamera::getInstance()->getQuaternion();
-    // LLVector3 current_focus_agent = LLViewerCamera::getInstance()->getPointOfInterest(); // Optional
-    // LLVector3d current_focus_global = gAgent.getPosGlobalFromAgent(current_focus_agent); // Optional
-
-    // --- Logging ---
-    LL_DEBUGS("PhotoToolsCamera") << "onStoreFlycamView Slot " << slot_index << ":" << LL_ENDL;
-    LL_DEBUGS("PhotoToolsCamera") << "  - Pos Global: " << current_pos_global << LL_ENDL;
-    // LL_DEBUGS("PhotoToolsCamera") << "  - Focus Global: " << current_focus_global << LL_ENDL; // Optional
-    LL_DEBUGS("PhotoToolsCamera") << "  - Orientation: " << current_orientation << LL_ENDL;
-
-    // --- Save to Per-Account Settings ---
+    // 4. Save Values (Add Roll)
     gSavedPerAccountSettings.setVector3d(key_pos, current_pos_global);
-    // gSavedPerAccountSettings.setVector3d(key_focus, current_focus_global); // Optional
-    gSavedPerAccountSettings.setUntypedValue(key_orient, current_orientation.getValue()); // Save Quaternion as LLSD
+    gSavedPerAccountSettings.setVector3(key_at_axis, current_at_axis);
+    gSavedPerAccountSettings.setF32(key_roll, current_roll); // NEW Save Roll
 
-    // --- User Feedback ---
-    std::string message = "Flycam Camera view saved to slot " + std::to_string(slot_index) + ".";
+    LL_WARNS("PhotoToolsCamera") << "Stored Flycam Pos, AtAxis, and Roll for slot " << slot_index << LL_ENDL;
+
+    // 5. User Feedback (Updated Message)
+    std::string message = "Flycam Camera Pos/AtAxis/Roll saved to slot " + std::to_string(slot_index) + ".";
     FSCommon::report_to_nearby_chat(message);
-
-    LL_DEBUGS("PhotoToolsCamera") << "Stored Flycam view to slot " << slot_index << LL_ENDL;
 }
+
 
 void APFloaterPhototools::onLoadFlycamView(S32 slot_index)
 {
-    // Format slot index
+    LL_WARNS("PhotoToolsCamera") << "onLoadFlycamView (V20+Roll Load) Slot " << slot_index << ":" << LL_ENDL;
+
+    // 1. Format slot index
     std::ostringstream slot_stream;
     slot_stream << std::setw(2) << std::setfill('0') << slot_index;
     std::string slot_str = slot_stream.str();
 
-    // *** Flycam Keys ***
-    std::string key_pos = "APStoredFlycamPos_" + slot_str;
-    std::string key_orient = "APStoredFlycamOrientation_" + slot_str;
+    // 2. Define Setting Keys (Add Roll)
+    std::string key_pos = "APFlycamPos_" + slot_str;
+    std::string key_at_axis = "APFlycamAtAxis_" + slot_str;
+    std::string key_roll = "APFlycamRoll_" + slot_str; // NEW Key for Roll
 
-    // --- Declare controls ---
+    // 3. Declare Settings (Add Roll - Needed for getF32 default)
+    // Note: Declaring here ensures they exist, but ideally declare once at startup.
     gSavedPerAccountSettings.declareVec3d(key_pos, LLVector3d::zero, "Aperture Flycam Pos Slot " + slot_str, LLControlVariable::PERSIST_ALWAYS);
-    gSavedPerAccountSettings.declareQuat(key_orient, LLQuaternion::DEFAULT, "Aperture Flycam Orientation Slot " + slot_str, LLControlVariable::PERSIST_ALWAYS);
+    gSavedPerAccountSettings.declareVec3(key_at_axis, LLVector3::x_axis, "Aperture Flycam AtAxis Slot " + slot_str, LLControlVariable::PERSIST_ALWAYS);
+    gSavedPerAccountSettings.declareF32(key_roll, 0.0f, "Aperture Flycam Roll Slot " + slot_str, LLControlVariable::PERSIST_ALWAYS); // NEW Declare Roll
 
-    // --- Load Values ---
-    LLVector3d stored_camera_pos_global = gSavedPerAccountSettings.getVector3d(key_pos);
-    LLQuaternion stored_camera_orientation = gSavedPerAccountSettings.get<LLQuaternion>(key_orient);
+    // 4. Load Values (Add Roll)
+    LLVector3d stored_pos = gSavedPerAccountSettings.getVector3d(key_pos);
+    LLVector3 stored_at_axis = gSavedPerAccountSettings.getVector3(key_at_axis);
+    F32 stored_roll = gSavedPerAccountSettings.getF32(key_roll); // NEW Load Roll (uses declared default if not found)
 
-    // --- Logging ---
-    LL_DEBUGS("PhotoToolsCamera") << "onLoadFlycamView Slot " << slot_index << ":" << LL_ENDL;
-    LL_DEBUGS("PhotoToolsCamera") << "  - Loaded Pos Global: " << stored_camera_pos_global << LL_ENDL;
-    LL_DEBUGS("PhotoToolsCamera") << "  - Loaded Orientation: " << stored_camera_orientation << LL_ENDL;
+    LL_WARNS("PhotoToolsCamera") << "  - Loaded Pos: " << stored_pos << LL_ENDL;
+    LL_WARNS("PhotoToolsCamera") << "  - Loaded AtAxis: " << stored_at_axis << LL_ENDL;
+    LL_WARNS("PhotoToolsCamera") << "  - Loaded Roll: " << stored_roll << LL_ENDL; // Log Roll
 
-    // --- Check if Empty ---
-    bool is_empty = stored_camera_pos_global.isExactlyZero() && stored_camera_orientation == LLQuaternion::DEFAULT;
-    LL_DEBUGS("PhotoToolsCamera") << "  - Empty check result: " << (is_empty ? "EMPTY" : "NOT EMPTY") << LL_ENDL;
-    if (is_empty)
-    {
+    // 5. Check if Empty (Based on Position) - Same as V20
+    bool is_empty = stored_pos.isExactlyZero();
+    LL_WARNS("PhotoToolsCamera") << "  - Empty check result: " << (is_empty ? "EMPTY" : "NOT EMPTY") << LL_ENDL;
+    if (is_empty) {
         std::string message = "Flycam Camera preset slot " + std::to_string(slot_index) + " appears empty.";
         FSCommon::report_to_nearby_chat(message);
         LL_WARNS("PhotoToolsCamera") << "Attempted to load empty Flycam preset slot " << slot_index << "." << LL_ENDL;
         return;
     }
 
-    // --- Distance Check ---
+    // 6. Draw Distance Check - Same as V20
     F32 renderFarClip = gSavedSettings.getF32("RenderFarClip");
     F32 far_clip_squared = renderFarClip * renderFarClip;
-    if (dist_vec_squared(gAgent.getPositionGlobal(), stored_camera_pos_global) > far_clip_squared)
-    {
+    if (dist_vec_squared(gAgent.getPositionGlobal(), stored_pos) > far_clip_squared) {
         std::string msg = LLTrans::getString("LoadCameraPositionOutsideDrawDistance");
         if (msg == "LoadCameraPositionOutsideDrawDistance") msg = "Stored camera position is outside your draw distance.";
         FSCommon::report_to_nearby_chat(msg);
@@ -3019,52 +3059,45 @@ void APFloaterPhototools::onLoadFlycamView(S32 slot_index)
         return;
     }
 
-    // --- Handle Flycam Deactivation ---
+    // 7. Handle Flycam Deactivation - Same as V20
     bool was_flycam_active = LLViewerJoystick::getInstance()->getOverrideCamera();
-    if (was_flycam_active)
-    {
-        LL_DEBUGS("PhotoToolsCamera") << "Flycam active. Deactivating override before loading preset." << LL_ENDL;
+    if (was_flycam_active) {
+        LL_WARNS("PhotoToolsCamera") << "Flycam active. Deactivating override." << LL_ENDL;
         LLViewerJoystick::getInstance()->setOverrideCamera(false);
-    }
-     else
-    {
-         LL_DEBUGS("PhotoToolsCamera") << "Flycam inactive. Loading preset." << LL_ENDL;
-    }
-    // --- End Handle Flycam ---
+    } else { LL_WARNS("PhotoToolsCamera") << "Flycam inactive." << LL_ENDL; }
 
-    // --- Apply Loaded State Directly to LLViewerCamera ---
-    // Ensure flycam override is OFF before setting state.
-    LLVector3 stored_camera_pos_agent = gAgent.getPosAgentFromGlobal(stored_camera_pos_global);
-    LLViewerCamera::getInstance()->setOrigin(stored_camera_pos_agent);
+    // --- 8. Apply State via LLAgentCamera ---
+    LL_WARNS("PhotoToolsCamera") << "  - Step 8: Applying state via LLAgentCamera..." << LL_ENDL;
+    gAgentCamera.unlockView();
+    gAgentCamera.stopCameraAnimation();
 
-    LLMatrix3 rot_mat(stored_camera_orientation);
-    LLViewerCamera::getInstance()->mXAxis = LLVector3(rot_mat.mMatrix[0]);
-    LLViewerCamera::getInstance()->mYAxis = LLVector3(rot_mat.mMatrix[1]);
-    LLViewerCamera::getInstance()->mZAxis = LLVector3(rot_mat.mMatrix[2]);
+    // 8a. Calculate Focus using LOADED Pos + AtAxis - Same as V20
+    const F64 focus_distance = 5.0;
+    LLVector3d at_axis_d = LLVector3d(stored_at_axis);
+    at_axis_d.normalize();
+    LLVector3d calculated_focus_global = stored_pos + at_axis_d * focus_distance;
 
-    // --- Logging after applying state ---
-    LL_DEBUGS("PhotoToolsCamera") << "  - State Applied Directly. LLViewerCamera origin: " << LLViewerCamera::getInstance()->getOrigin() << LL_ENDL;
-    LL_DEBUGS("PhotoToolsCamera") << "  - State Applied Directly. LLViewerCamera Quat: " << LLViewerCamera::getInstance()->getQuaternion() << LL_ENDL;
+    // 8b. Set Position & Calculated Focus - Same as V20
+    gAgentCamera.setCameraPosAndFocusGlobal(stored_pos, calculated_focus_global, LLUUID::null);
+    LL_WARNS("PhotoToolsCamera") << "  - Called setCameraPosAndFocusGlobal. Pos: " << stored_pos << " Focus: " << calculated_focus_global << LL_ENDL;
 
+    // 8c. *** APPLY LOADED ROLL *** (Replaces forcing Roll to ZERO)
+    gAgentCamera.setRollAngle(stored_roll); // Use the loaded value
+    LL_WARNS("PhotoToolsCamera") << "  - Called setRollAngle with Roll: " << stored_roll << LL_ENDL; // Log the applied roll
+    // --- End Apply State ---
 
-    // --- Force Camera System Update ---
-    // Signal that the camera state was changed externally.
+    // 9. Force Update Signal - Same as V20
     LLViewerJoystick::getInstance()->setCameraNeedsUpdate(true);
 
-    // --- User Feedback ---
+    // 10. User Feedback (Updated Message)
     std::string message = "Flycam Camera preset loaded from slot " + std::to_string(slot_index) + ".";
-     if (was_flycam_active) {
-        message += " (Flycam deactivated)";
-    }
+    if (was_flycam_active) { message += " (Flycam deactivated)"; }
     FSCommon::report_to_nearby_chat(message);
-    LL_DEBUGS("PhotoToolsCamera") << "Loaded Flycam preset view from slot " << slot_index << LL_ENDL;
+    LL_WARNS("PhotoToolsCamera") << "Loaded Flycam preset view from slot " << slot_index << LL_ENDL;
 
-    // Refresh UI
+    // 11. Refresh UI Controls - Same as V20
     refreshCameraControls();
 }
-// ==========================================================================
-// Water Settings Event Handlers - REVISED UPDATE LOGIC V2
-// ==========================================================================
 
 void APFloaterPhototools::onWaterFogColorChanged()
 {
