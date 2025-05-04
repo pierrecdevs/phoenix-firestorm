@@ -109,7 +109,7 @@ Dummy Name replaced at run time
         top="16"
         width="489"
         wrap="true">
-Aperture Viewer is built by the Aperture Viewer Project, based upon the excellent work of the Firestorm Viewer Project.
+Aperture Viewer is built by the Aperture Viewer Project.
 
 Aperture Viewer Development Team:
       </text>
@@ -124,7 +124,23 @@ Aperture Viewer Development Team:
        top_pad="5"
        width="476"
        word_wrap="true">
-William Weaver
+Lead Developer:
+William Weaver (paperwork)
+
+Head of Quality Assurance:
+Surrealia Hexem
+
+Quality Assurance Testers for Version 1.0.0:
+Benjamin Corvinus
+Eira Juliesse
+Maladriel
+Saya Starlight
+Tornado Siren
+
+With valued input from:
+Anya Ohmai
+Joslyn Benson
+Marina Munter
       </text_editor>
     </panel>
     
