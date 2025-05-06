@@ -554,25 +554,29 @@ void LLPresetsManager::loadPreset(const std::string& subdirectory, std::string n
             // Update avatar complexity indirect controls (Existing code)
             LLAvatarComplexityControls::setIndirectControls();
 
+            // <FS> [FIRE-35390] Old viewer presets have these as true and 0.7, whereas the equivalent on modern viewers is false and 1.0
+            if (auto control = gSavedSettings.getControl("RenderSkyAutoAdjustLegacy"))
+                control->resetToDefault(true);
+            if (auto control = gSavedSettings.getControl("RenderSkyAmbientScale"))
+                control->resetToDefault(true);
+            // </FS>
+
             // Refresh Preferences Floater UI if open (Existing code)
             LLFloaterPreference* preferences_floater = LLFloaterReg::findTypedInstance<LLFloaterPreference>("preferences");
             if (preferences_floater)
+
             {
                 preferences_floater->refreshEnabledGraphics();
-                // preferences_floater->refreshSettings(); // Refresh settings within Preferences
             }
 
             APFloaterPhototools* phototools_floater = LLFloaterReg::findTypedInstance<APFloaterPhototools>("phototools"); 
             if (phototools_floater)
+
             {
-                LL_DEBUGS("Presets") << "Refreshing APFloaterPhototools after preset load." << LL_ENDL;
                 phototools_floater->refreshSettings();          // Refresh general settings (reads mode)
                 phototools_floater->refreshColorBalanceControls(); // Refresh CB controls using correct mode
-                // phototools_floater->refreshSky();               // Refresh sky controls if needed
-                // Add phototools_floater->refreshEnabledGraphics(); if implemented later
             }
             else {
-                 LL_DEBUGS("Presets") << "APFloaterPhototools not open, skipping refresh." << LL_ENDL;
             }
             // <AP:WW> ADD END: Refresh Phototools Floater UI if open
 
