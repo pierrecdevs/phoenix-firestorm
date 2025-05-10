@@ -3,14 +3,18 @@
 	<tab_container name="about_tab">
 		<panel label="情報" name="support_panel">
 			<text name="support_intro">
-Firestormの最新情報については下記サイトにて
-https://www.firestormviewer.org
+				<!-- <FS:WW> Rebranding - Updated About Floater Info Tab Text -->
+Aperture Viewerの最新情報については下記サイトにて
+https://github.com/ApertureViewer/Aperture-Viewer/wiki
+
+Aperture Viewerは、Firestorm Viewerプロジェクトのフォークです。
+				<!-- </FS:WW> -->
 			</text>
 			<button label="コピー" name="copy_btn"/>
 		</panel>
 		<panel label="Linden Labクレジット" name="credits_panel">
 			<text name="linden_intro">
-Firestormは、Linden LabがSecond Lifeビューアのソースコードを公開するという決定がなければ実現できませんでした。
+Aperture Viewerは、Linden LabがSecond Lifeビューアのソースコードを公開するという決定がなければ実現できませんでした。
 
 Second LifeはLindenによって提供されており、
 以下のオープンソースの貢献により実現しています：
@@ -19,14 +23,22 @@ Second LifeはLindenによって提供されており、
 				実行時にダミー名が置き換えられます
 			</text_editor>
 		</panel>
-		<panel label="Firestormクレジット" name="fs_credits_panel">
+		<panel label="Apertureクレジット" name="aperture_credits_panel">
+			<text name="aperture_intro">
+Aperture Viewerは、Aperture Viewerプロジェクトによってビルドされています。
+
+Aperture Viewer Development Team:
+		</text>
+		<!--text_editor name="aperture_names"/-->
+		</panel>
+		<panel label="Firestormクレジット">
 			<scroll_container name="fs_credits_scroll_container">
 				<panel name="fs_credits_scroll_container_content_panel">
 					<text name="firestorm_intro">
-						Firestormは、SecondLife(tm) ビューアのエクスペリエンスを向上させるためのコミュニティ開発プロジェクトです。私たちは、さまざまなコミュニティ開発者からの貢献と、Linden Labおよび私たち自身のコードをパッケージ化して、大規模なボランティアサポートチームに支えられた高品質で機能豊富なビューアエクスペリエンスを提供します。
-Firestormは、非営利団体のPhoenix Firestorm Project, Inc.によって提供されています。
-
+						<!-- <FS:WW> Rebranding - Updated About Floater Firestorm Credits Intro Text -->
+Aperture Viewerは、Second Life(tm) Viewerのエクスペリエンス向上を目的として開発されたコミュニティ開発プロジェクト、Firestorm Viewerから派生したものです。Aperture Viewerはこの伝統を受け継ぎ、様々なコミュニティ開発者の貢献をパッケージ化し、Firestormの優れた基盤をベースに、Linden Labのコードと独自の機能追加を加えることで、高品質で機能豊富なビューアエクスペリエンスを提供しています。Aperture ViewerはFirestormから派生した独立したプロジェクトであり、非営利団体であるThe Phoenix Firestorm Project, Inc.によって提供されています。
 Firestorm 開発チーム：
+						<!-- </FS:WW> -->
 					</text>
 					<!--text name="firestorm_names"/-->
 					<text name="fs_contrib_intro">
@@ -38,7 +50,8 @@ Firestorm 開発チーム：
 					</text>
 					<!--text name="fs_trans_names"/-->
 					<text name="fs_art_intro">
-						Firestorm には、Firestorm用に修正されたStarlightが含まれています。これは住民によって住民のために提供されており、代替の、より明るく、できれば使いやすいインターフェイスを提供することを目的としています。詳細については、&lt;nolink&gt;https://wiki.secondlife.com/wiki/Viewer_Skins/Starlight&lt;/nolink&gt;を参照してください。
+Firestorm には、Firestorm用に修正されたStarlightが含まれています。これは住民によって住民のために提供されており、代替の、より明るく、できれば使いやすいインターフェイスを提供することを目的としています。
+詳細については、<nolink>https://wiki.secondlife.com/wiki/Viewer_Skins/Starlight</nolink>を参照してください。
 
 ＵＩアーティストとデザイナー：
 					</text>
@@ -46,7 +59,9 @@ Firestorm 開発チーム：
 				</panel>
 			</scroll_container>
 		</panel>
-		<panel label="ライセンス" name="licenses_panel">
+		<!-- <FS:WW> Added Aperture Credits Tab -->
+		<!-- </FS:WW> -->
+		<panel label="Licenses" name="licenses_panel">
 			<text_editor name="licenses_editor">
 3Dconnexion SDK Copyright (C) 1992-2009 3Dconnexion
 APR Copyright (C) 2011 The Apache Software Foundation
