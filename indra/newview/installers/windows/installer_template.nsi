@@ -115,7 +115,7 @@ SetOverwrite on							# Overwrite files by default
 !define MSUNINSTALL_KEY "${MSCURRVER_KEY}\Uninstall\${INSTNAME}"
 
 # <AP:WW> Rebrand: Define LICENSE_PATH variable.
-!define LICENSE_PATH "E:/aperture/indra/newview/installers/windows"
+!define LICENSE_PATH "%%SOURCE%%/installers/windows"
 # </AP:WW>
 
 
