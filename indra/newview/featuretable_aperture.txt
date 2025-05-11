@@ -153,7 +153,7 @@ RenderFarClip                                       1 4096   // Draw Distance
 FramePerSecondLimit                                 1 60     // FPS Limit (0=Unlimited) - think carefully about this, it might be best to set it even to 30
 RenderMaxPartCount                                  1 8192   // Particle Count - we will set this to 1024 for all levels below candy and off for level 0
 RenderAvatarComplexityMode                          1 0      /// 0 - complexity limit applies to everyone, 1 - always show friends, 2 - only show friends
-RenderAvatarMaxComplexity                           1 0      // Avatar Complexity Max
+RenderAvatarMaxComplexity                           1 350000      // Avatar Complexity Max
 RenderAvatarMaxNonImpostors                         1 16     // Max Fully Rendered Avatars
 RenderAttachedParticles                             1 1      // Show Particles Attached ON
 
@@ -172,7 +172,7 @@ TextureDiscardLevel                                 1 0     // Tex Discard (0=Of
 TextureCameraBoost                                  1 8     // Tex Boost Near Cam (Need to investigate further this is a scaler for priority of texture loading near camera - see investigation notes.)
 
 // Culling Thresholds (Generous Defaults for 'all')
-RenderAutoMuteSurfaceAreaLimit                      1 10.0  // Leaving in for now - ONLY TEMP - Must investigate if there is any need or benefit to changing this value
+RenderAutoMuteSurfaceAreaLimit                      1 0     // Must be set to 0 for RenderAvatarComplexityMode to work properly
 
 // Anti-Aliasing Quality (High Defaults for 'all' - applied if Type is not 0)
 RenderFSAAType                                      1 2     // Type of Antialiasing to use: 0 = None, 1 = FXAA, 2 = SMAA
@@ -410,7 +410,7 @@ TextureDiscardLevel                                 1 0     // Tex Discard (0=Of
 TextureCameraBoost                                  1 8     // Tex Boost Near Cam (Need to investigate further this is a scaler for priority of texture loading near camera - see investigation notes.)
 
 // Culling Thresholds (Generous Defaults for 'all')
-RenderAutoMuteSurfaceAreaLimit                      1 10.0  // Leaving in for now - ONLY TEMP - Must investigate if there is any need or benefit to changing this value
+RenderAutoMuteSurfaceAreaLimit                      1 0     // Must be set to 0 for RenderAvatarComplexityMode to work properly
 
 // Anti-Aliasing Quality (High Defaults for 'all' - applied if Type is not 0)
 RenderFSAAType                                      1 0     // Type of Antialiasing to use: 0 = None, 1 = FXAA, 2 = SMAA
@@ -586,7 +586,7 @@ RenderFarClip                                       1 256   // Draw Distance
 FramePerSecondLimit                                 1 30     // FPS Limit (0=Unlimited) - think carefully about this, it might be best to set it even to 30
 RenderMaxPartCount                                  1 1024   // Particle Count - we will set this to 1024 for all levels below candy and off for level 0
 RenderAvatarComplexityMode                          1 0      /// 0 - complexity limit applies to everyone, 1 - always show friends, 2 - only show friends
-RenderAvatarMaxComplexity                           1 0      // Avatar Complexity Max
+RenderAvatarMaxComplexity                           1 200000      // Avatar Complexity Max
 RenderAvatarMaxNonImpostors                         1 16     // Max Fully Rendered Avatars
 RenderAttachedParticles                             1 1      // Show Particles Attached ON
 
@@ -605,7 +605,7 @@ TextureDiscardLevel                                 1 0     // Tex Discard (0=Of
 TextureCameraBoost                                  1 8     // Tex Boost Near Cam (Need to investigate further this is a scaler for priority of texture loading near camera - see investigation notes.)
 
 // Culling Thresholds (Generous Defaults for 'all')
-RenderAutoMuteSurfaceAreaLimit                      1 10.0  // Leaving in for now - ONLY TEMP - Must investigate if there is any need or benefit to changing this value
+RenderAutoMuteSurfaceAreaLimit                      1 0     // Must be set to 0 for RenderAvatarComplexityMode to work properly
 
 // Anti-Aliasing Quality (High Defaults for 'all' - applied if Type is not 0)
 RenderFSAAType                                      1 0     // Type of Antialiasing to use: 0 = None, 1 = FXAA, 2 = SMAA
@@ -782,7 +782,7 @@ RenderFarClip                                       1 256   // Draw Distance
 FramePerSecondLimit                                 1 30     // FPS Limit (0=Unlimited) - think carefully about this, it might be best to set it even to 30
 RenderMaxPartCount                                  1 1024   // Particle Count - we will set this to 1024 for all levels below candy and off for level 0
 RenderAvatarComplexityMode                          1 0      /// 0 - complexity limit applies to everyone, 1 - always show friends, 2 - only show friends
-RenderAvatarMaxComplexity                           1 0      // Avatar Complexity Max
+RenderAvatarMaxComplexity                           1 200000      // Avatar Complexity Max
 RenderAvatarMaxNonImpostors                         1 16     // Max Fully Rendered Avatars
 RenderAttachedParticles                             1 1      // Show Particles Attached ON
 
@@ -801,7 +801,7 @@ TextureDiscardLevel                                 1 0     // Tex Discard (0=Of
 TextureCameraBoost                                  1 8     // Tex Boost Near Cam (Need to investigate further this is a scaler for priority of texture loading near camera - see investigation notes.)
 
 // Culling Thresholds (Generous Defaults for 'all')
-RenderAutoMuteSurfaceAreaLimit                      1 10.0  // Leaving in for now - ONLY TEMP - Must investigate if there is any need or benefit to changing this value
+RenderAutoMuteSurfaceAreaLimit                      1 0     // Must be set to 0 for RenderAvatarComplexityMode to work properly
 
 // Anti-Aliasing Quality (High Defaults for 'all' - applied if Type is not 0)
 RenderFSAAType                                      1 0     // Type of Antialiasing to use: 0 = None, 1 = FXAA, 2 = SMAA
@@ -978,7 +978,7 @@ RenderFarClip                                       1 256   // Draw Distance
 FramePerSecondLimit                                 1 30     // FPS Limit (0=Unlimited) - think carefully about this, it might be best to set it even to 30
 RenderMaxPartCount                                  1 1024   // Particle Count - we will set this to 1024 for all levels below candy and off for level 0
 RenderAvatarComplexityMode                          1 0      /// 0 - complexity limit applies to everyone, 1 - always show friends, 2 - only show friends
-RenderAvatarMaxComplexity                           1 0      // Avatar Complexity Max
+RenderAvatarMaxComplexity                           1 200000      // Avatar Complexity Max
 RenderAvatarMaxNonImpostors                         1 16     // Max Fully Rendered Avatars
 RenderAttachedParticles                             1 1      // Show Particles Attached ON
 
@@ -997,7 +997,7 @@ TextureDiscardLevel                                 1 0     // Tex Discard (0=Of
 TextureCameraBoost                                  1 8     // Tex Boost Near Cam (Need to investigate further this is a scaler for priority of texture loading near camera - see investigation notes.)
 
 // Culling Thresholds (Generous Defaults for 'all')
-RenderAutoMuteSurfaceAreaLimit                      1 10.0  // Leaving in for now - ONLY TEMP - Must investigate if there is any need or benefit to changing this value
+RenderAutoMuteSurfaceAreaLimit                      1 0     // Must be set to 0 for RenderAvatarComplexityMode to work properly
 
 // Anti-Aliasing Quality (High Defaults for 'all' - applied if Type is not 0)
 RenderFSAAType                                      1 0     // Type of Antialiasing to use: 0 = None, 1 = FXAA, 2 = SMAA
@@ -1174,7 +1174,7 @@ RenderFarClip                                       1 256   // Draw Distance
 FramePerSecondLimit                                 1 30     // FPS Limit (0=Unlimited) - think carefully about this, it might be best to set it even to 30
 RenderMaxPartCount                                  1 1024   // Particle Count - we will set this to 1024 for all levels below candy and off for level 0
 RenderAvatarComplexityMode                          1 0      /// 0 - complexity limit applies to everyone, 1 - always show friends, 2 - only show friends
-RenderAvatarMaxComplexity                           1 0      // Avatar Complexity Max
+RenderAvatarMaxComplexity                           1 200000      // Avatar Complexity Max
 RenderAvatarMaxNonImpostors                         1 16     // Max Fully Rendered Avatars
 RenderAttachedParticles                             1 1      // Show Particles Attached ON
 
@@ -1193,7 +1193,7 @@ TextureDiscardLevel                                 1 0     // Tex Discard (0=Of
 TextureCameraBoost                                  1 8     // Tex Boost Near Cam (Need to investigate further this is a scaler for priority of texture loading near camera - see investigation notes.)
 
 // Culling Thresholds (Generous Defaults for 'all')
-RenderAutoMuteSurfaceAreaLimit                      1 10.0  // Leaving in for now - ONLY TEMP - Must investigate if there is any need or benefit to changing this value
+RenderAutoMuteSurfaceAreaLimit                      1 0     // Must be set to 0 for RenderAvatarComplexityMode to work properly
 
 // Anti-Aliasing Quality (High Defaults for 'all' - applied if Type is not 0)
 RenderFSAAType                                      1 0     // Type of Antialiasing to use: 0 = None, 1 = FXAA, 2 = SMAA
@@ -1370,7 +1370,7 @@ RenderFarClip                                       1 256   // Draw Distance
 FramePerSecondLimit                                 1 30     // FPS Limit (0=Unlimited) - think carefully about this, it might be best to set it even to 30
 RenderMaxPartCount                                  1 1024   // Particle Count - we will set this to 1024 for all levels below candy and off for level 0
 RenderAvatarComplexityMode                          1 0      /// 0 - complexity limit applies to everyone, 1 - always show friends, 2 - only show friends
-RenderAvatarMaxComplexity                           1 0      // Avatar Complexity Max
+RenderAvatarMaxComplexity                           1 200000      // Avatar Complexity Max
 RenderAvatarMaxNonImpostors                         1 16     // Max Fully Rendered Avatars
 RenderAttachedParticles                             1 1      // Show Particles Attached ON
 
@@ -1389,7 +1389,7 @@ TextureDiscardLevel                                 1 0     // Tex Discard (0=Of
 TextureCameraBoost                                  1 8     // Tex Boost Near Cam (Need to investigate further this is a scaler for priority of texture loading near camera - see investigation notes.)
 
 // Culling Thresholds (Generous Defaults for 'all')
-RenderAutoMuteSurfaceAreaLimit                      1 10.0  // Leaving in for now - ONLY TEMP - Must investigate if there is any need or benefit to changing this value
+RenderAutoMuteSurfaceAreaLimit                      1 0     // Must be set to 0 for RenderAvatarComplexityMode to work properly
 
 // Anti-Aliasing Quality (High Defaults for 'all' - applied if Type is not 0)
 RenderFSAAType                                      1 0     // Type of Antialiasing to use: 0 = None, 1 = FXAA, 2 = SMAA
@@ -1565,7 +1565,7 @@ RenderFarClip                                       1 256   // Draw Distance
 FramePerSecondLimit                                 1 30     // FPS Limit (0=Unlimited) - think carefully about this, it might be best to set it even to 30
 RenderMaxPartCount                                  1 1024   // Particle Count - we will set this to 1024 for all levels below candy and off for level 0
 RenderAvatarComplexityMode                          1 0      /// 0 - complexity limit applies to everyone, 1 - always show friends, 2 - only show friends
-RenderAvatarMaxComplexity                           1 0      // Avatar Complexity Max
+RenderAvatarMaxComplexity                           1 200000      // Avatar Complexity Max
 RenderAvatarMaxNonImpostors                         1 16     // Max Fully Rendered Avatars
 RenderAttachedParticles                             1 1      // Show Particles Attached ON
 
@@ -1584,7 +1584,7 @@ TextureDiscardLevel                                 1 0     // Tex Discard (0=Of
 TextureCameraBoost                                  1 8     // Tex Boost Near Cam (Need to investigate further this is a scaler for priority of texture loading near camera - see investigation notes.)
 
 // Culling Thresholds (Generous Defaults for 'all')
-RenderAutoMuteSurfaceAreaLimit                      1 10.0  // Leaving in for now - ONLY TEMP - Must investigate if there is any need or benefit to changing this value
+RenderAutoMuteSurfaceAreaLimit                      1 0     // Must be set to 0 for RenderAvatarComplexityMode to work properly
 
 // Anti-Aliasing Quality (High Defaults for 'all' - applied if Type is not 0)
 RenderFSAAType                                      1 0     // Type of Antialiasing to use: 0 = None, 1 = FXAA, 2 = SMAA
@@ -1780,7 +1780,7 @@ TextureDiscardLevel                                 1 0     // Tex Discard (0=Of
 TextureCameraBoost                                  1 8     // Tex Boost Near Cam (Need to investigate further this is a scaler for priority of texture loading near camera - see investigation notes.)
 
 // Culling Thresholds (Generous Defaults for 'all')
-RenderAutoMuteSurfaceAreaLimit                      1 10.0  // Leaving in for now - ONLY TEMP - Must investigate if there is any need or benefit to changing this value
+RenderAutoMuteSurfaceAreaLimit                      1 0     // Must be set to 0 for RenderAvatarComplexityMode to work properly
 
 // Anti-Aliasing Quality (High Defaults for 'all' - applied if Type is not 0)
 RenderFSAAType                                      1 2     // Type of Antialiasing to use: 0 = None, 1 = FXAA, 2 = SMAA
@@ -1973,7 +1973,7 @@ TextureDiscardLevel                                 1 0     // Tex Discard (0=Of
 TextureCameraBoost                                  1 8     // Tex Boost Near Cam (Need to investigate further this is a scaler for priority of texture loading near camera - see investigation notes.)
 
 // Culling Thresholds (Generous Defaults for 'all')
-RenderAutoMuteSurfaceAreaLimit                      1 10.0  // Leaving in for now - ONLY TEMP - Must investigate if there is any need or benefit to changing this value
+RenderAutoMuteSurfaceAreaLimit                      1 0     // Must be set to 0 for RenderAvatarComplexityMode to work properly
 
 // Anti-Aliasing Quality (High Defaults for 'all' - applied if Type is not 0)
 RenderFSAAType                                      1 2     // Type of Antialiasing to use: 0 = None, 1 = FXAA, 2 = SMAA
