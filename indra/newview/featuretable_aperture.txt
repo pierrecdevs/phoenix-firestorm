@@ -172,7 +172,7 @@ TextureDiscardLevel                                 1 0     // Tex Discard (0=Of
 TextureCameraBoost                                  1 8     // Tex Boost Near Cam (Need to investigate further this is a scaler for priority of texture loading near camera - see investigation notes.)
 
 // Culling Thresholds (Generous Defaults for 'all')
-RenderAutoMuteSurfaceAreaLimit                      1 10.0  // Leaving in for now - ONLY TEMP - Must investigate if there is any need or benefit to changing this value
+RenderAutoMuteSurfaceAreaLimit                      1 0     // Must be set to 0 for RenderAvatarComplexityMode to work properly
 
 // Anti-Aliasing Quality (High Defaults for 'all' - applied if Type is not 0)
 RenderFSAAType                                      1 2     // Type of Antialiasing to use: 0 = None, 1 = FXAA, 2 = SMAA
@@ -410,7 +410,7 @@ TextureDiscardLevel                                 1 0     // Tex Discard (0=Of
 TextureCameraBoost                                  1 8     // Tex Boost Near Cam (Need to investigate further this is a scaler for priority of texture loading near camera - see investigation notes.)
 
 // Culling Thresholds (Generous Defaults for 'all')
-RenderAutoMuteSurfaceAreaLimit                      1 10.0  // Leaving in for now - ONLY TEMP - Must investigate if there is any need or benefit to changing this value
+RenderAutoMuteSurfaceAreaLimit                      1 0     // Must be set to 0 for RenderAvatarComplexityMode to work properly
 
 // Anti-Aliasing Quality (High Defaults for 'all' - applied if Type is not 0)
 RenderFSAAType                                      1 0     // Type of Antialiasing to use: 0 = None, 1 = FXAA, 2 = SMAA
@@ -605,7 +605,7 @@ TextureDiscardLevel                                 1 0     // Tex Discard (0=Of
 TextureCameraBoost                                  1 8     // Tex Boost Near Cam (Need to investigate further this is a scaler for priority of texture loading near camera - see investigation notes.)
 
 // Culling Thresholds (Generous Defaults for 'all')
-RenderAutoMuteSurfaceAreaLimit                      1 10.0  // Leaving in for now - ONLY TEMP - Must investigate if there is any need or benefit to changing this value
+RenderAutoMuteSurfaceAreaLimit                      1 0     // Must be set to 0 for RenderAvatarComplexityMode to work properly
 
 // Anti-Aliasing Quality (High Defaults for 'all' - applied if Type is not 0)
 RenderFSAAType                                      1 0     // Type of Antialiasing to use: 0 = None, 1 = FXAA, 2 = SMAA
@@ -801,7 +801,7 @@ TextureDiscardLevel                                 1 0     // Tex Discard (0=Of
 TextureCameraBoost                                  1 8     // Tex Boost Near Cam (Need to investigate further this is a scaler for priority of texture loading near camera - see investigation notes.)
 
 // Culling Thresholds (Generous Defaults for 'all')
-RenderAutoMuteSurfaceAreaLimit                      1 10.0  // Leaving in for now - ONLY TEMP - Must investigate if there is any need or benefit to changing this value
+RenderAutoMuteSurfaceAreaLimit                      1 0     // Must be set to 0 for RenderAvatarComplexityMode to work properly
 
 // Anti-Aliasing Quality (High Defaults for 'all' - applied if Type is not 0)
 RenderFSAAType                                      1 0     // Type of Antialiasing to use: 0 = None, 1 = FXAA, 2 = SMAA
@@ -997,7 +997,7 @@ TextureDiscardLevel                                 1 0     // Tex Discard (0=Of
 TextureCameraBoost                                  1 8     // Tex Boost Near Cam (Need to investigate further this is a scaler for priority of texture loading near camera - see investigation notes.)
 
 // Culling Thresholds (Generous Defaults for 'all')
-RenderAutoMuteSurfaceAreaLimit                      1 10.0  // Leaving in for now - ONLY TEMP - Must investigate if there is any need or benefit to changing this value
+RenderAutoMuteSurfaceAreaLimit                      1 0     // Must be set to 0 for RenderAvatarComplexityMode to work properly
 
 // Anti-Aliasing Quality (High Defaults for 'all' - applied if Type is not 0)
 RenderFSAAType                                      1 0     // Type of Antialiasing to use: 0 = None, 1 = FXAA, 2 = SMAA
@@ -1193,7 +1193,7 @@ TextureDiscardLevel                                 1 0     // Tex Discard (0=Of
 TextureCameraBoost                                  1 8     // Tex Boost Near Cam (Need to investigate further this is a scaler for priority of texture loading near camera - see investigation notes.)
 
 // Culling Thresholds (Generous Defaults for 'all')
-RenderAutoMuteSurfaceAreaLimit                      1 10.0  // Leaving in for now - ONLY TEMP - Must investigate if there is any need or benefit to changing this value
+RenderAutoMuteSurfaceAreaLimit                      1 0     // Must be set to 0 for RenderAvatarComplexityMode to work properly
 
 // Anti-Aliasing Quality (High Defaults for 'all' - applied if Type is not 0)
 RenderFSAAType                                      1 0     // Type of Antialiasing to use: 0 = None, 1 = FXAA, 2 = SMAA
@@ -1389,7 +1389,7 @@ TextureDiscardLevel                                 1 0     // Tex Discard (0=Of
 TextureCameraBoost                                  1 8     // Tex Boost Near Cam (Need to investigate further this is a scaler for priority of texture loading near camera - see investigation notes.)
 
 // Culling Thresholds (Generous Defaults for 'all')
-RenderAutoMuteSurfaceAreaLimit                      1 10.0  // Leaving in for now - ONLY TEMP - Must investigate if there is any need or benefit to changing this value
+RenderAutoMuteSurfaceAreaLimit                      1 0     // Must be set to 0 for RenderAvatarComplexityMode to work properly
 
 // Anti-Aliasing Quality (High Defaults for 'all' - applied if Type is not 0)
 RenderFSAAType                                      1 0     // Type of Antialiasing to use: 0 = None, 1 = FXAA, 2 = SMAA
@@ -1584,7 +1584,7 @@ TextureDiscardLevel                                 1 0     // Tex Discard (0=Of
 TextureCameraBoost                                  1 8     // Tex Boost Near Cam (Need to investigate further this is a scaler for priority of texture loading near camera - see investigation notes.)
 
 // Culling Thresholds (Generous Defaults for 'all')
-RenderAutoMuteSurfaceAreaLimit                      1 10.0  // Leaving in for now - ONLY TEMP - Must investigate if there is any need or benefit to changing this value
+RenderAutoMuteSurfaceAreaLimit                      1 0     // Must be set to 0 for RenderAvatarComplexityMode to work properly
 
 // Anti-Aliasing Quality (High Defaults for 'all' - applied if Type is not 0)
 RenderFSAAType                                      1 0     // Type of Antialiasing to use: 0 = None, 1 = FXAA, 2 = SMAA
@@ -1780,7 +1780,7 @@ TextureDiscardLevel                                 1 0     // Tex Discard (0=Of
 TextureCameraBoost                                  1 8     // Tex Boost Near Cam (Need to investigate further this is a scaler for priority of texture loading near camera - see investigation notes.)
 
 // Culling Thresholds (Generous Defaults for 'all')
-RenderAutoMuteSurfaceAreaLimit                      1 10.0  // Leaving in for now - ONLY TEMP - Must investigate if there is any need or benefit to changing this value
+RenderAutoMuteSurfaceAreaLimit                      1 0     // Must be set to 0 for RenderAvatarComplexityMode to work properly
 
 // Anti-Aliasing Quality (High Defaults for 'all' - applied if Type is not 0)
 RenderFSAAType                                      1 2     // Type of Antialiasing to use: 0 = None, 1 = FXAA, 2 = SMAA
@@ -1973,7 +1973,7 @@ TextureDiscardLevel                                 1 0     // Tex Discard (0=Of
 TextureCameraBoost                                  1 8     // Tex Boost Near Cam (Need to investigate further this is a scaler for priority of texture loading near camera - see investigation notes.)
 
 // Culling Thresholds (Generous Defaults for 'all')
-RenderAutoMuteSurfaceAreaLimit                      1 10.0  // Leaving in for now - ONLY TEMP - Must investigate if there is any need or benefit to changing this value
+RenderAutoMuteSurfaceAreaLimit                      1 0     // Must be set to 0 for RenderAvatarComplexityMode to work properly
 
 // Anti-Aliasing Quality (High Defaults for 'all' - applied if Type is not 0)
 RenderFSAAType                                      1 2     // Type of Antialiasing to use: 0 = None, 1 = FXAA, 2 = SMAA
