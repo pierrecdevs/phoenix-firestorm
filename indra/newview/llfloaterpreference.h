@@ -679,5 +679,22 @@ private:
     LOG_CLASS(LLFloaterPreferenceProxy);
 };
 
+// <AP:PCD> -- New Panel for overrides
+class LLPanelPreferenceOverrides : public LLPanelPreference
+{
+public:
+    bool postBuild();
+    void onOpen(const LLSD& key);
+    void draw();
+    void cancel(const std::vector<std::string> settings_to_skip = {});
+    void saveSettings();
+protected:
+    void onOverrideAddFriendResponseChanged();
+    void onOverrideTeleportRequestResponseChanged();
+    void onOverrideTeleportOfferResponseChanged();
 
+private:
+    LOG_CLASS(LLPanelPreferenceOverrides);
+};
+// </AP:PCD>
 #endif  // LL_LLPREFERENCEFLOATER_H
