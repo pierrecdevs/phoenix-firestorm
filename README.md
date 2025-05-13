@@ -2,60 +2,85 @@
   <img align="left" width="150" height="150" src="https://github.com/williamweaver/Aperture-Viewer/blob/dev/doc/Aperture_256.png" alt="Aperture Viewer - Advanced Photography and Videomaking Viewer">
 </p>
 
-# Aperture Viewer: nothing is not possible
+# Aperture Viewer: Nothing Is Not Possible
 
-**Pushing Visual Boundaries in Second Life & OpenSim**
+**Version 1.0.0 | Pushing Visual Boundaries in Second Life & OpenSim**
 
-Aperture Viewer is an advanced, open-source viewer designed for anyone seeking the highest level of visual fidelity and performance in Second Life and OpenSim. While meticulously crafted with tools prized by virtual photographers and videomakers, its enhancements benefit all users who appreciate stunning graphics and artistic control. Designed and maintained by William Weaver, it's built upon the robust Firestorm codebase but offers a distinct, refined experience focused on visual excellence. By integrating cutting-edge rendering techniques, a completely overhauled Phototools system (useful for environment tweaking by anyone!), and numerous user experience improvements, Aperture Viewer provides a powerful, streamlined platform to elevate your virtual world experience, embodying the ethos that **nothing is not possible**.
+Aperture Viewer is an advanced, open-source viewer designed for anyone seeking the highest level of visual fidelity, performance, and artistic control in Second Life and OpenSim. Meticulously crafted by William Weaver with tools prized by virtual photographers and videomakers, its enhancements benefit all users who appreciate stunning graphics and streamlined creative workflows. Built upon the robust Firestorm codebase but offering a distinct, refined experience focused on visual excellence, Aperture 1.0.0 delivers the foundational feature set envisioned for the viewer. By integrating **a revolutionary, unified Phototools system featuring deep environment editing and a groundbreaking real-time Post-Processing pipeline**, **a completely rewritten procedural Starfield**, performance-tuned graphics presets, and numerous creator-focused enhancements, Aperture Viewer provides a powerful platform to elevate your virtual world experience, embodying the ethos that **nothing is not possible**.
 
-See the visual quality Aperture Viewer delivers by exploring the creative work of its developer, William Weaver's [YouTube Channel](https://www.google.com/url?sa=E&q=https%3A%2F%2Fwww.youtube.com%2F%40colorscompletely%2Ffeatured) and photobooks:
+See the visual quality Aperture Viewer delivers by exploring the creative work of its developer, William Weaver's [YouTube Channel](https://www.youtube.com/@colorscompletely/featured) and photobooks:
 
-[![none of this is real - photobook - Click to Open PDF](https://github.com/ApertureViewer/Aperture-Viewer/blob/dev/doc/none_of_this_is_real_cover.png)](doc/none_of_this_is_real_Optimized.pdf)
+[![none of this is real - photobook - Click to Open PDF](https://github.com/williamweaver/Aperture-Viewer/blob/dev/doc/none_of_this_is_real_cover.png)](https://github.com/williamweaver/Aperture-Viewer/raw/dev/doc/none_of_this_is_real_Optimized.pdf)
 
-
-[![we all have this madness - photobook - Click to Open PDF](https://github.com/ApertureViewer/Aperture-Viewer/blob/dev/doc/we_all_have_this_madness_cover.png)](doc/we_all_have_this_madness.pdf)
+[![we all have this madness - photobook - Click to Open PDF](https://github.com/ApertureViewer/Aperture-Viewer/blob/dev/doc/we_all_have_this_madness_cover.png)](https://github.com/ApertureViewer/Aperture-Viewer/raw/dev/doc/we_all_have_this_madness.pdf)
 
 <br/>
 
 > [!IMPORTANT]
-> **Disclaimer:** Aperture Viewer is an independent project and is not supported by Linden Lab or the Firestorm Viewer Project. While built on open-source code, it offers a unique feature set and development direction. Users should ensure their system meets requirements and understand that features may differ from other viewers.
->*   **Open Source Foundation:** Derived from the official [Second Life](https://github.com/secondlife/viewer) client (open source since 2007, LGPL license) via the Firestorm Viewer codebase. Aperture Viewer continues this open-source tradition.
->*   **Hardware Considerations:** Advanced visual features may require capable computer hardware for optimal performance, particularly at higher settings.
+> **Disclaimer:** Aperture Viewer is an independent project and is not supported by Linden Lab or the Firestorm Viewer Project. While built on open-source code, it offers a unique feature set and development direction. Users should ensure their system meets requirements (Windows 64-bit with AVX) and understand that features may differ from other viewers.
+>*   **Open Source Foundation:** Derived from the official [Second Life](https://github.com/secondlife/viewer) client via the Firestorm Viewer codebase. Aperture Viewer continues this open-source tradition.
+>*   **Hardware Considerations:** Advanced visual features, especially the Post-Processing pipeline and higher Graphics Preset levels, may require capable computer hardware for optimal performance.
 
 ---
 
-## Advanced Features for Virtual Creators
+## Aperture Viewer 1.0.0: Key Features & Enhancements
 
-Aperture Viewer is engineered to provide sophisticated tools and unparalleled control, empowering creators to achieve their artistic vision. Key advantages include:
+Aperture Viewer is engineered to provide sophisticated tools and unparalleled control. Version 1.0.0 introduces a suite of groundbreaking features:
 
-*   **Comprehensive Phototools Suite (Exclusive Integration):** Experience the completely redesigned Phototools, an exclusive Aperture Viewer feature. This integrated suite offers direct, granular control over virtually every aspect of your visual environment, including a full **Atmosphere** tab mirroring the Environment Editor, enhanced **Shadows**, **Glow**, **Reflections (SSR, Probes)**, **UI Scaling**, **Hover Height**, **Avatar Complexity**, and much more – all within a unified, streamlined interface unmatched by other viewers.
-*   **Master Color & Monochrome:** Utilize the integrated **Saturation Control** (VFX tab) for real-time adjustments from pure grayscale to oversaturated. **Exclusive to Aperture Viewer**, fine-tune black & white conversions and color perception by directly adjusting **Luminance Weights** (R/G/B controls in the Aids tab) for unparalleled artistic results.
-*   **Exclusive Real-Time Rendering Controls:** **Only in Aperture Viewer**, manipulate your scene with:
-    *   **Fluid Global Animation Speed:** Adjust animation playback with F32 precision.
-    *   **Dynamic SSAO Sample Count:** Dramatically enhance ambient occlusion quality (potentially **up to 120x improvement**) by directly controlling sample counts in real-time.
-    *   **Enhanced SSAO Saturation:** Fine-tune the color intensity of SSAO effects. *
-*   **Professional UI & Themes:** Work within a refined user interface featuring four exclusive dark themes (**Nocturn, Dusk, Phantom, Umbra**) with original artwork, modernized default settings for a cleaner look (horizontal chat tabs, timed name tags, hidden chat bar), an enhanced navigation bar, and removed distractions (no MOTD, no screen shake, disabled beam selectors/mouse look). The default "Dusk" theme provides a professional aesthetic out-of-the-box.
-*   **Enhanced Performance & Privacy:** Benefit from significantly **faster startup times** (now further improved by **disabling hardware probes and benchmarks**), modernized network defaults (higher bandwidth, larger caches), maximized background CPU yielding, and a strong commitment to user privacy with **dynamic data downloads disabled**, default **local chat logging** enabled, and **voice chat/lookat targets disabled** by default.
-*   **Creator-Focused Enhancements:** Enjoy numerous quality-of-life improvements like the global **Fullbright Enable/Disable** toggle, **Unrestricted Volume LOD Factor** (up to 16x for finer detail), **removed object drag/select distance limits**, **4K login screen support**, sensible **3D mouse defaults** (ensuring Phototools Zoom and camera roll work out-of-the-box), improved shadow/SSAO consistency in high-res snapshots, and more. 
+*   **All-New Aperture Phototools Suite (APS) `(Exclusive)`:** The heart of Aperture 1.0.0 (Ctrl+Shift+P). This completely rebuilt, unified floater provides unparalleled real-time control over your virtual world visuals via intuitive tabs, integrating many core features:
+    *   **Integrated Environment Editing (Evn Tab):** Full Sky/Water preset management, quick Windlight adjustments, and detailed, real-time editing of Atmosphere, Cloud, Sun/Moon, and Water parameters. Optionally hide non-user presets.
+    *   **Revolutionary Post-Processing Pipeline (Post Tab):** Access groundbreaking real-time image mastering tools (detailed below).
+    *   **Lighting & Shadows (Shd Tab):** Fine-tune shadows (resolution, clarity, blur, bias) and Screen Space Ambient Occlusion (SSAO), including **real-time SSAO Sample Count control**.
+    *   **Reflections (Refl Tab):** Manage Reflection Probes (up to **2048px resolution**), Screen Space Reflections (SSR), and Mirrors.
+    *   **Lens Effects (Lens Tab):** Control Depth of Field (DoF), Glow/Bloom, and **Chromatic Aberration**.
+    *   **Enhanced Avatar Controls (Ava Tab):** Manage avatar rendering, complexity, physics LOD, attached lights/particles, **Hover Height**, and **Fluid Global Animation Speed**. Includes a 'Force Rebake' button.
+    *   **Graphics Management (Gen Tab):** Select performance-tuned **Graphics Levels**, Save/Load/Delete **Custom Graphics Presets** (capturing the full visual state including PostFX), control Draw Distance, LOD factors, Fullbright, Aniso, Occlusion, and dynamically scale the entire **User Interface (UI Scale)**.
+    *   **Camera Controls & Presets (Cam Tab):** Integrated standard viewer camera controls (Orbit/Pan/Zoom/Roll), standard views, 3D Mouse/Joystick settings, and the new **Camera Preset System** (12 Standard + 12 Flycam slots).
 
-[Explore the full range of innovations on the Aperture Viewer Features page.](https://github.com/williamweaver/Aperture-Viewer/wiki/Features)
+*   **Groundbreaking Post-Processing Pipeline `(Exclusive)`:** Integrated within APS ('Post' tab), achieve **professional-grade image mastering *live* within the viewer**, rivaling tools like Adobe Camera Raw/Lightroom.
+    *   **Photographic Tone Mapping:** Independent control over Exposure, Contrast, Highlights, Shadows, Whites, Blacks, Crush Blacks.
+    *   **Complete Color Grading Suite:** Vibrance, Saturation, customizable Luminance Weights, and **3-Way Color Balance** (Shadows/Midtones/Highlights) w/ Luma Preservation.
+    *   **Cinematic Effects:** High-quality adjustable **Film Grain** and **Chromatic Aberration**.
+
+*   **Vastly Improved Procedural Starfield `(Exclusive)`:** Replaces the ~20-year-old legacy system with a realistic night sky featuring hundreds of thousands of stars, **black body coloration**, luminosity distribution, **dynamic atmospheric twinkling**, and horizon extinction effects.
+
+*   **Performance-Tuned Graphics Levels & Comprehensive Custom Presets `(Exclusive System)`:**
+    *   **9 Feature-Driven Levels:** (via a **custom `featuretable_aperture.txt`**) provide balanced performance starting points.
+    *   **Comprehensive Custom Presets:** Save/Load feature captures the **entire visual state**, including **all Post-Processing settings**, allowing creation and recall of complete visual styles.
+
+*   **Robust Camera Preset System `(Exclusive)`:** Save and recall **12 Standard + 12 Flycam** camera views (Position [Global Coords], Focus, Roll Angle) instantly via the APS 'Cam' tab.
+
+*   **New Star Wars Themed Skins `(Exclusive)`:** Four new themes (Vader, Yoda, X-wing, Obiwan) join the existing exclusive dark themes. Default theme: **Phantom**.
+
+*   **Enhanced Performance & Creator Tools:**
+    *   **Faster Startup:** Hardware probes disabled.
+    *   **Modernized Defaults:** Higher network bandwidth, larger caches, refined VSync/FPS Limiter logic.
+    *   **Increased Limits:** Reflection Probe resolution up to **2048px**, Camera FOV **0.1°–179.9°**, Object/Volume LOD defaults to **8.0** (preventing common accessory deformation).
+    *   **UI/QoL:** **Poser** & **Teleport History** buttons on toolbar, improved tab tooltips, simplified progress UI.
+    *   **Privacy Focus:** Dynamic data downloads disabled, local chat logging default, voice/lookat targets disabled default.
+
+[Explore the full range of innovations on the Aperture Viewer Features Overview (Wiki).](https://github.com/williamweaver/Aperture-Viewer/wiki/Viewer-Features)
 
 ---
 
 ## Aperture Viewer Wiki: Your Comprehensive Guide & Contribution Hub
 
-Explore the Aperture Viewer Wiki for in-depth documentation on all features, including the extensive Phototools suite. This resource provides detailed guides for photomaking and videography, drawing on decades of experience and incorporating YouTube video tutorials.
+Dive into the **[Aperture Viewer Wiki](https://github.com/williamweaver/Aperture-Viewer/wiki/Home)** for in-depth documentation on all features and to learn how to make the most of your creative experience. *(Note: Wiki pages are being actively updated for v1.0.0)*
 
 > [!TIP]
-> **New to Aperture Viewer?** Start with the **Getting Started** section in the Wiki Navigation below for download, installation, and basic usage information.
+> **New to Aperture Viewer?** We recommend starting with the **[Download & Installation Guide](https://github.com/williamweaver/Aperture-Viewer/wiki/Download-&-Installation)** and the **[Getting Started with Aperture Viewer](https://github.com/williamweaver/Aperture-Viewer/wiki/Getting-Started)** page. You'll also find essential **[Troubleshooting & FAQ](https://github.com/williamweaver/Aperture-Viewer/wiki/Troubleshooting)** information.
 
-**Wiki Navigation:**
+The Wiki is your central resource for:
 
-*   **Getting Started:**  [Download & Installation](https://github.com/williamweaver/Aperture-Viewer/wiki/Download-&-Installation), [Getting Started](https://github.com/williamweaver/Aperture-Viewer/wiki/Getting-Started), [Troubleshooting & FAQ](https://github.com/williamweaver/Aperture-Viewer/wiki/Troubleshooting)
-*   **About Aperture Viewer:** [History & Development](https://github.com/williamweaver/Aperture-Viewer/wiki/History-and-Development), [Change Log](https://github.com/williamweaver/Aperture-Viewer/wiki/Change-Log), [Credits & Acknowledgements](https://github.com/williamweaver/Aperture-Viewer/wiki/Credits-&-Acknowledgements), [Contact & Support](https://github.com/williamweaver/Aperture-Viewer/wiki/Contact-&-Support)
-*   **Features & Guides:** [Viewer Features](https://github.com/williamweaver/Aperture-Viewer/wiki/Viewer-Features), [Phototools Guide](https://github.com/williamweaver/Aperture-Viewer/wiki/Phototools-Guide), [Environment Presets Guide](https://github.com/williamweaver/Aperture-Viewer/wiki/Environment-Presets-Tutorial), [Camera Tools Guide](https://github.com/williamweaver/Aperture-Viewer/wiki/Cameratools-Floater), **[How-To Guides](https://github.com/williamweaver/Aperture-Viewer/wiki/How%E2%80%90To-Guides)** **... and more!** (See Wiki Table of Contents)
+*   **Mastering the Aperture Phototools Suite (APS):** Explore the **[APS - Overview](https://github.com/williamweaver/Aperture-Viewer/wiki/Aperture-Phototools-Suite)** and detailed guides for each tab, including the revolutionary **[Post-Processing Effects](https://github.com/williamweaver/Aperture-Viewer/wiki/Post-Tab-‐-Post‐Processing-Effects)**, comprehensive **[Environment Settings](https://github.com/williamweaver/Aperture-Viewer/wiki/Env-Tab-‐-Environment-Settings)**, and precise **[Camera Controls & Presets (within APS)](https://github.com/williamweaver/Aperture-Viewer/wiki/Cam-Tab-‐-Camera-Controls)**.
+*   **Understanding Key Systems:** Learn about Aperture's unique **[Graphics Presets System](https://github.com/williamweaver/Aperture-Viewer/wiki/Aperture-Graphics-Presets)** and the dedicated **[Camera Presets System (within APS)](https://github.com/williamweaver/Aperture-Viewer/wiki/Aperture-Camera-Presets)**.
+*   **Image Making How-To Guides:** Enhance your skills with practical tutorials like the **[Black & White Photography in APS](https://github.com/williamweaver/Aperture-Viewer/wiki/Black-&-White-Photography)** guide.
+*   **Technical Deep Dives:** Find analyses of core **[Second Life Lighting](https://github.com/williamweaver/Aperture-Viewer/wiki/Second-Life-Lighting-System)** and **[Shadow Systems](https://github.com/williamweaver/Aperture-Viewer/wiki/Second-Life-Shadow-System)**, plus explanations of important viewer settings like **[Cache Settings](https://github.com/williamweaver/Aperture-Viewer/wiki/Cache-Settings)** and **[Connection Speed Settings](https://github.com/williamweaver/Aperture-Viewer/wiki/Connection-Speed-Setting)**. Other deep dives include **[Glow Effects](https://github.com/williamweaver/Aperture-Viewer/wiki/Glow-Effect-Settings)**, **[RenderDynamicLOD](https://github.com/williamweaver/Aperture-Viewer/wiki/RenderDynamicLOD)**, **[PBR Emissive Buffer](https://github.com/williamweaver/Aperture-Viewer/wiki/RenderEnableEmissiveBuffer)**, **[HDR Pipeline](https://github.com/williamweaver/Aperture-Viewer/wiki/RenderHDREnabled)**, **[Reflection Probe Levels](https://github.com/williamweaver/Aperture-Viewer/wiki/RenderReflectionProbeLevel)**, **[Object Detail (RenderVolumeLODFactor)](https://github.com/williamweaver/Aperture-Viewer/wiki/RenderVolumeLODFactor)**, **[SSAO](https://github.com/williamweaver/Aperture-Viewer/wiki/Screen-Space-Ambient-Occlusion)**, **[SSR](https://github.com/williamweaver/Aperture-Viewer/wiki/Screen-Space-Reflections)**, **[Tone Mapping Fidelity](https://github.com/williamweaver/Aperture-Viewer/wiki/Enhancing‐Tone‐Mapping‐Fidelity)**, and **[Shadow Update Analysis](https://github.com/williamweaver/Aperture-Viewer/wiki/RenderShadowResolutionScale-Fixing-Shadow-Updates-After-Graphics-Setting-Changes)**.
+*   **Project Information:** Learn about the viewer's **[History and Development](https://github.com/williamweaver/Aperture-Viewer/wiki/History-and-Development)**, view the **[Change Log](https://github.com/williamweaver/Aperture-Viewer/wiki/Change-Log)**, see **[Credits & Acknowledgements](https://github.com/williamweaver/Aperture-Viewer/wiki/Credits-&-Acknowledgements)**, and find out how to **[Contact & Support](https://github.com/williamweaver/Aperture-Viewer/wiki/Contact-&-Support)** us.
+*   **Contributing:** Discover **[Ways to Contribute](https://github.com/williamweaver/Aperture-Viewer/wiki/Ways-to-Contribute)**, including guidelines for **[Contributing Code](https://github.com/williamweaver/Aperture-Viewer/wiki/Contributing-Code-to-Aperture-Viewer)** and **[Building from Source (Windows)](https://github.com/williamweaver/Aperture-Viewer/wiki/Building-from-Source-‐-(Windows))**.
+*   **Policies:** Review our **[Privacy Policy](https://github.com/williamweaver/Aperture-Viewer/wiki/Privacy-Policy)** and **[Terms of Service](https://github.com/williamweaver/Aperture-Viewer/wiki/Terms-of-Service)**.
 
-**Contribute to Aperture Viewer:** The Wiki also provides information on how you can contribute to the project through code, feedback, and feature suggestions. See the [Wiki Home](https://github.com/williamweaver/Aperture-Viewer/wiki/Home) and relevant pages for details.
+The Wiki is a living document, continually evolving with the viewer. We encourage you to explore and use it as your go-to reference. You can find the main [Wiki Home page here](https://github.com/williamweaver/Aperture-Viewer/wiki/Home) for a full table of contents via its sidebar.
 
 ---
 
@@ -65,31 +90,30 @@ Aperture Viewer is built upon the robust foundation laid by the **Firestorm View
 
 We also extend our sincere appreciation to **Linden Lab** for their foundational commitment to open source and for creating the Second Life platform that enables independent projects like Aperture Viewer to flourish.
 
-Aperture Viewer is maintained by William Weaver. The advanced Phototools system, a core component, builds upon the original Phototools design by William Weaver.
+Aperture Viewer is maintained by William Weaver. The advanced Phototools system, Post-Processing pipeline, Procedural Stars, Graphics Level system, and Camera Preset systems build upon original concepts and design work by William Weaver.
 
 [For detailed credits and acknowledgements, please see the Wiki Credits & Acknowledgements page.](https://github.com/williamweaver/Aperture-Viewer/wiki/Credits-&-Acknowledgements)
 
 ---
 
-## Download Aperture Viewer (Windows AVX Releases)
+## Download Aperture Viewer v1.0.0 (Windows AVX Release)
 
 > [!WARNING]
-> **Windows AVX Releases:** Current official releases are optimized for **Windows systems with AVX instruction set compatible processors.** Please ensure your system meets this requirement. Releases for other platforms are not currently available.
+> **Windows AVX Release:** The official v1.0.0 release is optimized for **Windows 64-bit systems with AVX instruction set compatible processors.** Please ensure your system meets this requirement. Releases for other platforms are not currently available.
 
-[Releases](https://github.com/williamweaver/Aperture-Viewer/releases)
+[**Download v1.0.0 from GitHub Releases**](https://github.com/williamweaver/Aperture-Viewer/releases/tag/v1.0.0)
 
-These releases provide access to the latest stable features of Aperture Viewer, including FMOD audio support.
+This release provides access to the latest stable features of Aperture Viewer.
 
-## Build Instructions (Firestorm Instructions Apply)
+## Build Instructions
 
-Aperture Viewer can be built from source. Instructions are largely the same as for Firestorm. Please refer to the links below for guidance:
+Aperture Viewer can be built from source. Refer to the Aperture-specific instructions for critical differences from standard Firestorm builds.
 
-- [Windows](doc/building_windows.md)
-- [Mac](doc/building_macos.md)
-- [Linux](doc/building_linux.md)
+*   [Windows Build Instructions](https://github.com/williamweaver/Aperture-Viewer/wiki/Building-from-Source-‐-(Windows))
+*   *(Note: Mac and Linux build instructions require significant adaptation and are not currently maintained for Aperture-specific changes.)*
 
 > [!CAUTION]
-> **Limited Support for Self-Compiles:** As with Firestorm, official support for self-compiled versions of Aperture Viewer or issues arising from them is limited. Consult the [Firestorm Self Compilers](https://tinyurl.com/firestorm-self-compilers) group for general build questions.
+> **Limited Support for Self-Compiles:** As with Firestorm, official support for self-compiled versions of Aperture Viewer or issues arising from them is limited.
 
 ---
 
@@ -97,9 +121,9 @@ Aperture Viewer can be built from source. Instructions are largely the same as f
 
 **Aperture Viewer is designed with user privacy as a core principle.** We are committed to transparency regarding your data:
 
-*   **No User Data Collection:** Aperture Viewer **does not collect any personal data** related to your usage. We do not track your in-world activities, chat logs, personal information, or system details.
-*   **No Data Collection Infrastructure:** We do not operate server infrastructure to collect or store user data from Aperture Viewer.
-*   **Open Source Transparency:** Aperture Viewer is **open source.** You can **review the entire source code** in this repository at any time to verify our commitment to data privacy.
+*   **No User Data Collection:** Aperture Viewer **does not collect any personal data** related to your usage.
+*   **No Data Collection Infrastructure:** We do not operate server infrastructure to collect or store user data.
+*   **Open Source Transparency:** Aperture Viewer is **open source.** Review the source code in this repository to verify our commitment.
 
 **For detailed information, please review our full [Privacy Policy](https://github.com/williamweaver/Aperture-Viewer/wiki/Privacy-Policy) and [Terms of Service](https://github.com/williamweaver/Aperture-Viewer/wiki/Terms-of-Service).**
 
@@ -107,11 +131,13 @@ Aperture Viewer can be built from source. Instructions are largely the same as f
 
 ## Join the Aperture Community
 
-Aperture Viewer is committed to upholding the principles of responsible open-source development, adhering to platform policies, and fostering a community dedicated to visual excellence. We provide extensive documentation, clear privacy and terms of use policies, and welcome user contributions. By using Aperture Viewer, users agree to be bound by the Linden Lab Third Party Viewer Policy and Terms of Service.
+Aperture Viewer is committed to upholding the principles of responsible open-source development, adhering to platform policies, and fostering a community dedicated to visual excellence.
 
-**Ready to elevate your virtual creations? Download Aperture Viewer today and experience the difference.**
+**Ready to elevate your virtual creations? Download Aperture Viewer 1.0.0 today and experience the difference.**
 
-*   **Explore** the repository and Wiki.
-*   **Download** the latest release.
-*   **Contribute** your feedback, suggestions, or code via [GitHub Issues](https://github.com/williamweaver/Aperture-Viewer/issues).
-*   **Join** a community focused on pushing the boundaries of visual innovation in Second Life and OpenSim!
+*   **Explore** the [Aperture Viewer Repository (Code)](https://github.com/williamweaver/Aperture-Viewer) and the **[Aperture Viewer Wiki](https://github.com/williamweaver/Aperture-Viewer/wiki/Home)**.
+*   **Download** the latest release: **[Aperture Viewer v1.0.0 from GitHub Releases](https://github.com/williamweaver/Aperture-Viewer/releases/tag/v1.0.0)**
+*   **Contribute** your feedback, suggestions, or code via **[GitHub Issues](https://github.com/williamweaver/Aperture-Viewer/issues)**.
+*   **Join** our community on **[Discord](https://discord.gg/rVmPcUgF7Z)**!
+
+---
