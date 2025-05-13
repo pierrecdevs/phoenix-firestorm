@@ -6407,17 +6407,17 @@ void FSPanelPreferenceSounds::onOutputDeviceListChanged(LLAudioEngine::output_de
 // <AP:PCD> - Panel Overrides here
 void LLPanelPreferenceOverrides::onOpen(const LLSD& key)
 {
-     gSavedPerAccountSettings.getControl("AddFriendMessageResponse")->getSignal()->connect(boost::bind(&LLPanelPreferenceOverrides::onOverrideAddFriendResponseChanged, this));
-     gSavedPerAccountSettings.getControl("TeleportOfferMessageResponse")->getSignal()->connect(boost::bind(&LLPanelPreferenceOverrides::onOverrideTeleportOfferResponseChanged, this));
-     gSavedPerAccountSettings.getControl("TeleportRequestMessageResponse")->getSignal()->connect(boost::bind(&LLPanelPreferenceOverrides::onOverrideTeleportRequestResponseChanged, this));
+     gSavedPerAccountSettings.getControl("APAddFriendMessageResponse")->getSignal()->connect(boost::bind(&LLPanelPreferenceOverrides::onOverrideAddFriendResponseChanged, this));
+     gSavedPerAccountSettings.getControl("APTeleportOfferMessageResponse")->getSignal()->connect(boost::bind(&LLPanelPreferenceOverrides::onOverrideTeleportOfferResponseChanged, this));
+     gSavedPerAccountSettings.getControl("APTeleportRequestMessageResponse")->getSignal()->connect(boost::bind(&LLPanelPreferenceOverrides::onOverrideTeleportRequestResponseChanged, this));
 }
 
 bool LLPanelPreferenceOverrides::postBuild()
 {
      if (LLStartUp::getStartupState() < STATE_STARTED)
     {
-        gSavedPerAccountSettings.setString("AddFriendMessageResponse", LLTrans::getString("AddFriendResponseDefault"));
-        gSavedPerAccountSettings.setString("TeleportOfferMessageResponse", LLTrans::getString("TeleportOfferResponseDefault"));
+        gSavedPerAccountSettings.setString("APAddFriendMessageResponse", LLTrans::getString("AddFriendResponseDefault"));
+        gSavedPerAccountSettings.setString("APTeleportOfferMessageResponse", LLTrans::getString("TeleportOfferResponseDefault"));
         gSavedPerAccountSettings.setString("TeleportRequestResponse", LLTrans::getString("TeleportRequestResponseDefault"));
     }
 
@@ -6433,21 +6433,21 @@ void LLPanelPreferenceOverrides::onOverrideAddFriendResponseChanged() {
     bool response_changed_flag =
             LLTrans::getString("AddFriendResponseDefault")
                     != getChild<LLUICtrl>("add_friend_message")->getValue().asString();
-    gSavedPerAccountSettings.setBOOL("AddFriendReponseChanged", response_changed_flag );
+    gSavedPerAccountSettings.setBOOL("APAddFriendReponseChanged", response_changed_flag );
 }
 
 void LLPanelPreferenceOverrides::onOverrideTeleportRequestResponseChanged() {
       bool response_changed_flag =
             LLTrans::getString("TeleportRequestResponseDefault")
                     != getChild<LLUICtrl>("teleport_request_message")->getValue().asString();
-     gSavedPerAccountSettings.setBOOL("TeleportRequestResponseChanged", response_changed_flag );
+     gSavedPerAccountSettings.setBOOL("APTeleportRequestResponseChanged", response_changed_flag );
 }
 
 void LLPanelPreferenceOverrides::onOverrideTeleportOfferResponseChanged() {
       bool response_changed_flag =
             LLTrans::getString("TeleportOfferResponseDefault")
                     != getChild<LLUICtrl>("teleport_offer_message")->getValue().asString();
-     gSavedPerAccountSettings.setBOOL("TeleportOfferResponseChanged", response_changed_flag );
+     gSavedPerAccountSettings.setBOOL("APTeleportOfferResponseChanged", response_changed_flag );
 }
 
 void LLPanelPreferenceOverrides::cancel(const std::vector<std::string> settings_to_skip)

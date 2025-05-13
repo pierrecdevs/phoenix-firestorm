@@ -163,7 +163,7 @@ void LLAvatarActions::requestFriendshipDialog(const LLUUID& id, const std::strin
     args["NAME"] = LLSLURL("agent", id, "completename").getSLURLString();
     // <AP:PCD>
     // Add the ability to override the default "add friend" message, using preferences
-    args["OVERRIDE_ADD_FRIEND_MESSAGE"] = gSavedPerAccountSettings.getString("AddFriendMessageResponse");
+    args["OVERRIDE_ADD_FRIEND_MESSAGE"] = gSavedPerAccountSettings.getString("APAddFriendMessageResponse");
     // <AP:PCD>
     LLSD payload;
     payload["id"] = id;
@@ -737,7 +737,7 @@ void LLAvatarActions::teleportRequest(const LLUUID& id)
     LLSD payload;
     // <AP:PCD>
     // Override the default request teleport message.
-    notification["OVERRIDE_TELEPORT_REQUEST_MESSAGE"] = gSavedPerAccountSettings.getString("TeleportRequestMessageResponse");
+    notification["OVERRIDE_TELEPORT_REQUEST_MESSAGE"] = gSavedPerAccountSettings.getString("APTeleportRequestMessageResponse");
     // <AP:PCD>
     LLNotificationsUtil::add("TeleportRequestPrompt", notification, payload, teleport_request_callback);
 }

@@ -2247,7 +2247,7 @@
         <key>Value</key>
             <array/>
         </map>
-        <key>AddFriendReponseChanged</key>
+        <key>APAddFriendReponseChanged</key>
         <map>
         <key>Comment</key>
             <string>Does the Add Friend message differ from the default?</string>
@@ -2258,7 +2258,7 @@
         <key>Value</key>
             <integer>0</integer>
         </map>
-        <key>AddFriendMessageResponse</key>
+        <key>APAddFriendMessageResponse</key>
         <map>
             <key>Comment</key>
             <string>Override the default add friend message</string>
@@ -2269,7 +2269,7 @@
             <key>Value</key>
             <string/>
         </map>
-        <key>TeleportRequestResponseChanged</key>
+        <key>APTeleportRequestResponseChanged</key>
         <map>
         <key>Comment</key>
             <string>Does the Teleport Request message differ from the default?</string>
@@ -2280,7 +2280,7 @@
         <key>Value</key>
             <integer>0</integer>
         </map>
-        <key>TeleportRequestMessageResponse</key>
+        <key>APTeleportRequestMessageResponse</key>
         <map>
             <key>Comment</key>
             <string>Override the default teleport offer message</string>
@@ -2291,7 +2291,7 @@
             <key>Value</key>
             <string/>
         </map>
-        <key>TeleportOfferResponseChanged</key>
+        <key>APTeleportOfferResponseChanged</key>
         <map>
         <key>Comment</key>
             <string>Does the Teleport offer message differ from the default?</string>
@@ -2302,7 +2302,7 @@
         <key>Value</key>
             <integer>0</integer>
         </map>
-       <key>TeleportOfferMessageResponse</key>
+       <key>APTeleportOfferMessageResponse</key>
         <map>
             <key>Comment</key>
             <string>Override the default teleport offer message</string>

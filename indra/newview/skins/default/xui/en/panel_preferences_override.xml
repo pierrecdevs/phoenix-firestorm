@@ -19,7 +19,7 @@
       Override Add Friend Message
      </text>
     <text_editor
-     control_name="AddFriendMessageResponse"
+     control_name="APAddFriendMessageResponse"
       text_readonly_color="LabelDisabledColor"
       bg_writeable_color="LtGray"
       use_ellipses="false"
@@ -47,7 +47,7 @@
      Override default Teleport Offer message
      </text>
     <text_editor
-     control_name="TeleportOfferMessageResponse"
+     control_name="APTeleportOfferMessageResponse"
       text_readonly_color="LabelDisabledColor"
       bg_writeable_color="LtGray"
       use_ellipses="false"
@@ -75,7 +75,7 @@
      Override the default Teleport Request message
      </text>
     <text_editor
-     control_name="TeleportRequestMessageResponse"
+     control_name="APTeleportRequestMessageResponse"
       text_readonly_color="LabelDisabledColor"
       bg_writeable_color="LtGray"
       use_ellipses="false"
