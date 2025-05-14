@@ -71,7 +71,7 @@
      mouse_opaque="false"
      name="text_box3"
      top_pad="3"
-     width="240">
+     width="270/">
      Override the default Teleport Request message
      </text>
     <text_editor
