@@ -860,9 +860,15 @@ void LLPipeline::requestResizeShadowTexture()
 
 void LLPipeline::resizeShadowTexture()
 {
+    // <FS:Beq> [FIRE-33200] changing shadowres requires reload - original fix by William Weaver (paperwork)
+    if(mRT->width == 0 || mRT->height == 0)
+    {
+        return;
+    }
+    // </FS:Beq>
     releaseSunShadowTargets();
     releaseSpotShadowTargets();
-    allocateShadowBuffer(mRT->screen.getWidth(), mRT->screen.getHeight()); // <FS:Beq> revert and correct previous shadowres fix that leads to FPS drop (FIRE-3200)
+    allocateShadowBuffer(mRT->width, mRT->height);
     gResizeShadowTexture = false;
 }
 
