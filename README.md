@@ -6,7 +6,47 @@
 
 **Version 1.0.0 | Pushing Visual Boundaries in Second Life & OpenSim**
 
-Aperture Viewer is an advanced, open-source viewer designed for anyone seeking the highest level of visual fidelity, performance, and artistic control in Second Life and OpenSim. Meticulously crafted by William Weaver with tools prized by virtual photographers and videomakers, its enhancements benefit all users who appreciate stunning graphics and streamlined creative workflows. Built upon the robust Firestorm codebase but offering a distinct, refined experience focused on visual excellence, Aperture 1.0.0 delivers the foundational feature set envisioned for the viewer. By integrating **a revolutionary, unified Phototools system featuring deep environment editing and a groundbreaking real-time Post-Processing pipeline**, **a completely rewritten procedural Starfield**, performance-tuned graphics presets, and numerous creator-focused enhancements, Aperture Viewer provides a powerful platform to elevate your virtual world experience, embodying the ethos that **nothing is not possible**.
+Aperture Viewer is an advanced, open-source viewer designed for anyone seeking the highest level of visual fidelity, performance, and artistic control in Second Life and OpenSim. Meticulously crafted by William Weaver with tools prized by virtual photographers and videomakers, its enhancements benefit all users who appreciate stunning graphics and streamlined creative workflows. Built upon the robust Firestorm codebase but offering a distinct, refined experience focused on visual excellence, Aperture 1.0.0 delivers the foundational feature set envisioned for the viewer.
+
+---
+
+## Our Guiding Principles & Community Spirit
+
+Aperture Viewer is more than just software; it's a commitment to artistic possibility and a positive community experience within virtual worlds.
+
+### Our Ethos
+
+> **Nothing Is Not Possible.**
+> We believe in relentlessly pushing the boundaries of visual creation within virtual worlds. We empower artists by removing limitations, fostering innovation, and providing the tools to realize any creative vision, no matter how ambitious.
+
+This ethos is the fundamental spirit driving Aperture Viewer, reflecting our dedication to overcoming technical hurdles and enabling creators to achieve visuals previously thought unattainable.
+
+### Our Community Values
+
+Beyond the technical goals, Aperture Viewer is rooted in a deep belief in the power of community, kindness, and shared growth.
+
+> We believe in leading with an open ear and a genuine desire to be gentle and understanding. We recognize that for many, life's journey can be challenging, sometimes lonely, and even painful. This project finds its home in virtual worlds like Second Life – platforms that, at their best, offer a space for hope, warmth, connection, and positivity shared between us all.
+>
+> Through Aperture Viewer, our interactions on GitHub, and within our Discord community, we strive to embody these values. We aim to be kind, to teach what we know, to learn from others, and to grow together.
+>
+> So, whether you choose to use our work or simply observe from afar, please know that we are trying, in our own way, to contribute positively to this shared virtual experience. We invite you to join us in fostering this spirit.
+
+
+### Our Mission
+
+> To empower virtual photographers and videomakers by providing the most advanced, intuitive, and powerful open-source viewer, focused on delivering unparalleled visual fidelity, artistic control, and a streamlined creative workflow for Second Life and OpenSim.
+
+Our day-to-day purpose is to serve the creative community by building and refining the best possible toolset for visual artistry in these platforms.
+
+### Our Vision
+
+> To be the indispensable, benchmark viewer for visual creators in virtual worlds, continuously redefining the standards of graphical excellence, performance, and artistic capability, making Aperture Viewer the premier platform where "Nothing Is Not Possible."
+
+We aspire for Aperture Viewer to become the definitive standard, recognized for its leadership in visual quality and creative empowerment.
+
+---
+
+By integrating **a revolutionary, unified Phototools system featuring deep environment editing and a groundbreaking real-time Post-Processing pipeline**, **a completely rewritten procedural Starfield**, performance-tuned graphics presets, and numerous creator-focused enhancements, Aperture Viewer provides a powerful platform to elevate your virtual world experience, embodying its core ethos.
 
 See the visual quality Aperture Viewer delivers by exploring the creative work of its developer, William Weaver's [YouTube Channel](https://www.youtube.com/@colorscompletely/featured) and photobooks:
 
