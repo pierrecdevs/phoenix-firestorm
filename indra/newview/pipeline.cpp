@@ -862,7 +862,7 @@ void LLPipeline::resizeShadowTexture()
 {
     releaseSunShadowTargets();
     releaseSpotShadowTargets();
-    allocateShadowBuffer(mRT->width, mRT->height);
+    allocateShadowBuffer(mRT->screen.getWidth(), mRT->screen.getHeight()); // <FS:Beq> revert and correct previous shadowres fix that leads to FPS drop (FIRE-3200)
     gResizeShadowTexture = false;
 }
 
