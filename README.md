@@ -67,7 +67,7 @@ See the visual quality Aperture Viewer delivers by exploring the creative work o
 
 Aperture Viewer is engineered to provide sophisticated tools and unparalleled control. Version 1.0.0 introduces a suite of groundbreaking features:
 
-*   **All-New Aperture Phototools Suite (APS) `(Exclusive)`:** The heart of Aperture 1.0.0 (Ctrl+Shift+P). This completely rebuilt, unified floater provides unparalleled real-time control over your virtual world visuals via intuitive tabs, integrating many core features:
+*   **All-New Aperture Phototools Suite (APS) `(Exclusive)`:** The heart of Aperture 1.0.0 (Alt+P). This completely rebuilt, unified floater provides unparalleled real-time control over your virtual world visuals via intuitive tabs, integrating many core features:
     *   **Integrated Environment Editing (Evn Tab):** Full Sky/Water preset management, quick Windlight adjustments, and detailed, real-time editing of Atmosphere, Cloud, Sun/Moon, and Water parameters. Optionally hide non-user presets.
     *   **Revolutionary Post-Processing Pipeline (Post Tab):** Access groundbreaking real-time image mastering tools (detailed below).
     *   **Lighting & Shadows (Shd Tab):** Fine-tune shadows (resolution, clarity, blur, bias) and Screen Space Ambient Occlusion (SSAO), including **real-time SSAO Sample Count control**.
