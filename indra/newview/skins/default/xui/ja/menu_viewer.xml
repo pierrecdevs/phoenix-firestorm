@@ -272,19 +272,24 @@
 		<menu_item_call label="L$マーケットデータ" name="LindenXchange"/>
 		<menu_item_call label="スクリプトライブラリ" name="Script Library"/>
 		<menu_item_call label="ＳＬコミュニティ（ブログ、フォーラム、ニュース）" name="SL Community Pages"/>
+		<!--
 		<menu_item_call label="Firestormブログ" name="Firestorm Blog"/>
 		<menu_item_call label="Firestorm Flickr" name="Firestorm Flickr"/>
 		<menu_item_call label="Firestorm YouTube" name="Firestorm YouTube"/>
 		<menu_item_call label="Firestorm X" name="Firestorm Twitter"/>
 		<menu_item_call label="Firestorm Plurk" name="Firestorm Plurk"/>
+		-->
 		<!-- added Mar.15, 2015 -->
+		<!--
 		<menu_item_call label="本日のメッセージ" name="Firestorm MoTD"/>
+		-->
 		<!-- added Mar.15, 2015 -->
 	</menu>
 	<menu label="ヘルプ" name="Help">
 		<menu_item_check label="ヒントを有効にする" name="Enable Hints"/>
-		<menu_item_call label="Firestorm Wiki" name="Firestorm Wiki"/>
+		<menu_item_call label="Aperture Wiki" name="Aperture Wiki"/>
 		<menu_item_call label="問題の解決" name="Troubleshooting"/>
+        <!--
 		<menu_item_call label="Firestormサポートグループに参加" name="firestorm_support_group"/>
 		<menu_item_call label="Firestorm勉強会スケジュール" name="Firestorm Classes Schedule"/>
 		<menu_item_call label="Firestormイベントカレンダー" name="Firestorm Events Calendar"/>
@@ -292,11 +297,15 @@
 		<menu_item_call label="[CURRENT_GRID]ヘルプ" name="current_grid_help"/>
 		<menu_item_call label="[CURRENT_GRID]について" name="current_grid_about"/>
 		<menu_item_call name="whitelist_folders" label="ホワイトリストアドバイザー"/>
+		-->
 		<menu_item_call label="グリッド状況の確認" name="Grid Status"/>
 		<menu_item_call label="嫌がらせの報告" name="Report Abuse"/>
 		<menu_item_call label="バグの報告" name="Report Bug"/>
 		<menu_item_call label="衝突・プッシュ＆打撃" name="Bumps, Pushes &amp;amp; Hits"/>
+        <!--
 		<menu_item_check label="システム情報ボタンを有効化" name="Enable Sysinfo Button"/>
+		-->
+        <menu_item_call label="システム情報" name="System Information"/>
 		<menu_item_call label="[APP_NAME]について" name="About Second Life"/>
 	</menu>
 	<menu label="ＲＬＶａ" name="RLVa Main">

@@ -5,6 +5,7 @@
 			<text name="Maximum bandwidth">
 				最大帯域幅（[https://wiki.firestormviewer.org/fs_speedtest 適正な値を設定するには？]）：
 			</text>
+            <!--
 			<text name="NetworkPrefText2">
 				ＤＳＬ
 			</text>
@@ -14,6 +15,7 @@
 			<text name="NetworkPrefText4">
 				問題発生の可能性あり
 			</text>
+			-->
 			<check_box label="カスタムポート" name="connection_port_enabled"/>
 			<spinner label="ポート番号：" name="connection_port"/>
 			<text name="Web:">

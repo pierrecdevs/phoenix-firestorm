@@ -1,0 +1,1125 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<floater name="phototools" title="Apertureフォトツールスーツ">
+	<floater.string name="rotate_tooltip">
+		フォーカスに対してカメラを回転します。
+	</floater.string>
+	<floater.string name="zoom_tooltip">
+        フォーカスに対してカメラをズームします。
+	</floater.string>
+	<floater.string name="move_tooltip">
+        カメラを上下左右に移動します。
+	</floater.string>
+	<floater.string name="free_mode_title">
+		オブジェクトを見ます。
+	</floater.string>
+	<string name="inactive_combo_text">プリセットを使用</string>
+	<tab_container name="tabs">
+		<panel name="P_Environment" label="環境" tool_tip="環境プリセット、簡易設定＆詳細な環境の編集をします。">
+			<panel name="P_Environment_Settings">
+				<text name="T_WL_Settings">
+					環境設定
+				</text>
+				<check_box label="自分の設定のみ" name="show_my_settings_checkbox" tool_tip="自分の自然環境の設定の環境設定のみ表示します。"/>
+			</panel>
+			<panel name="P_WL_Sky_Water">
+				<text name="WL Sky" tool_tip="空のプリセットを選択して管理し、大気の光源を調整します。">
+					空
+				</text>
+				<text name="WL Water" tool_tip="水のプリセットを選択して、反射と表面のプロパティを変更します。">
+					水面
+				</text>
+				<!--
+				<text name="Day Cycle" tool_tip="デイサイクルのプリセットを管理して、時間ベースの環境の変化を制御します。">
+					デイサイクル
+				</text>
+				-->
+			</panel>
+			<panel name="P_Q_Windlights">
+				<!--
+				<text name="T_Q_Windlights">
+					簡易ＰＢＲ環境
+				</text>
+				-->
+				<button name="Sunrise" label="夜明け" tool_tip="環境を日の出の照明条件に設定します。（ＰＢＲ有効）"/>
+				<button name="Noon" label="正午" tool_tip="照明を調整して正午の明るさをシミュレートします。（ＰＢＲ有効）"/>
+				<button name="Sunset" label="夕方" tool_tip="暖かみのある黄金色の色合いを出すには、夕焼けの照明を当てます。（ＰＢＲ有効）"/>
+				<button name="Midnight" label="深夜" tool_tip="暗い環境では夜間設定に切り替えます。（ＰＢＲ有効）"/>
+			</panel>
+			<panel name="P_WL_Presets">
+				<!--
+				<text name="T_WL_Presets">
+					環境プリセットの作成
+				</text>
+				-->
+				<button name="Revert to Region Default" label="共有された環境" tool_tip="リージョンの共有環境設定に戻します。（ＰＢＲステータスはリージョン設定によって異なります。ＰＢＲの詳細についてはリージョン環境を確認してください。）"/>
+				<button name="No_Light" label="光源なし"/>
+				<button name="new_sky_preset" label="新しい空のプリセット" tool_tip="現在読み込まれている空の設定に基づいて、新しい環境プリセットを作成します。"/>
+				<button name="new_water_preset" label="新しい水面のプリセット" tool_tip="現在読み込まれている水面の設定に基づいて、新しい環境プリセットを作成します。"/>
+				<!--
+				<button name="new_day_preset" label="新しいデイサイクルプリセット" tool_tip="現在読み込まれているデイサイクルの設定に基づいて、新しい環境プリセットを作成します。"/>
+				-->
+			</panel>
+			<tab_container name="tab_settings">
+				<panel label="大気" name="panel_ap_settings_sky_atmos">
+					<string name="hdr_string">ＨＤＲスケール：</string>
+					<string name="brightness_string">輝度：</string>
+					<string name="hdr_tooltip">リアルに明るい空やダイナミック露出などの光源効果の強度。1.0がデフォルト、0はオフ、0から1の間の値は周辺環境とＨＤＲとの混合となります。</string>
+					<panel name="P_Atmosphere_Header">
+						<text name="T_Atmosphere_Header" value="大気の色"/>
+					</panel>
+					<panel name="P_Atmos_Settings">
+						<text name="ambient_color_label">
+							周辺カラー：
+						</text>
+						<text name="blue_horizon_label">
+							水平線の青：
+						</text>
+						<text name="blue_density_label">
+							青の密度：
+						</text>
+					</panel>
+					<panel name="P_Atmosphere_Header">
+						<text name="T_Atmosphere_Header" value="大気設定"/>
+					</panel>
+					<panel name="P_Atmosphere_OtherSettings">
+						<text name="haze_horizon_label">
+							水平線の靄：
+						</text>
+						<text name="haze_density_label">
+							靄の密度：
+						</text>
+						<text name="density_multiplier_label">
+							密度定数：
+						</text>
+						<text name="distance_multiplier_label">
+							距離定数：
+						</text>
+						<text name="maximum_altitude_label">
+							最大高度：
+						</text>
+						<text name="scene_gamma_label">
+							輝度：
+						</text>
+						<text name="probe_ambiance_label" tool_tip="放射照度制御。0以外の場合ＨＤＲモデルが有効になります。">
+							反射ﾌﾟﾛｰﾌﾞ(HDR)：
+						</text>
+					</panel>
+					<panel name="P_Rainbow_Header">
+						<text name="T_Rainbow_Header" value="虹と暈（かさ）設定"/>
+					</panel>
+					<panel name="P_Rainbow_OtherSettings">
+						<text name="moisture_level_label">
+							湿度レベル：
+						</text>
+						<text name="droplet_radius_label">
+							液滴半径：
+						</text>
+						<text name="ice_level_label">
+							氷レベル：
+						</text>
+					</panel>
+				</panel>
+				<panel label="雲" name="panel_ap_settings_sky_clouds">
+					<panel name="P_Clouds_Header">
+						<text name="T_Clouds_Header" value="雲の設定"/>
+					</panel>
+					<panel name="P_Atmos_Settings">
+						<text name="cloud_color_label">
+							雲の色：
+						</text>
+					</panel>
+					<panel name="P_Cloud_Density">
+						<text name="cloud_coverage_label">
+							雲の範囲：
+						</text>
+						<text name="cloud_scale_label">
+							雲のスケール：
+						</text>
+						<text name="cloud_variance_label">
+							雲の変化：
+						</text>
+					</panel>
+					<panel name="P_Cloud_Density">
+						<text name="cloud_density_label" tool_tip="雲のＸＹ／密度－ＸとＹのスライダーを使って、空にあるすべての雲の水平位置を変更します。密スライダーは個々の雲の全体的な密度に影響します。低い設定では薄く、かすかな雲になり、高い設定ではより厚く、よりしっかりとした雲になります。">
+							雲の密度：
+						</text>
+						<text name="Cloud_XY_Density_X">
+							Ｘ：
+						</text>
+						<text name="Cloud_XY_Density_Y">
+							Ｙ：
+						</text>
+						<text name="Cloud_XY_Density_D">
+							密：
+						</text>
+					</panel>
+					<panel name="P_Cloud_Detail">
+						<text name="cloud_detail_label">
+							雲の詳細：
+						</text>
+						<text name="Cloud_XY_Detail_X">
+							Ｘ：
+						</text>
+						<text name="Cloud_XY_Detail_Y">
+							Ｙ：
+						</text>
+						<text name="Cloud_XY_Detail_D">
+							詳：
+						</text>
+					</panel>
+					<panel name="P_Cloud_Scroll">
+						<text name="cloud_scroll_label">
+							雲の移動：
+						</text>
+						<text name="cloud_image_label">
+							雲の画像：
+						</text>
+					</panel>
+				</panel>
+				<panel label="太陽＆月" name="panel_ap_settings_sky_hbodies">
+					<panel name="P_Sun_Color">
+						<text name="T_Sun_Header" value="太陽＆月の色"/>
+					</panel>
+					<panel name="P_SM_Color">
+						<text name="color_label">
+							太陽＆月の色：
+						</text>
+					</panel>
+					<panel name="P_Sun_Header">
+						<text name="T_Sun_Header" value="太陽＆星の設定"/>
+						<check_box label="ビーコンを表示" name="sunbeacon"/>
+					</panel>
+					<panel name="P_Sun_Setting">
+						<text name="glow_focus_label">
+							グローフォーカス：
+						</text>
+						<text name="glow_size_label">
+							グローサイズ：
+						</text>
+						<text name="star_brightness_label">
+							星の輝度：
+						</text>
+						<text name="sun_scale_label">
+							スケール：
+						</text>
+						<text name="sun_azimuth_label">
+							方位角：
+						</text>
+						<text name="sun_elevation_label">
+							標高：
+						</text>
+					</panel>
+					<panel name="P_Moon_Header">
+						<text name="T_Moon_Header" value="月の設定"/>
+						<check_box label="ビーコンを表示" name="moonbeacon"/>
+					</panel>
+					<panel name="P_Moon_Setting">
+						<text name="moon_scale_label">
+							スケール：
+						</text>
+						<text name="brightness_label">
+							輝度：
+						</text>
+						<text name="moon_azimuth_label">
+							方位角：
+						</text>
+						<text name="moon_elevation_label">
+							標高：
+						</text>
+					</panel>
+				</panel>
+				<panel label="水面" name="panel_ap_settings_water">
+					<panel name="P_Wave_Fog" label="フォグ">
+						<text name="water_fog_label" tool_tip="水のフォグの色－これは水のボリュームの色合いの色を変更し、基本的に水自体の色を定義します。水にフォグがかかっていない場合は、水は透明で無色に見えます。">
+							水のフォグの色
+						</text>
+						<text name="normal_map_label" tool_tip="法線マップ－反射と屈折を決定するために使用される画像。この設定では任意のテクスチャを使用できますが、真の法線マップが最適です。">
+							法線マップ
+						</text>
+					</panel>
+					<panel name="P_Wave_Fog_2" label="フォグ">
+						<text name="density_exponent_label">
+							密度指数：
+						</text>
+						<text name="underwater_modifier_label">
+							水面下のモディファイア：
+						</text>
+						<text name="FresnelScaleText">
+							フレネル係数：
+						</text>
+						<text name="FresnelOffsetText">
+							フレネルオフセット：
+						</text>
+					</panel>
+					<panel name="P_Water_Wave" label="波">
+						<text name="large_wave_speed_label">
+							大波の速度
+						</text>
+						<text name="small_wave_speed_label">
+							小波の速度
+						</text>
+						<text name="reflection_wavelet_scale_label">
+							反射波形スケール
+						</text>
+						<slider label="Ｘ：" name="water_normal_scale_x"/>
+						<slider name="water_normal_scale_y" label="Ｙ："/>
+						<slider name="water_normal_scale_z" label="Ｚ："/>
+					</panel>
+					<panel name="P_Water_Reflection" label="屈折">
+						<text name="refraction_scale_above_label">
+							屈折スケール（上限）：
+						</text>
+						<text name="refraction_scale_below_label">
+							屈折スケール（下限）：
+						</text>
+						<text name="blur_multiplier_label">
+							ブラー倍率：
+						</text>
+					</panel>
+				</panel>
+			</tab_container>
+		</panel>
+		<panel name="P_Lighting" label="影" tool_tip="光、影、アンビエントオクルージョンの設定です。">
+			<panel name="PT_Light_and_Shadows_Header">
+				<text name="T_Light_Shadows">
+					光源＆影の設定
+				</text>
+			</panel>
+			<panel name="P_Light_Settings">
+				<text name="local lights_label" tool_tip="同時にレンダリングされるローカル光源の数を定義します。この値を0に設定すると、すべてのローカル光源がオフになります。値を大きくすると、複雑なシーンではパフォーマンスに影響する可能性があります。">
+					ポイント光源（要再起動）
+				</text>
+				<combo_box name="LocalLightsDetail">
+					<combo_box.item label="完全（デフォルト）" name="3"/>
+					<combo_box.item label="抑制" name="2"/>
+					<combo_box.item label="太陽／月のみ" name="1"/>
+				</combo_box>
+				<text name="T_Local_Lights" tool_tip="描画するローカル光源の数を指定します。">
+					ローカル光源
+				</text>
+				<button name="Reset_Local_Lights" tool_tip="デフォルト値にリセットします。"/>
+				<check_box tool_tip="シーン内のすべての光源の周囲にワイヤーフレーム ボックスを表示し、デバッグやシーンのセットアップ時にライトの配置と範囲を視覚化するのに役立ちます。" label="シーン内のすべての光源の境界ボックスを表示" name="Lights"/>
+				<check_box tool_tip="選択した光源の有効半径を表示し、シーン内で光がどの程度届くかを確認できます。光源設定の微調整に役立ちます。" label="選択した光源の光源半径を表示" name="Show Light Radius for Selection"/>
+			</panel>
+			<panel name="P_CB_Shadow">
+				<text name="T_Shadow_Types" tool_tip="光源からレンダリングされる影の種類を制御します。投影機能のないポイント光源は照明効果を生み出しますが、影を落としません。投影された光の射影テクスチャは、この設定に関わらず表示されます。">
+					影の種類
+				</text>
+				<combo_box name="ShadowDetail">
+					<combo_box.item label="なし" name="0"/>
+					<combo_box.item label="太陽／月" name="1"/>
+					<combo_box.item label="太陽／月＋プロジェクター" name="2"/>
+				</combo_box>
+				<!--
+				<text name="ShadowSplitsText" tool_tip="レンダリングするシャドウマップの分割（カスケード）数。分割数が多いほど、距離に応じてシャドウの解像度が適切に分散されますが、パフォーマンスは低下します。太陽／月の影を有効にする必要があります。［デフォルト：3］">
+					影の分割（カスケード）
+				</text>
+				<combo_box name="ShadowSplitsCombo">
+					<combo_box.item label="０（分割無し）" name="0"/>
+					<combo_box.item label="１分割" name="1"/>
+					<combo_box.item label="２分割" name="2"/>
+					<combo_box.item label="３分割（デフォルト）" name="3"/>
+				</combo_box>
+				-->
+			</panel>
+			<panel name="P_Shadow_Settings">
+				<text name="T_Shadow_Resolution">
+					影の解像度
+				</text>
+				<button name="Reset_Shadow_Resolution" tool_tip="デフォルト値にリセットします。"/>
+				<text name="T_Shd_Clarity">
+					影の明瞭度
+				</text>
+				<button name="Shd_Clarity_Reset" tool_tip="デフォルト値にリセットします。"/>
+				<text name="T_Blur_Size">
+					影のブラー
+				</text>
+				<button name="Reset_Blur_Size" tool_tip="デフォルト値にリセットします。"/>
+				<text name="T_Shd_Soften">
+					影の滑らかさ
+				</text>
+				<button name="Reset_Shd_Soften" tool_tip="デフォルト値にリセットします。"/>
+				<text name="T_Blur_Dist">
+					影の距離
+				</text>
+				<button name="Reset_Blur_Dist" tool_tip="デフォルト値にリセットします。"/>
+				<text name="T_Spot_Cutoff">
+					ｽﾎﾟｯﾄｵﾌｾｯﾄ
+				</text>
+				<button name="Reset_Spot_Cutoff" tool_tip="デフォルト値にリセットします。"/>
+				<text name="T_Shd_Bias">
+					影のバイアス
+				</text>
+				<button name="Reset_Shd_Bias" tool_tip="デフォルト値にリセットします。"/>
+			</panel>
+			<panel name="P_Ambient_Occlusion_Header">
+				<text name="T_Ambient_Occlusion">
+					アンビエントオクルージョン設定
+				</text>
+			</panel>
+			<panel name="P_CB_Ambient_Occlusion">
+				<check_box name="CH_B_Enable_SSAO" label="スクリーンスペースアンビエントオクルージョンを有効化"/>
+			</panel>
+			<panel name="P_Amb_Occ_Settings">
+				<text name="T_SSAO_Samples">
+					サンプル数
+				</text>
+				<button name="Reset_SSAO_Samples" tool_tip="デフォルト値にリセットします。"/>
+				<text name="T_SSAO_Scale">
+					スケール
+				</text>
+				<button name="Reset_SSAO_Scale" tool_tip="デフォルト値にリセットします。"/>
+				<text name="T_SSAO_Max_Scale">
+					最大スケール
+				</text>
+				<button name="Reset_SSAO_Max_Scale" tool_tip="デフォルト値にリセットします。"/>
+				<text name="T_SSAO_Scaling_Factor">
+					係数
+				</text>
+				<button name="Reset_SSAO_Scaling_Factor" tool_tip="デフォルト値にリセットします。"/>
+				<text name="T_SSAO_I_Max">
+					最大放射照度
+				</text>
+				<button name="Reset_SSAO_I_Max" tool_tip="デフォルト値にリセットします。"/>
+				<text name="T_SSAO_I_Scaling">
+					放射照度ｽｹｰﾙ
+				</text>
+				<button name="Reset_SSAO_I_Scaling" tool_tip="デフォルト値にリセットします。"/>
+				<text name="T_Effect">
+					効果
+				</text>
+				<button name="Reset_Effect" tool_tip="デフォルト値にリセットします。"/>
+				<text name="T_Saturation">
+					彩度
+				</text>
+				<button name="Reset_Saturation" tool_tip="デフォルト値にリセットします。"/>
+				<text name="T_AO_Soften">
+					ＡＯの滑らかさ
+				</text>
+				<button name="Reset_AO_Soften" tool_tip="デフォルト値にリセットします。"/>
+			</panel>
+		</panel>
+		<panel name="P_Reflection" label="反射" tool_tip="反射プローブ、ＳＳＲ、ミラー設定。">
+			<panel name="P_General_Reflections_Header">
+				<text name="T_W_Reflections">
+					全般的な反射設定
+				</text>
+			</panel>
+			<panel name="P_CB_General_Reflections_Enable">
+				<check_box name="CH_B_Render_HDR_Enabled" label="ＰＢＲ放射ライティングを有効化" tool_tip="ＰＢＲ放射マテリアルが反射プローブ内で色付きの光を提供し、グロー効果を正しくレンダリングできるようにします。"/>
+				<check_box label="反射プローブ選択を有効化" name="checkbox select probes" tool_tip="シーン内の反射プローブを選択して検査できるようにします。"/>
+			</panel>
+			<panel name="P_General_Reflections_Settings">
+				<text name="ReflectionDetailText" tool_tip="反射の詳細レベルを決定します。「静的」では動かないオブジェクトのみが反射され、設定を高くすると動的なオブジェクトとリアルタイム反射も反射されます。">
+					反射の詳細
+				</text>
+				<combo_box name="ReflectionDetail">
+					<combo_box.item label="無効" name="-1"/>
+					<combo_box.item label="静的のみ" name="0"/>
+					<combo_box.item label="静的＆動的" name="1"/>
+					<combo_box.item label="リアルタイム" name="2"/>
+				</combo_box>
+				<text name="ReflectionProbeText" tool_tip="反射がカバーされるシーンの範囲を制御します。「手動のみ」では選択したオブジェクトのみが反射され、「フルシーン」ではビュー内のすべてのオブジェクトが反射されます。">
+					反射範囲
+				</text>
+				<combo_box name="ReflectionLevel">
+					<combo_box.item label="なし" name="0"/>
+					<combo_box.item label="手動のみ" name="1"/>
+					<combo_box.item label="手動＆地形" name="2"/>
+					<combo_box.item label="フルシーン" name="3"/>
+				</combo_box>
+				<text name="Probe_Resolution" tool_tip="反射プローブの解像度を定義します。解像度を高くすると、より詳細な反射が得られますが、メモリ使用量が増加し、適用にはビューアの再起動が必要になる場合があります。128を超える設定はビデオＲＡＭを大量に消費する可能性があり、ＧＰＵリソ​​ースが限られているシステムではパフォーマンスに影響を与える可能性があります。">
+					プローブの解像度
+				</text>
+				<text name="T_Reflection_Distance" tool_tip="反射の可視範囲を制御します。反射プローブ、ミラー、スクリーン空間反射における反射のディテールとパフォーマンスに影響します。値を大きくすると、反射が見える距離が長くなり、詳細度が向上しますが、パフォーマンスコストが増加します。［デフォルト：設定をチェック］">
+					反射距離
+				</text>
+				<button name="Reset_Reflection_Distance" tool_tip="デフォルト値にリセットします。"/>
+				<text name="T_Probe_UpdatePeriod" tool_tip="静的または静的＆動的反射プローブの更新間隔（秒）。値を低くすると更新頻度は高くなりますが、パフォーマンスは低下します。リアルタイムプローブには影響しません。［デフォルト：2.0］">
+					更新頻度（秒）
+				</text>
+				<button name="Reset_Probe_UpdatePeriod" tool_tip="デフォルト値（2.0）にリセットします。"/>
+				<text name="T_Probe_MaxLocalAmb" tool_tip="反射プローブによってキャプチャされたローカル光源（プロジェクター、点光源）からの周辺環境への有効最大影響度を設定します。［デフォルト：4.0］">
+					最大影響度
+				</text>
+				<button name="Reset_Probe_MaxLocalAmb" tool_tip="デフォルト値（4.0）にリセットします。"/>
+			</panel>
+			<panel name="P_SSR_Header">
+				<text name="T_R_SSR_Header">
+					スクリーンスペースリフレクション（ＳＳＲ）
+				</text>
+			</panel>
+			<panel name="P_CB_SSR_Enable">
+				<check_box label="スクリーンスペースリフレクション（ＳＳＲ）を有効化" name="ScreenSpaceReflections" tool_tip="画面の現在のビューに基づいて反射を有効にします。カメラの視野内にあるオブジェクトにはリアルな反射を提供しますが、画面外の詳細が失われる可能性があります。シーンの複雑さによってはパフォーマンスに影響する可能性があります。このトグルで、以下のＳＳＲ設定を有効／無効にできます。"/>
+			</panel>
+			<panel name="P_SSR_Settings">
+				<text name="SSR_GlossySamplesText" tool_tip="光沢へのＳＳＲに使用するサンプルの最大数を制御します。値を大きくすると反射品質（滑らかさ）が向上しますが、パフォーマンスコストが増加します。［デフォルト：4］">
+					ＳＳＲの光沢サンプル
+				</text>
+				<combo_box name="SSR_GlossySamplesCombo">
+					<combo_box.item label="１サンプル" name="1"/>
+					<combo_box.item label="２サンプル" name="2"/>
+					<combo_box.item label="４サンプル" name="4"/>
+					<combo_box.item label="８サンプル" name="8"/>
+					<combo_box.item label="１６サンプル" name="16"/>
+					<combo_box.item label="３２サンプル" name="32"/>
+					<combo_box.item label="６４サンプル" name="64"/>
+				</combo_box>
+				<text name="T_SSR_Iterations" tool_tip="ＳＳＲのリファインメントステップ数を制御し、値を大きくすると反射品質が向上し、ノイズが減少しますが、パフォーマンスコストが大幅に増加します。［デフォルト：設定をチェック］">
+					反復
+				</text>
+				<button name="Reset_SSR_Iterations" tool_tip="デフォルト値にリセットします。"/>
+				<text name="T_SSR_RayStep" tool_tip="反射光線をトレースする際の各ステップの長さを指定します。値が小さいほど精度が向上し、特に近接反射の場合は顕著になりますが、パフォーマンスが低下します。値が大きいほどトレース速度は速くなりますが、細かいディテールが失われる可能性があります。［デフォルト: 設定をチェック］">
+					レイステップ
+				</text>
+				<button name="Reset_SSR_RayStep" tool_tip="デフォルト値にリセットします。"/>
+			</panel>
+			<panel name="P_Mirror_Header">
+				<text name="T_R_Mirror_Header">
+					ミラー反射
+				</text>
+			</panel>
+			<panel name="P_CB_Mirror_Enable">
+				<check_box label="ミラーを有効化" name="Mirrors" tool_tip="リアルタイムのミラー反射を有効にします。オブジェクトやアバターを含む環境を正確に反映しますが、レンダリング負荷が増加するため、パフォーマンスに大きく影響する可能性があります。このトグルで、以下のミラー設定を有効／無効にできます。"/>
+			</panel>
+			<panel name="P_Mirror_Settings">
+				<text name="MirrorResolutionText" tool_tip="ミラー反射の解像度を設定します。値が高いほど反射が鮮明になりますが、より多くの処理能力が必要になります。「ミラーを有効化」チェックボックスをオンにすると有効になります。">
+					ミラー解像度
+				</text>
+				<text name="HeroProbeUpdateText" tool_tip="ミラー反射の更新頻度を調整します。設定値が高いほどリアルタイム反射はスムーズになりますが、パフォーマンスに影響する可能性があります。「ミラーを有効化」チェックボックスをオンにすると有効になります。">
+					ミラーの更新頻度
+				</text>
+				<combo_box name="HeroProbeUpdateRate">
+					<combo_box.item label="低" name="6"/>
+					<combo_box.item label="中" name="3"/>
+					<combo_box.item label="高" name="1"/>
+					<combo_box.item label="最高" name="0"/>
+				</combo_box>
+				<!-- AP:WW Start Add Mirror Distance -->
+				<text name="T_Mirror_Distance" tool_tip="ミラーが反射をレンダリングする最大距離（メートル単位）を設定します。「ミラーを有効にする」チェックボックスをオンにすると有効になります。［デフォルト：８］">
+					ミラー距離(ｍ)
+				</text>
+				<button name="Reset_Mirror_Distance" tool_tip="デフォルト値（8）にリセットします。"/>
+				<!-- AP:WW End Add Mirror Distance -->
+			</panel>
+		</panel>
+		<panel name="P_Lens" label="ﾚﾝｽﾞ" tool_tip="被写界深度、グロー、色収差の設定。">
+			<panel name="P_DoF_Header">
+				<text name="T_DoF">
+					被写体深度設定
+				</text>
+			</panel>
+			<panel name="P_DoF_CH_B_Enable">
+				<check_box name="UseDepthofField" label="被写体深度を有効化"/>
+				<check_box name="UseFarClip" label="被写界深度をポインターに追従させる"/>
+				<button name="FocusPointRenderToggle" tool_tip="焦点ポイントのクロスヘア表示を切り替えます。クロスヘアは、フリーのときは黄色、ロックされているときは赤になります。"/>
+				<check_box name="DoFInEditMode" label="編集モードでもＤｏＦを有効にする"/>
+				<!--check_box label="ビューアー画面の現在の視野角を表示する" tool_tip="カメラの現在の垂直視野角（FOV）を示すオーバーレイを画面上に表示し、さまざまなFOV設定が構図や遠近感にどのように影響するかを視覚的に確認できます。FOVが小さいほど、望遠レンズでズームインした時のような長い焦点距離をシミュレートします。例えば、標準の50mmレンズは約27°の垂直視野角に相当し、背景が圧縮された狭い視野を作り出します。FOVが大きいほど、広角レンズを模倣し、空間的な関係を誇張しながら、より多くのシーンを捉えます。下のズームスライダーを使用してFOVを調整し、フレーミングを微調整できます。垂直FOVと焦点距離の関係の詳細については、こちらの表を参照してください。" name="MIC_Show_FOV"/-->
+			</panel>
+			<panel name="P_DoF_settings">
+				<text name="T_Camera_Angle">
+					カメラアングル
+				</text>
+				<button name="Reset_Camera_Angle" tool_tip="デフォルト値にリセットします。"/>
+				<text name="T_Camera_FOV">
+					ＦｏＶ
+				</text>
+				<button name="Reset_Camera_FOV" tool_tip="デフォルト値にリセットします。"/>
+				<text name="T_F_Number">
+					ｆ値
+				</text>
+				<button name="Reset_F_Number" tool_tip="デフォルト値にリセットします。"/>
+				<text name="T_Focal_Length">
+					焦点距離
+				</text>
+				<button name="Reset_Focal_Length" tool_tip="デフォルト値にリセットします。"/>
+				<text name="T_Focus_Time">
+					焦点時間
+				</text>
+				<button name="Reset_Focus_Time" tool_tip="デフォルト値にリセットします。"/>
+				<text name="T_CoC">
+					錯乱円
+				</text>
+				<button name="Reset_CoC" tool_tip="デフォルト値にリセットします。"/>
+				<text name="T_Resolution">
+					解像度
+				</text>
+				<button name="Reset_Resolution" tool_tip="デフォルト値にリセットします。"/>
+			</panel>
+			<panel name="P_Glow_Header">
+				<text name="T_Glow_Settings">
+					グロー設定
+				</text>
+			</panel>
+			<panel name="P_Glow_CH_B_Enable">
+				<check_box name="RenderGlow" label="グロー効果を有効化"/>
+				<check_box name="GlowHDR" label="ＨＤＲグローマップを有効化" width="240"/>
+				<check_box name="GlowNoise" label="グローノイズを有効化"/>
+			</panel>
+			<panel name="P_Glow_Settings">
+				<text name="T_Glow_Resolution_Pow">
+					グロー品質
+				</text>
+				<button name="Reset_Glow_Resolution_Pow" tool_tip="デフォルト値にリセットします。"/>
+				<text name="T_Glow_Iterations">
+					反復数
+				</text>
+				<button name="Reset_Glow_Iterations" tool_tip="デフォルト値にリセットします。"/>
+				<text name="T_Glow_Strength">
+					強度
+				</text>
+				<button name="Reset_Glow_Strength" tool_tip="デフォルト値にリセットします。"/>
+				<text name="T_Glow_Width">
+					幅
+				</text>
+				<button name="Reset_Glow_Width" tool_tip="デフォルト値にリセットします。"/>
+				<text name="T_Glow_Lum_Minimum">
+					最小光度
+				</text>
+				<button name="Reset_Glow_Lum_Minimum" tool_tip="デフォルト値にリセットします。"/>
+				<text name="T_Glow_Alpha_Limit">
+					アルファ制限
+				</text>
+				<button name="Reset_Glow_Alpha_Limit" tool_tip="デフォルト値にリセットします。"/>
+				<!--
+				<text name="T_Glow_Warmth" tool_tip="輝度0.0と暖かさ1.0の間でグロー抽出をブレンドします。値が高いほど、グローの色合いが暖色系に近づきます。［デフォルト：0.0］">
+					グローの滑らかさ
+				</text>
+				<button name="Reset_Glow_Warmth" tool_tip="デフォルト値（0.0）にリセットします。"/>
+				-->
+			</panel>
+			<panel name="P_Chromatic_Aberration_Header">
+				<text name="T_Effects_Header">
+					色収差（ＣＡ）設定
+				</text>
+			</panel>
+			<panel name="P_Chromatic_Aberration_Settings">
+				<text name="T_CA_Red_Cyan" tool_tip="色収差の放射状の赤／シアンのフリンジ量を制御します。">
+					ＣＡ赤／シアン
+				</text>
+				<button name="Reset_CA_Red_Cyan" tool_tip="デフォルト値にリセットします。"/>
+				<text name="T_CA_Grn_Mag" tool_tip="色収差の放射状の緑／マゼンダのフリンジ量を制御します。">
+					ＣＡ緑／ﾏｾﾞﾝﾀﾞ
+				</text>
+				<button name="Reset_CA_Grn_Mag" tool_tip="デフォルト値にリセットします。"/>
+				<text name="T_CA_Blue_Yel" tool_tip="色収差の放射状の青／黄のフリンジ量を制御します。">
+					ＣＡ青／黄
+				</text>
+				<button name="Reset_CA_Blue_Yel" tool_tip="デフォルト値にリセットします。"/>
+				<text name="T_CA_Softness">
+					ＣＡの滑らかさ
+				</text>
+				<button name="Reset_CA_Softness" tool_tip="デフォルト値にリセットします。"/>
+			</panel>
+		</panel>
+		<panel name="P_Post" label="ﾎﾟｽﾄ" tool_tip="ポストＦＸ：ＨＤＲ、カラー グレーディング、シャープニング、グレイン。">
+			<panel name="P_HDR_Header">
+				<text name="T_Tone_Settings">
+					ＨＤＲ＆トーンマッピング設定
+				</text>
+			</panel>
+			<panel name="P_HDR_Enable">
+				<check_box name="CH_B_Render_HDR_Enabled" label="ＨＤＲを有効化" tool_tip="ハイ・ダイナミックレンジ・レンダリングパイプラインを有効にして、照明、自動露出、トーンマッピング効果を強化します。"/>
+				<text name="T_Tonemap_Type">
+					ﾄｰﾝﾏｯﾌﾟ
+				</text>
+				<combo_box name="CB_Tonemap_Type">
+					<combo_box.item label="Khronosナチュラル" name="0"/>
+					<combo_box.item label="ＡＣＥＳ" name="1"/>
+				</combo_box>
+				<text name="T_Tonemap_Type">
+					トーンミックス
+				</text>
+				<button name="Reset_Tonemap_Type" tool_tip="デフォルト値にリセットします。"/>
+			</panel>
+			<panel name="P_Tone_Settings">
+				<text name="T_Exposure">
+					露光
+				</text>
+				<button name="Reset_Exposure" tool_tip="デフォルト値にリセットします。"/>
+				<text name="T_Contrast">
+					コントラスト
+				</text>
+				<text name="T_Highlights">
+					ハイライト
+				</text>
+				<text name="T_Shadows">
+					影
+				</text>
+				<text name="T_White">
+					白
+				</text>
+				<text name="T_Blacks">
+					黒
+				</text>
+				<text name="T_Crush_Blacks">
+					黒潰れ
+				</text>
+				<text name="T_Crush_Point">
+					潰れポイント
+				</text>
+			</panel>
+			<panel name="P_Color_Header">
+				<text name="T_Tone_Settings">
+					カラーバランス＆彩度設定
+				</text>
+			</panel>
+			<panel name="P_Color_Balance_Settings">
+				<radio_group name="color_balance_mode_radio">
+					<item name="cb_shadows" label="影"/>
+					<item name="cb_midtones" label="ﾐｯﾄﾞﾄｰﾝ"/>
+					<item name="cb_highlights" label="ﾊｲﾗｲﾄ"/>
+				</radio_group>
+				<check_box name="cb_preserve_luma_check" label="輝度を保持"/>
+				<text name="T_CB_CyanRed">
+					シアン／赤
+				</text>
+				<text name="T_CB_MagentaGreen">
+					マゼンダ／緑
+				</text>
+				<text name="T_CB_YellowBlue">
+					黄／青
+				</text>
+			</panel>
+			<panel name="P_Saturation_Settings">
+				<text name="T_Saturation" tool_tip="全体的な色の彩度を調整します。0.0は白黒、1.0は通常の色、1.0を超える値は彩度が高くなります。">
+					彩度
+				</text>
+				<button name="Reset_Saturation" tool_tip="彩度をデフォルト（1.0）にリセットする。"/>
+				<text name="T_Vibrance">
+					鮮やかさ
+				</text>
+				<text name="T_LumWeightR" tool_tip="輝度計算における赤チャンネルの重みを制御します。">
+					赤の輝度
+				</text>
+				<button name="ResetLumWeightRBtn" tool_tip="赤の輝度の重みをデフォルト（0.299）にリセットします。"/>
+				<text name="T_LumWeightG" tool_tip="輝度計算における緑チャンネルの重みを制御します。">
+					緑の輝度
+				</text>
+				<button name="ResetLumWeightGBtn" tool_tip="緑の輝度の重みをデフォルト（0.587）にリセットします。"/>
+				<text name="T_LumWeightB" tool_tip="輝度計算における青チャンネルの重みを制御します。">
+					青の輝度
+				</text>
+				<button name="ResetLumWeightBBtn" tool_tip="青の輝度の重みをデフォルト（0.114）にリセットします。">
+				</button>
+				<!--
+				<text name="T_Temperature">
+					色温度
+				</text>
+				<text name="T_Tint">
+					色彩
+				</text>
+				<text name="T_Vibrance">
+					鮮やかさ
+				</text>
+				-->
+				<!--
+				<text name="color_balance_label">
+					カラーバランス：
+				</text>
+				-->
+			</panel>
+			<panel name="P_Effects_Header">
+				<text name="T_Effects_Header">
+					効果設定
+				</text>
+			</panel>
+			<panel name="P_Effects_Settings">
+				<text name="T_Sharpening" tool_tip="コントラスト適応シャープニング（ＣＡＳ）を使用して、画像全体のシャープネスを調整します。値を大きくすると、エッジ周辺のコントラストが高まり、画像の鮮明度が向上し、視覚的なディテールが向上します。シャープニングを過度に行うと、アーティファクトが発生したり、画像が粗く見えたりする場合があります。">
+					ｼｬｰﾌﾟﾆﾝｸﾞ
+				</text>
+				<button name="Reset_Sharpening" tool_tip="デフォルト値にリセットします。"/>
+				<text name="T_Grain_Amount">
+					グレイン量
+				</text>
+				<button name="Reset_Grain_Amount" tool_tip="デフォルト値にリセットします。"/>
+				<!--
+				<text name="T_Grain_Size">
+					グレインサイズ
+				</text>
+				<button name="Reset_Grain_Size" tool_tip="デフォルト値にリセットします。"/>
+				-->
+				<text name="T_Grain_Roughness">
+					グレインの粗さ
+				</text>
+				<button name="Reset_Grain_Roughness" tool_tip="デフォルト値にリセットします。"/>
+			</panel>
+		</panel>
+		<panel name="P_Avatar" label="ｱﾊﾞﾀｰ">
+			<panel name="PT_Avatar_Settings_Header">
+				<text name="T_General">
+					アバター設定
+				</text>
+			</panel>
+			<panel name="P_Avatar_Settings">
+				<check_box name="Show HUD Attachments" label="ＨＵＤ装着物を表示" tool_tip="アバターが現在装着しているすべてのＨＵＤ（ヘッドアップディスプレイ）装着物トを表示します。これを無効にするとＨＵＤが非表示になり、画面の乱雑さを軽減したり、パフォーマンスを向上させたりするのに役立ちます。"/>
+				<check_box name="Render Attached Particle" label="アバターのパーティクルを表示" tool_tip="アバターの装着物から放出されるパーティクルエフェクトのレンダリングを切り替えます。"/>
+				<check_box name="Render Attached Lights" label="装着光源を表示" tool_tip="フェイスライトなど、アバターに取り付けられた光源のレンダリングを切り替えます。"/>
+				<check_box name="CH_B_Render_Avatars" label="アバターを表示" tool_tip="すべてのアバター（自分のアバターを含む）のレンダリングを切り替えます。"/>
+				<text name="T_AvatarDisplay" tool_tip="複雑度やフレンドのステータスに基づいてアバターの表示方法を選択します。">
+					アバターの表示
+				</text>
+				<combo_box name="AvatarComplexityModeSelection">
+					<combo_box.item label="複雑度で制限" name="0"/>
+					<combo_box.item label="フレンドは常に表示" name="1"/>
+					<combo_box.item label="フレンドのみ表示" name="2"/>
+				</combo_box>
+				<text name="Maximum complexity" tool_tip="アバターがレンダリング解除または簡略化される複雑度の制限を設定します。">
+					最大複雑度
+				</text>
+				<text name="IndirectMaxComplexityText2">
+					制限なし
+				</text>
+				<text name="T_Avi_Count" tool_tip="完全描画する近くのアバターの最大数を設定します。">
+					アバター数
+				</text>
+				<button name="Reset_Avi_Count" tool_tip="デフォルト値にリセットします。"/>
+				<text name="T_Avi_Physics" tool_tip="アバターの物理計算の詳細レベルを調整します。">
+					アバター物理
+				</text>
+				<text name="T_Animation_Speed" tool_tip="すべてのアバターアニメーションの再生速度の乗数を調整します。">
+					アニメ速度
+				</text>
+				<button name="Reset_animation_speed" tool_tip="デフォルト値にリセットします。"/>
+				<text name="T_Hover_Height" tool_tip="地面からのアバターの垂直オフセット（ホバー）を調整します。">
+					ホバーする高さ
+				</text>
+				<button name="Rebake Texture" tool_tip="アバターの外見テクスチャを強制的に再ベイクまたはリフレッシュします。これにより、スキンがぼやけたり、衣服が正しく読み込まれなかったり、その他テクスチャ関連の問題が解決されます。" label="強制的に外観の更新（再ベイク）"/>
+			</panel>
+		</panel>
+		<panel name="P_General" label="全般" tool_tip="全般的なレンダリングとアバター設定">
+			<panel name="P_General_Header">
+				<text name="T_General">
+					全般描画設定
+				</text>
+			</panel>
+			<panel name="P_General_Settings_Graphics_Presets">
+				<text name="T_Grahpics_Presets">
+					グラフィックの設定
+				</text>
+				<combo_box name="CB_Graphics_Preset">
+					<combo_box.item label="必須機能" name="GP_Essential"/>
+					<combo_box.item label="基本的なＨＤＲ＆効果" name="GP_HDR"/>
+					<combo_box.item label="影" name="GP_Shadows"/>
+					<combo_box.item label="アンビエントオクルージョン" name="GP_Ambient_Occlusion"/>
+					<combo_box.item label="被写体深度" name="GP_Depth_of_Field"/>
+					<combo_box.item label="スクリーンスペースリフレクション" name="GP_SSR"/>
+					<combo_box.item label="ミラー" name="GP_Mirrors"/>
+					<combo_box.item label="魅力的な画像（ミラーなし）" name="GP_Eye_Candy_No_Mirrors"/>
+					<combo_box.item label="魅力的な画像（ミラーあり）" name="GP_Eye_Candy_Mirrors"/>
+					<!--combo_box.item label="チョコレート－すべてをフルブラスト" name="GP_Chocolate"/-->
+				</combo_box>
+			</panel>
+			<panel name="P_General_Settings_Check_boxes">
+				<check_box name="CH_B_FSLimitFramerate" label="ＦＰＳ制限を有効化" tool_tip="以下のコントロールで設定されたフレーム レート制限を有効にします。"/>
+				<check_box name="UseFarClip" label="描画距離を有効化" tool_tip="有効にすると、以下に設定されたカスタム描画距離制限が適用されます。無効にすると、最大距離でレンダリングされます。"/>
+				<check_box name="RednerLod1" label="動的ＬｏＤを有効化" tool_tip="以下の要素を使用してオブジェクト／地形の詳細の自動調整を有効にします。最大の詳細を強制するには無効にします。"/>
+				<check_box name="CH_B_APRenderEnableFullbright" label="明るさ全開テクスチャを有効化" tool_tip="シーンの光源を無視して、テクスチャを最大の明るさでレンダリングします。"/>
+				<check_box name="UssOcclusion1" label="オクルージョンカリングを有効化" tool_tip="ビューから隠れたオブジェクトを描画しないことでパフォーマンスが向上させます。"/>
+				<check_box name="Anisotropic" label="異方性フィルタリングを有効化" tool_tip="斜めから見た表面のテクスチャの鮮明度が向上します。"/>
+				<check_box name="CH_B_TransparentWater" label="透明な水面を有効化" tool_tip="水面を透明としてレンダリングします。"/>
+			</panel>
+			<panel name="P_General_Settings_Sliders">
+				<text name="T_Max_FPS" tool_tip="最大フレーム レート（ＦＰＳ）を設定します。「ＦＰＳ制限を有効化」チェックボックスが必要です。">
+					最大ＦＰＳ
+				</text>
+				<button name="Reset_Max_FPS" tool_tip="デフォルト値にリセットします。"/>
+				<text name="T_Draw_Distance" tool_tip="最大表示距離を定義します。「描画距離を有効化」チェックボックスが必要です。">
+					描画距離
+				</text>
+				<button name="Reset_Draw_Distance" tool_tip="デフォルト値にリセットします。"/>
+				<text name="T_Object_Detail" tool_tip="地形以外のオブジェクトの詳細レベル（ＬｏＤ）係数を管理します。">
+					ｵﾌﾞｼﾞｪｸﾄ詳細
+				</text>
+				<button name="Reset_Object_Detail" tool_tip="デフォルト値にリセットします。"/>
+				<text name="T_Terrain_Quality" tool_tip="地形の詳細レベル（ＬｏＤ）を微調整します。「動的ＬｏＤを有効化」チェックボックスが必要です。">
+					地形品質
+				</text>
+				<button name="Reset_Terrain_Quality" tool_tip="デフォルト値にリセットします。"/>
+				<!-- <AP:WW> Removing for now, it reallys seems to do nothing from Bug Island Test and flixprims are less prominent in world"
+				<text name="T_Flexi_Detail">
+					ﾌﾚｷｼﾌﾞﾙﾌﾟﾘﾑ
+				</text>
+				<button name="Reset_Flexi_Detail" tool_tip="デフォルト値にリセットします。"/>
+				-->
+				<text name="T_Particle_Cnt" tool_tip="一度に表示されるパーティクルの最大数を調整します。">
+					パーティクル数
+				</text>
+				<button name="Reset_Particle_Cnt" tool_tip="デフォルト値にリセットします。"/>
+				<text name="T_Terrain_Scale" tool_tip="地形の詳細レベルまたはモーフィング距離を変更します。">
+					地形スケール
+				</text>
+				<button name="Reset_Terrain_Scale" tool_tip="デフォルト値にリセットします。"/>
+				<text name="T_Sky_Detail" tool_tip="空のレンダリングの複雑さと詳細レベルを決定します。">
+					空の詳細
+				</text>
+				<button name="Reset_Sky_Detail" tool_tip="デフォルト値にリセットします。"/>
+			</panel>
+			<panel name="P_General_Settings_Combo_Boxes">
+				<text name="T_Antialiasing_Type" tool_tip="ギザギザのエッジを滑らかにするために使用する方法を選択します。適用するにはビューアを再起動する必要があります。">
+					アンチエイリアスの種類(要再起動)
+				</text>
+				<combo_box name="CB_Antialiasing_Type">
+					<combo_box.item label="無効" name="FSAADisabled"/>
+					<combo_box.item label="ＦＸＡＡ" name="FXAA"/>
+					<combo_box.item label="ＳＭＡＡ" name="SMAA"/>
+				</combo_box>
+				<text name="T_Anti-aliasing" tool_tip="選択したアンチエイリアシング方法の品質レベルを選択します。">
+					アンチエイリアスの品質
+				</text>
+				<combo_box name="fsaa">
+					<combo_box.item label="低" name="Low"/>
+					<combo_box.item label="中" name="Medium"/>
+					<combo_box.item label="高" name="High"/>
+					<combo_box.item label="最高" name="Ultra"/>
+				</combo_box>
+				<text name="T_Texture_Bumpiness" tool_tip="テクスチャ上の法線マップとバンプマップの強度と知覚される深さを制御します。">
+					テクスチャの凹凸
+				</text>
+				<combo_box name="BumpStrengthSelection">
+					<combo_box.item label="非常に素晴らしいe" name="0"/>
+					<combo_box.item label="より素晴らしい" name="1"/>
+					<combo_box.item label="素晴らしい" name="2"/>
+					<combo_box.item label="通常" name="3"/>
+					<combo_box.item label="荒い" name="4" value="32"/>
+					<combo_box.item label="より荒い" name="5"/>
+				</combo_box>
+				<text name="T_RestrictMaxTexture" tool_tip="メモリ使用量を管理するために、ビューアがテクスチャに読み込む最大解像度を設定します。">
+					最大テクスチャ解像度
+				</text>
+			</panel>
+			<panel name="P_Aids_Header">
+				<text name="T_Aids">
+					インターフェース補助
+				</text>
+			</panel>
+			<panel name="P_Aids_Settings">
+				<!--
+				<check_box tool_tip="シーン内のすべてのオブジェクトの周囲にワイヤーフレームのバウンディングボックスを設定します。これにより、オブジェクトの境界を特定し、位置合わせやスケーリングを行ったり、レンダリングの問題をトラブルシューティングしたりする際に役立ちます。" label="シーン内のオブジェクトのバウンディングボックスを表示する" name="Bounding Boxes"/>
+				<check_box tool_tip="フレームレート（FPS）、ネットワークデータ、レンダリングメトリックなどのリアルタイムパフォーマンス統計を表示します。視聴者のパフォーマンスを監視し、ボトルネックを特定するのに役立ちます。" label="状況バーを表示" name="Statistics Bar"/>
+				-->
+				<check_box name="CH_B_Highlight_Transparent" label="透明なオブジェクトを赤色でハイライトする"/>
+				<check_box name="CH_B_Show_Color_Under_Cursor" label="カーソルの下のＲＧＢ－Ｉカラーを表示" tool_tip="カーソルの真下のピクセルの ＲＧＢ（赤、緑、青）と強度（Ｉ）のカラー値を表示します。"/>
+				<check_box name="CH_B_Show_Hover_Tips" label="ホバーでツールチップを表示"/>
+				<check_box name="CH_B_Basic_UI_Tooltips" label="ツールチップを有効化"/>
+				<check_box name="CH_B_Show_Grouo_Notices_Top_Right" label="右上のグループ通知を有効にする（要再起動）"/>
+				<!--
+				<check_box tool_tip="シーン全体をワイヤーフレームモードでレンダリングし、テクスチャやシェーディングなしでオブジェクトの基となるジオメトリを表示します。オブジェクトの構造、ＬｏＤ（詳細レベル）、メッシュトポロジの分析に役立ちます。" label="シーンをワイヤーフレームとして表示する" name="Wireframe"/>
+				-->
+				<text name="T_UI_Scaling" tool_tip="Adjust the overall size scaling of the user interface elements.">
+					UIスケーリング
+				</text>
+				<button name="ResetUIScale" tool_tip="デフォルト値にリセットします。">
+				</button>
+				<text name="T_NAME">
+					名前タグの表示
+				</text>
+				<combo_box name="CB_Avatar_Name_Tag_Mode">
+					<combo_box.item label="オフ" name="0"/>
+					<combo_box.item label="オン" name="1"/>
+					<combo_box.item label="簡易表示" name="2"/>
+				</combo_box>
+				<!--
+				<button name="ウィンドウサイズを設定…" label="ビューアのウィンドウサイズを設定…" tool_tip="ビューアウィンドウの正確な寸法を設定するためのダイアログを開きます。特定の解像度でスクリーンショットを作成したり、マシニマのウィンドウサイズ要件に一致させたりするのに役立ちます。"/>
+				<button name="デバック設定" label="デバック設定メニューを表示" tool_tip="デバッグ設定メニューを開き、標準設定では利用できない詳細なビューア設定にアクセスできます。変更はパフォーマンスと安定性に影響を与える可能性があるため、注意して使用してください。"/>
+				-->
+			</panel>
+		</panel>
+		<panel name="P_Camera" label="ｶﾒﾗ" tool_tip="カメラ操作と３Ｄマウス設定。">
+			<tab_container name="tab_settings">
+				<panel name="P_Viewer_Camera_Tab" label="ビューアのカメラ">
+					<panel name="P_Viewer_Cam_Menu">
+						<text name="PT_Viewer_Cam_Menu">
+							ビューアのカメラ設定
+						</text>
+					</panel>
+					<panel name="cameracontrolspanel">
+						<panel name="controls1">
+							<panel name="preset_views_list">
+								<panel_camera_item name="front_view">
+									<panel_camera_item.text name="front_view_text">
+										前方ビュー
+									</panel_camera_item.text>
+								</panel_camera_item>
+								<panel_camera_item name="group_view">
+									<panel_camera_item.text name="side_view_text">
+										サイドビュー
+									</panel_camera_item.text>
+								</panel_camera_item>
+								<panel_camera_item name="rear_view">
+									<panel_camera_item.text name="rear_view_text">
+										後方ビュー
+									</panel_camera_item.text>
+								</panel_camera_item>
+								<combo_box name="preset_combo">
+									<combo_box.item label="プリセットを使用" name="Use preset"/>
+								</combo_box>
+								<button name="gear_btn" tool_tip="カメラのプリセット"/>
+								<button label="位置…" name="camera_position_btn"/>
+							</panel>
+							<panel name="camera_modes_list">
+								<panel_camera_item name="object_view">
+									<panel_camera_item.text name="object_view_text">
+										オブジェクトビュー
+									</panel_camera_item.text>
+								</panel_camera_item>
+								<panel_camera_item name="mouselook_view">
+									<panel_camera_item.text name="mouselook_view_text">
+										マウスルックビュー
+									</panel_camera_item.text>
+								</panel_camera_item>
+							</panel>
+							<!--TODO: replace + - images -->
+							<panel name="zoom">
+								<joystick_rotate name="cam_rotate_stick" tool_tip="焦点を中心にカメラを回転させます。"/>
+								<button name="roll_left" tool_tip="カメラを左に回します。"/>
+								<button name="roll_right" tool_tip="カメラを右に回します。"/>
+								<slider_bar name="zoom_slider" tool_tip="これはカメラを単に前後に動かすだけです。注意：これは現実世界でのカメラのズームではありません。視野角には影響しません。実際のズーム操作には「視野角」スライダーを使用してください。"/>
+								<joystick_track name="cam_track_stick" tool_tip="カメラを上下左右に移動させます。"/>
+							</panel>
+						</panel>
+						<panel name="buttons">
+							<button name="presets_btn" tool_tip="プリセットビュー"/>
+							<button name="pan_btn" tool_tip="軌道ズームパン"/>
+							<button name="avatarview_btn" tool_tip="カメラモード"/>
+						</panel>
+					</panel>
+					<panel name="P_Cam_Mov_Settings">
+						<text name="T_Cam_Mov_Settings">
+							カメラの移動設定
+						</text>
+					</panel>
+					<panel name="P_Zoom">
+						<text name="T_Zoom" tool_tip="現実世界で言えば、これはズーム機能です。ビューアウィンドウの視野を変更します。Ctrl＋0または Ctrl＋8を押すのと同じです。注：フライカメラ（3D SpaceNavigator）が有効になっている場合は機能しません。">
+							視野角
+						</text>
+						<button tool_tip="デフォルト値にリセットします。"/>
+						<text name="T_Zoom_Speed" tool_tip="カメラのズームイン／ズームアウトの速度を制御します。値が高いほど、ズームが遅くなり、滑らかになります。">
+							ズーム速度
+						</text>
+						<button name="Reset_Zoom_Time" tool_tip="デフォルト値にリセットします。"/>
+						<text name="T_Camera_Lag" tool_tip="カメラがアバターの動きより遅れる量 (0 = なし、30 = アバターの速度)。">
+							カメラの遅延
+						</text>
+						<button name="Reset_Camera_Lag" tool_tip="デフォルト値にリセットします。"/>
+						<text name="T_Camera_Offset" tool_tip="カメラがデフォルトの視点からどれだけオフセット／距離されるかを制御します。">
+							カメラオフセット
+						</text>
+						<button name="Reset_Camera_Offset" tool_tip="デフォルト値にリセットします。"/>
+						<text name="T_Camera_Smoothing" tool_tip="カメラの起動と停止の滑らかさを制御します。値が高いほど、動きがスムーズになります（ただし、やや遅くなります）。">
+							カメラの滑らかさ
+						</text>
+						<button name="Reset_Camera_Smoothing" tool_tip="デフォルト値にリセットします。"/>
+					</panel>
+					<!-- TODO: 翻訳できない -->
+					<panel>
+						<text name="T_Additional_Camera_Options">
+							追加カメラオプション
+						</text>
+					</panel>
+					<panel name="P_Add_Cam_Opt_Settings">
+						<check_box label="マウスルック時にアバターを表示" tool_tip="マウスルック中にアバターと添付ファイルを首の下に表示します。デフォルトはオフです。" name="first_person_avatar_visible"/>
+						<check_box label="マウスルック時の移動を滑らかに" tool_tip="マウスルックモード時にマウスの動きをスムーズにします。" name="MouseSmooth"/>
+						<check_box label="アバタークリック時にカメラの位置を維持" name="clickonavatarkeepscamera" tool_tip="通常、アバターをクリックするとカメラの位置がリセットされます。このオプションを有効にすると、この動作が削除されます。"/>
+						<check_box label="テレポート後にカメラの位置をリセット" name="FSResetCameraOnTP" tool_tip="通常、テレポート（リージョン内）するとカメラの位置がリセットされます。このオプションは、この動作を防止します。"/>
+						<check_box label="カメラを制約なしで移動できるようにする" name="ignorecameraconstraints" tool_tip="シミュレータがカメラをオブジェクトから遠ざけるために適用する「プッシュ」を無視します。要再起動！"/>
+						<check_box label="アバターの移動時にカメラの位置をリセット" name="resetcameraonmovement" tool_tip="アバターを移動したときにカメラをデフォルトの位置にリセットします。"/>
+						<text name="T_Mouse_Sensitivity" tool_tip="マウスルックモード時のマウスの応答性を制御します。">
+							マウスの感度
+						</text>
+						<button name="Reset_Mouse_Sensitivity" tool_tip="デフォルト値にリセットします。"/>
+					</panel>
+					<panel name="P_Viewer_Camera _Presets_Header">
+						<text name="T_Camera_Presets">
+							ビューアのカメラのプリセット
+						</text>
+					</panel>
+					<panel name="P_Camera_Presets_Save_and_Load">
+						<text name="T_Save_To_Slot">
+							保存先のスロット：
+						</text>
+						<text name="T_Load_From_Slot">
+							読み込み先のスロット：
+						</text>
+						<!--
+						<button label="保存１" name="store_camera_view_btn" tool_tip="現在のカメラビューをストアします。"/>
+						<button name="load_camera_view_btn" tool_tip="ストアされたカメラビューを読み込む"/>
+						-->
+					</panel>
+				</panel>
+				<panel name="P_Joystick_Tab" label="ジョイスティック">
+					<panel name="P_Joystick_Header">
+						<text name="T_Cam">
+							３Ｄマウス＆ジョイスティック設定
+						</text>
+					</panel>
+					<panel name="P_Cam_Settings">
+						<text name="T_LR_Axis" tool_tip="カメラの水平移動の感度を調整します。値が低いほど細かい制御が可能になり、値が高いほど移動速度が速くなります。">
+							左／右
+						</text>
+						<button name="Reset_LR_Axis" tool_tip="デフォルト値にリセットします。"/>
+						<text name="T_UD_Axis" tool_tip="カメラの垂直方向の動きに対する感度を調整します。この設定を下げると、細かい調整の精度が向上します。">
+							上／下
+						</text>
+						<button name="Reset_UD_Axis" tool_tip="デフォルト値にリセットします。"/>
+						<text name="T_IO_Axis" tool_tip="実際の映画撮影におけるドリーイン／ドリーアウトに似た、前後方向のカメラ移動の感度を制御します。ズームのように視野角（ＦｏＶ）を調整するのではなく、カメラ全体を被写体に近づけたり遠ざけたりすることで、視点を変化させます。値を低くすると、より精密な制御が可能になり、スムーズで緩やかなドリー移動が可能になります。値を大きくすると、移動速度が速くなり、より素早い調整が可能になります。">
+							イン／アウト
+						</text>
+						<button name="Reset_IO_Axis" tool_tip="デフォルト値にリセットします。"/>
+						<text name="T_Tilt" tool_tip="ピッチ（上下の傾き）動作の応答性を調整します。この設定を下げると、カメラの傾きがより緩やかになります。">
+							ピッチ
+						</text>
+						<button name="Reset_Tilt" tool_tip="デフォルト値にリセットします。"/>
+						<text name="T_Spin" tool_tip="ヨー（左右への回転）の感度を調整します。設定を低くすると回転が遅くなり、正確なフレーミングに役立ちます。">
+							ヨー
+						</text>
+						<button name="Reset_Spin" tool_tip="デフォルト値にリセットします。"/>
+						<text name="T_Roll" tool_tip="ロール動作の感度を調整します。ロール動作は、頭を左右に回すのと同じように、カメラを左右に傾けます。値を低くすると、より精密な調整が可能になります。値を大きくすると、ロールの応答性が向上します。注：この設定は「自動水平調整を有効にする」が有効になっている場合は効果がありません。自動水平調整により、カメラの水平が常に一定に保たれ、ロール動作が防止されるためです。">
+							ロール
+						</text>
+						<button name="Reset_Roll" tool_tip="デフォルト値にリセットします。"/>
+						<text name="T_Zoom_Speed" tool_tip="カメラの焦点距離または垂直視野角（ＦｏＶ）を調整することで、ズームインとズームアウトの方法を制御します。実際のカメラのレンズ交換に似ています。これにより、シーンの見える範囲と、ビューの「ズームイン」の見え方が変わります。ズーム機能を有効にするには、「ズーム軸マッピング」を「4」に設定します。この設定はズームの滑らかさには影響しませんが、ＦｏＶ調整の範囲を決定するため、カメラのズームレベルを正確に制御できます。">
+							ズーム
+						</text>
+						<button name="Reset_Zoom_Speed" tool_tip="デフォルト値にリセットします。"/>
+						<text name="T_Feathering" tool_tip="カメラの動きの滑らかさを調整します。スライダーを右に動かすと、カメラは固定され、ジョイスティックの入力に反応しやすくなります。左に動かすと、カメラはより慣性を持った動きになり、映画のようなフライバイショットに最適です。">
+							フェザリング
+						</text>
+						<button name="Reset_Feathering" tool_tip="デフォルト値にリセットします。"/>
+					</panel>
+					<panel name="P_Axis_Mapping">
+						<spinner label="ズーム軸マッピング" name="JoystickAxis6" tool_tip="ズーム機能を制御するジョイスティックまたはマウスの軸を決定します。ジョイスティックによるズームを有効にするには、これを「4」に設定します。"/>
+						<check_box label="３Ｄマウスを有効化" tool_tip="カメラを制御するためのジョイスティック／３Ｄマウスのサポートを有効または無効にします。" name="enable_joystick"/>
+						<check_box name="CB_ZoomDirect" label="ズームコントロールを有効化（ツールチップ参照！）" tool_tip="３Ｄマウスによるズームコントロールを有効にします。正しく機能させるには、「ズーム軸マッピング」が「4」に設定されていることを確認してください。"/>
+						<check_box name="CB_AutoLeveling" label="自動水平調整を有効にする（カメラロールを防止）" tool_tip="カメラを水平に保ち、意図しないロールを防ぎます。移動中に安定した水平を保つのに役立ちます。"/>
+						<check_box name="CB_Move_Avatar" label="３Ｄマウスを使ってアバターを移動します" tool_tip="カメラだけでなく、３Ｄマウスでアバターの動きを制御できるようになります。"/>
+						<check_box name="CB_Move_Objects" label="3Dマウスを使用してオブジェクト（構造物）を移動します" tool_tip="ビルドおよび編集中にオブジェクトを操作するための３Ｄマウスを有効にします。"/>
+						<check_box label="ビューアー画面の現在の視野角を表示する" tool_tip="現在の垂直視野角（ＦｏＶ）オーバーレイを表示します。ズームスライダーを使用してＦｏＶを調整します。" name="CAM_Show_FOV"/>
+						<check_box tool_tip="カメラの位置、向き、動きに関する詳細情報を表示します。写真撮影、マシニマ、精密な編集に役立ちます。" label="詳細なカメラ位置データを表示" name="Camera"/>
+					</panel>
+					<panel name="P_Flycam_Camera_Presets_Header">
+						<text name="T_Camera_Presets">
+							３Ｄマウス＆ジョイスティックカメラプリセット
+						</text>
+					</panel>
+					<panel name="P_Flycam_Camera_Presets_Save_and_Load">
+						<text name="T_Flycam_Save_To_Slot">
+							保存先のスロット：
+						</text>
+						<text name="T_Flycam_Load_From_Slot">
+							読み込み先のスロット：
+						</text>
+					</panel>
+				</panel>
+			</tab_container>
+		</panel>
+	</tab_container>
+	<panel name="P_Graphic_Presets_Managment">
+		<text name="T_Graphics_Presets_Managment">
+			ｸﾞﾗﾌｨｯｸのﾌﾟﾘｾｯﾄ：
+		</text>
+		<button name="BTN_Graphics_Presets_Save" label="保存" tool_tip="現在のフォトツール設定を新しいプリセットとして保存します。"/>
+		<button name="BTN_Graphics_Presets_Load" label="読み込む" tool_tip="保存されたフォトツール設定のプリセットを読み込みます。"/>
+		<button name="BTN_Graphics_Presets_Delete" label="削除" tool_tip="フォトツール設定のプリセットを削除します。"/>
+	</panel>
+</floater>

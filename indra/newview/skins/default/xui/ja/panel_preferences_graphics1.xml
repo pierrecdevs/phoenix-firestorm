@@ -3,6 +3,7 @@
 	<tab_container label="グラフィック初期設定" name="tabs">
 		<!-- 一般 -->
 		<panel label="一般" name="General">
+			<!--<AP:WW> We are removing slider for new Featuretable Structure
 			<text name="preset_label">
 				使用中のプリセット：
 			</text>
@@ -18,7 +19,6 @@
 			<text name="BetterText">
 				クオリティ
 			</text>
-			<!--Reset Button-->
 			<button tool_tip="デフォルトのグラフィック設定をリロードします。" name="Defaults"/>
 			<text name="ShadersPrefText">
 				低
@@ -32,6 +32,22 @@
 			<text name="ShadersPrefText4">
 				超高
 			</text>
+			-->
+			<text name="T_Grahpics_Presets">
+				グラフィックプリセット：
+			</text>
+			<combo_box name="CB_Graphics_Preset">
+				<combo_box.item label="レベル１－必須機能" name="GP_Essential"/>
+				<combo_box.item label="レベル２－基本的なＨＤＲｔ＆効果" name="GP_HDR"/>
+				<combo_box.item label="レベル３－影" name="GP_Shadows"/>
+				<combo_box.item label="レベル４－アンビエントオクルージョン" name="GP_Ambient_Occlusion"/>
+				<combo_box.item label="レベル５－被写体深度" name="GP_Depth_of_Field"/>
+				<combo_box.item label="レベル６－スクリーンスペースリフレクション" name="GP_SSR"/>
+				<combo_box.item label="レベル７－ミラー" name="GP_Mirrors"/>
+				<combo_box.item label="レベル８－魅力的な画像（ミラーなし）" name="GP_Eye_Candy_No_Mirrors" />
+				<combo_box.item label="レベル９－魅力的な画像（ミラーあり）" name="GP_Eye_Candy_Mirrors"/>
+				<!--combo_box.item label="レベル１０－チョコレート－すべてをフルブラスト" name="GP_Chocolate"/-->
+			</combo_box>
 			<check_box label="フルスクリーンモード（要再起動）" name="Fullscreen Mode" tool_tip="Firestormをフルスクリーンモードで起動します。"/>
 			<text name="ShadersText">
 				シェーダー：
