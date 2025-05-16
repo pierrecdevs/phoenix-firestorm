@@ -141,7 +141,7 @@ Aperture Viewer is maintained by William Weaver. The advanced Phototools system,
 > [!WARNING]
 > **Windows AVX Release:** The official v1.0.0 release is optimized for **Windows 64-bit systems with AVX instruction set compatible processors.** Please ensure your system meets this requirement. Releases for other platforms are not currently available.
 
-[**Download v1.0.0 from GitHub Releases**](https://github.com/williamweaver/Aperture-Viewer/releases/tag/v1.0.0)
+[**Download v1.0.0 from GitHub Releases**](https://github.com/ApertureViewer/Aperture-Viewer/releases)
 
 This release provides access to the latest stable features of Aperture Viewer.
 
