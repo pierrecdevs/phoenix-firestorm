@@ -722,9 +722,9 @@ bool LLFloaterPreference::postBuild()
         // </FS:Ansariel>
 
         // <AP:PCD> - Override defaults
-        gSavedPerAccountSettings.setString("AddFriendReponse", LLTrans::getString("AddFriendResponseDefault"));
-        gSavedPerAccountSettings.setString("TeleportRequestResponse", LLTrans::getString("TeleportRequestResponseDefault"));
-        gSavedPerAccountSettings.setString("TeleportOfferResponse", LLTrans::getString("TeleportOfferResponseDefault"));
+        gSavedPerAccountSettings.setString("APAddFriendMessageReponse", LLTrans::getString("AddFriendResponseDefault"));
+        gSavedPerAccountSettings.setString("APTeleportRequestResponse", LLTrans::getString("TeleportRequestResponseDefault"));
+        gSavedPerAccountSettings.setString("APTeleportOfferResponse", LLTrans::getString("TeleportOfferResponseDefault"));
         //<AP:PCD>
     }
 
@@ -1405,6 +1405,24 @@ void LLFloaterPreference::initDoNotDisturbResponse()
             gSavedPerAccountSettings.setString("FSAwayAvatarResponse", LLTrans::getString("AwayAvatarResponseDefault"));
         }
         // </FS:Ansariel>
+
+        // <AP:PCD> Initialize the overrides
+        
+        if (!gSavedPerAccountSettings.getBOOL("APAddFriendReponseChanged"))
+        {
+            gSavedPerAccountSettings.setString("APAddFriendMessageResponse", LLTrans::getString("AddFriendResponseDefault"));
+        }
+
+        if (!gSavedPerAccountSettings.getBOOL("APTeleportOfferResponseChanged"))
+        {
+            gSavedPerAccountSettings.setString("APTeleportOfferMessageResponse", LLTrans::getString("TeleportOfferResponseDefault"));
+        }
+
+        if (!gSavedPerAccountSettings.getBOOL("APTeleportRequestResponseChanged"))
+        {
+            gSavedPerAccountSettings.setString("APTeleportRequestResponse", LLTrans::getString("TeleportRequestResponseDefault"));
+        }
+        // </AP:PCD>
     }
 
 //static
@@ -6418,7 +6436,7 @@ bool LLPanelPreferenceOverrides::postBuild()
     {
         gSavedPerAccountSettings.setString("APAddFriendMessageResponse", LLTrans::getString("AddFriendResponseDefault"));
         gSavedPerAccountSettings.setString("APTeleportOfferMessageResponse", LLTrans::getString("TeleportOfferResponseDefault"));
-        gSavedPerAccountSettings.setString("TeleportRequestResponse", LLTrans::getString("TeleportRequestResponseDefault"));
+        gSavedPerAccountSettings.setString("APTeleportRequestResponse", LLTrans::getString("TeleportRequestResponseDefault"));
     }
 
     return LLPanelPreference::postBuild();
