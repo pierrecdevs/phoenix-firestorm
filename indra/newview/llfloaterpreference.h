@@ -177,6 +177,12 @@ protected:
     // <FS:Zi> Group Notices and chiclets location setting conversion bool => S32
     void onShowGroupNoticesTopRightChanged();
 
+    // <AP:PCD> ditched the panel cause signals suck.
+    void onOverrideAddFriendResponseChanged();
+    void onOverrideTeleportOfferResponseChanged();
+    void onOverrideTeleportRequestResponseChanged();
+    //</AP:PCD>
+
 public:
     // This function squirrels away the current values of the controls so that
     // cancel() can restore them.
@@ -678,23 +684,4 @@ private:
     control_values_map_t mSavedValues;
     LOG_CLASS(LLFloaterPreferenceProxy);
 };
-
-// <AP:PCD> -- New Panel for overrides
-class LLPanelPreferenceOverrides : public LLPanelPreference
-{
-public:
-    bool postBuild();
-    void onOpen(const LLSD& key);
-    void draw();
-    void cancel(const std::vector<std::string> settings_to_skip = {});
-    void saveSettings();
-protected:
-    void onOverrideAddFriendResponseChanged();
-    void onOverrideTeleportRequestResponseChanged();
-    void onOverrideTeleportOfferResponseChanged();
-
-private:
-    LOG_CLASS(LLPanelPreferenceOverrides);
-};
-// </AP:PCD>
 #endif  // LL_LLPREFERENCEFLOATER_H
