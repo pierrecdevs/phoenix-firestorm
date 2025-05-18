@@ -954,13 +954,13 @@ void LLFloaterPreference::onOverrideAddFriendResponseChanged()
     gSavedPerAccountSettings.setBOOL("APAddFriendReponseChanged", response_changed_flag);
 }
 
-void LLFloaterPreference::onOverrideTeleportOfferResponseChanged()
+void LLFloaterPreference::onOverrideTeleportRequestResponseChanged()
 {
     bool response_changed_flag =
         LLTrans::getString("TeleportRequestResponseDefault") != getChild<LLUICtrl>("teleport_request_message")->getValue().asString();
     gSavedPerAccountSettings.setBOOL("APTeleportRequestResponseChanged", response_changed_flag);
 }
-void LLFloaterPreference::onOverrideTeleportRequestResponseChanged()
+void LLFloaterPreference::onOverrideTeleportOfferResponseChanged()
 {
     bool response_changed_flag =
         LLTrans::getString("TeleportOfferResponseDefault") != getChild<LLUICtrl>("teleport_offer_message")->getValue().asString();
